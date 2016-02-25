@@ -15,7 +15,7 @@
     "ng2-bootstrap": "1.0.4",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.22",
+    "systemjs": "0.19.23",
     "zone.js": "0.5.15"
   },
   "devDependencies": {
