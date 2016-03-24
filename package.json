@@ -9,9 +9,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.7",
+    "angular2": "2.0.0-beta.12",
     "bootstrap": "^3.3.6",
-    "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "ng2-bootstrap": "1.0.7",
     "reflect-metadata": "0.1.2",
