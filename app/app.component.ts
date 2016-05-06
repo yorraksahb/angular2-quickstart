@@ -1,9 +1,9 @@
-import {Component} from 'angular2/core';
-import {Alert, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {Component} from '@angular/core';
+import {AlertComponent, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
   selector: 'my-app',
-  directives: [Alert, DATEPICKER_DIRECTIVES],
+  directives: [AlertComponent, DATEPICKER_DIRECTIVES],
   template: `
     <alert type="info">ng2-bootstrap hello world!</alert>
       <pre>Selected date is: <em *ngIf="dt">{{ getDate() | date:'fullDate'}}</em></pre>

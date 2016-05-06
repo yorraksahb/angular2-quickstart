@@ -7,12 +7,12 @@
   <!-- 1. Load libraries -->
   <script src="node_modules/es6-shim/es6-shim.min.js"></script>
   <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-  <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
 
-  <script src="node_modules/angular2/bundles/angular2-polyfills.min.js"></script>
-  <script src="node_modules/systemjs/dist/system.src.js"></script>
+  <script src="node_modules/zone.js/dist/zone.js"></script>
+  <script src="node_modules/reflect-metadata/Reflect.js"></script>
+
+  <script src="node_modules/systemjs/dist/system.js"></script>
   <script src="node_modules/rxjs/bundles/Rx.min.js"></script>
-  <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
 
   <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
   <!-- 2. Configure SystemJS -->
@@ -25,7 +25,15 @@
         }
       },
       map: {
-        moment: 'node_modules/moment/moment.js'
+        moment: 'node_modules/moment/moment.js',
+        "@angular/core": "node_modules/@angular/core/core.umd.js",
+        "@angular/common": "node_modules/@angular/common/common.umd.js",
+        "@angular/compiler": "node_modules/@angular/compiler/compiler.umd.js",
+        "@angular/platform-browser": "node_modules/@angular/platform-browser/platform-browser.umd.js",
+        "@angular/platform-browser-dynamic": "node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js",
+        // ng2-bootstrap specifics
+        "@angular/core/src/facade/lang": "node_modules/@angular/core/src/facade/lang.js",
+//        "@angular/platform-browser/src/animate/animation_builder": "node_modules/@angular/platform-browser/src/animate/animation_builder.js"
       }
     });
     System.import('app/boot')
