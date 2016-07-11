@@ -5,39 +5,18 @@
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
   <!-- 1. Load libraries -->
-  <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-  <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-
+  <!-- Polyfill(s) for older browsers -->
+  <script src="node_modules/core-js/client/shim.min.js"></script>
   <script src="node_modules/zone.js/dist/zone.js"></script>
   <script src="node_modules/reflect-metadata/Reflect.js"></script>
-
-  <script src="node_modules/systemjs/dist/system.js"></script>
-  <script src="node_modules/rxjs/bundles/Rx.min.js"></script>
-
-  <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
+  <script src="node_modules/systemjs/dist/system.src.js"></script>
   <!-- 2. Configure SystemJS -->
+  <script src="systemjs.config.js"></script>
+  <!-- 3. Load ng2-bootstrap -->
+  <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
+
   <script>
-    System.config({
-      packages: {
-        app: {
-          format: 'register',
-          defaultExtension: 'js'
-        }
-      },
-      map: {
-        moment: 'node_modules/moment/moment.js',
-        "@angular/core": "node_modules/@angular/core/core.umd.js",
-        "@angular/common": "node_modules/@angular/common/common.umd.js",
-        "@angular/compiler": "node_modules/@angular/compiler/compiler.umd.js",
-        "@angular/platform-browser": "node_modules/@angular/platform-browser/platform-browser.umd.js",
-        "@angular/platform-browser-dynamic": "node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js",
-        // ng2-bootstrap specifics
-        "@angular/core/src/facade/lang": "node_modules/@angular/core/src/facade/lang.js",
-//        "@angular/platform-browser/src/animate/animation_builder": "node_modules/@angular/platform-browser/src/animate/animation_builder.js"
-      }
-    });
-    System.import('app/boot')
-      .then(null, console.error.bind(console));
+    System.import('app').catch(function(err){ console.error(err); });
   </script>
 
 </head>

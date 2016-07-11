@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {AlertComponent, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {NgModel} from '@angular/forms';
 
 @Component({
   selector: 'my-app',
-  directives: [AlertComponent, DATEPICKER_DIRECTIVES],
+  directives: [AlertComponent, DATEPICKER_DIRECTIVES, NgModel],
   template: `
     <alert type="info">ng2-bootstrap hello world!</alert>
       <pre>Selected date is: <em *ngIf="dt">{{ getDate() | date:'fullDate'}}</em></pre>
