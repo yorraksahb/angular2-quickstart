@@ -11,18 +11,20 @@ Clone this repo
 
 ## Couple of things you should pay attention
 1. Install and add `map` for `moment.js` in system.js config
-```js
-'moment': 'node_modules/moment/moment.js'
-```
-2. Import `ng2-bootstrap` in `index.html` before starting application
-```html
-<script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
-```
-3. Use new forms
-```js
-import {provideForms, disableDeprecatedForms} from '@angular/forms';
+  ```js
+  'moment': 'node_modules/moment/moment.js'
+  ```
 
-bootstrap(AppComponent, [disableDeprecatedForms(), provideForms()]);
-```
+2. Import `ng2-bootstrap` in `index.html` before starting application
+  ```html
+  <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
+  ```
+
+3. Use new forms
+  ```js
+  import {provideForms, disableDeprecatedForms} from '@angular/forms';
+  
+  bootstrap(AppComponent, [disableDeprecatedForms(), provideForms()]);
+  ```
 
 Good luck with angular2 hacking!
