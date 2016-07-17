@@ -1,0 +1,32 @@
+<table role="grid">
+  <thead>
+  <tr>
+    <th>
+      <button type="button" class="btn btn-default btn-sm pull-left"
+              (click)="prev('years', yearsStep)" tabindex="-1">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+      </button>
+    </th>
+    <th colspan="3">
+      <button role="heading" type="button" class="btn btn-default btn-sm" tabindex="-1" style="width:100%;">
+        <strong>{{title}}</strong>
+      </button>
+    </th>
+    <th>
+      <button type="button" class="btn btn-default btn-sm pull-right"
+              (click)="next('years', yearsStep)" tabindex="-1">
+        <i class="glyphicon glyphicon-chevron-right"></i>
+      </button>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let yearsRow of yearsMatrix">
+    <td *ngFor="let year of yearsRow" class="text-center" role="gridcell">
+      <button type="button" style="min-width:100%;" class="btn btn-default" tabindex="-1" (click)="viewDate(year.date)">
+        <span>{{year.label}}</span>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
