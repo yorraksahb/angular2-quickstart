@@ -11,8 +11,8 @@
     </th>
     <!-- current month/year -->
     <th colspan="6">
-      <button type="button" class="btn btn-default btn-secondary btn-sm"
-              style="width: 100%;">
+      <button type="button" class="btn btn-default btn-secondary btn-sm" style="width: 100%;"
+              (click)="viewMode('months')">
         <strong>{{title}}</strong>
       </button>
     </th>
@@ -40,8 +40,8 @@
     <td class="text-center h6"><em>{{ weeks[i] }}</em></td>
     <td *ngFor="let day of week" role="gridcell" class="text-center"
         (click)="selectDate(day.date)">
-      <button type="button" style="min-width:100%;"
-              class="btn btn-default btn-sm" tabindex="-1">
+      <button type="button" style="min-width:100%;" class="btn btn-default btn-sm" tabindex="-1"
+        [class.active]="day.isActive">
         <span>{{day.label}}</span>
       </button>
     </td>

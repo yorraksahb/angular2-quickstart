@@ -1,21 +1,22 @@
 import * as moment from 'moment';
 
 export class DateUtilsService {
-  public static getCalendarMatrix(currentMonth: any, options: any):any {
+  public static getCalendarMatrix(currentDay: any, options: any):any {
     //
     // Build the matrix of dates that will populate the calendar
     //
     const calendar1 = {
-      month: currentMonth,
+      month: currentDay,
       firstDay: void 0,
       lastDay: void 0
     };
     // current date
-    const month = currentMonth.month();
-    const year = currentMonth.year();
-    const hour = currentMonth.hour();
-    const minute = currentMonth.minute();
-    const second = currentMonth.second();
+    const month = currentDay.month();
+    const year = currentDay.year();
+    const date = currentDay.date();
+    const hour = currentDay.hour();
+    const minute = currentDay.minute();
+    const second = currentDay.second();
     // month range
     const daysInMonth = moment([year, month]).daysInMonth();
     const firstDay = moment([year, month, 1]);
@@ -62,7 +63,8 @@ export class DateUtilsService {
 
       calendar[row][col] = {
         date: curDate.clone().hour(hour).minute(minute).second(second),
-        label: curDate.date()
+        label: curDate.date(),
+        isActive: curDate.year() === year && curDate.month() === month && curDate.date() === date
       };
       curDate.hour(12);
 

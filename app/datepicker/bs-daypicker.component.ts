@@ -28,9 +28,12 @@ export class DayPickerComponent extends DatePickerBase {
     datePickerService.viewDateChanged.subscribe((event:any) => {
       this.refresh(event.value);
     });
+    datePickerService.selectedDateChanged.subscribe((event:any) => {
+      this.refresh(event.value);
+    });
   }
 
-  public refresh(currentWeek:any):void {
+  public refresh(currentDay:any):void {
     const localeData = moment.localeData();
     this.locale = {
       direction: 'ltr',
@@ -46,9 +49,9 @@ export class DayPickerComponent extends DatePickerBase {
       firstDay: (localeData as any).firstDayOfWeek()
     };
 
-    const calendarMatrix = helper.getCalendarMatrix(currentWeek, this);
+    const calendarMatrix = helper.getCalendarMatrix(currentDay, this);
     this.weeks = calendarMatrix.weeks;
     this.calendar = calendarMatrix.calendar;
-    this.title = currentWeek.format('MMM YYYY');
+    this.title = currentDay.format('MMM YYYY');
   }
 }
