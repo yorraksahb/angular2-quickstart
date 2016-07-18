@@ -34,7 +34,8 @@ export class MonthPickerComponent extends DatePickerBase {
         let monthNum = row*w + coll;
         this.months[row][coll] = {
           date: moment([currentMonth.year(), monthNum, 1]),
-          label: this.monthNames[monthNum]
+          label: this.monthNames[monthNum],
+          isActive: monthNum === currentMonth.month()
         };
       }
     }

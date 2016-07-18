@@ -23,8 +23,8 @@
   <tbody>
   <tr *ngFor="let row of months">
     <td *ngFor="let month of row" class="text-center" role="gridcell">
-      <button type="button" style="min-width:100%;" class="btn btn-default"
-              (click)="viewDate(month.date)" tabindex="-1">
+      <button type="button" style="min-width:100%;" class="btn btn-default" tabindex="-1"
+              (click)="viewDate(month.date)" [class.active]="month.isActive">
         <span>{{month.label}}</span>
       </button>
     </td>
