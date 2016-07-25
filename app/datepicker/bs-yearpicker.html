@@ -7,7 +7,7 @@
   <table role="grid" class="years">
     <tbody>
     <tr *ngFor="let yearsRow of yearsMatrix">
-      <td *ngFor="let year of yearsRow" role="gridcell" (click)="viewDate(year.date)">
+      <td *ngFor="let year of yearsRow" role="gridcell" (click)="viewDate(year.date, {degrade: true})">
         <span>{{year.label}}</span>
       </td>
     </tr>

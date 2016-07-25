@@ -1,5 +1,4 @@
-import { Component,Inject } from '@angular/core';
-import * as moment from 'moment';
+import { Component } from '@angular/core';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
 import { DatePickerOptions } from './bs-datepicker-options.provider';
@@ -11,34 +10,15 @@ import { DatePickerOptions } from './bs-datepicker-options.provider';
   templateUrl: './bs-monthpicker.html'
 })
 export class MonthPickerComponent extends DatePickerBase {
-  public monthNames:string[] =  moment.months();
   public months:any[][];
   public title: string;
 
   public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
     super(datePickerService, options);
-    this.refresh(datePickerService.viewDate);
-    datePickerService.viewDateChange.subscribe((event:any) => {
-      this.refresh(event.value);
-    });
   }
 
-  public refresh(currentMonth:any):void {
-    this.title = currentMonth.year();
-
-    const w = 3;
-    const h = 4;
-    this.months = new Array(h);
-    for (let row = 0; row < h; row++) {
-      this.months[row] = new Array(w);
-      for (let coll = 0; coll < w; coll++) {
-        let monthNum = row*w + coll;
-        this.months[row][coll] = {
-          date: moment([currentMonth.year(), monthNum, 1]),
-          label: this.monthNames[monthNum],
-          isActive: monthNum === currentMonth.month()
-        };
-      }
-    }
+  public refresh(viewDate:any):void {
+    this.title = viewDate.year();
+    this.months = this.getMonthsCalendarMatrix(viewDate);
   }
 }

@@ -22,35 +22,13 @@ export class DayPickerComponent extends DatePickerBase {
 
   public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
     super(datePickerService, options);
-
-    this.refresh(datePickerService.viewDate);
-    datePickerService.viewDateChange.subscribe((event:any) => {
-      this.refresh(event);
-    });
-    datePickerService.selectedDateChange.subscribe((event:any) => {
-      this.refresh(event);
-    });
   }
 
   public refresh(currentDay:any):void {
-    const localeData = moment.localeData();
-    this.locale = {
-      direction: 'ltr',
-      format: localeData.longDateFormat('L'),
-      separator: ' - ',
-      applyLabel: 'Apply',
-      cancelLabel: 'Cancel',
-      weekLabel: 'W',
-      customRangeLabel: 'Custom Range',
-      weekdays: moment.weekdays(true),
-      weekdaysShort: moment.weekdaysMin(true),
-      monthNames: moment.monthsShort(),
-      firstDay: (localeData as any).firstDayOfWeek()
-    };
-
-    const calendarMatrix = this.datePickerService.getCalendarMatrix(currentDay, this);
+    const calendarMatrix = this.getDaysCalendarMatrix(currentDay, this.options);
     this.weeks = calendarMatrix.weeks;
     this.calendar = calendarMatrix.calendar;
-    this.title = currentDay.format('MMM YYYY');
+    this.locale = calendarMatrix.locale;
+    this.title = currentDay.clone().format('MMM YYYY');
   }
 }
