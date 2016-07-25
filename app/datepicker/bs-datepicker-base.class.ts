@@ -48,7 +48,6 @@ export abstract class DatePickerBase {
   }
 
   public selectDate(date:any):void {
-    debugger
     this.datePickerService.selectedDate = date;
   }
 
@@ -140,7 +139,8 @@ export abstract class DatePickerBase {
         date: curDate.clone().hour(hour).minute(minute).second(second),
         label: curDate.date(),
         isActive: this.isActive(curDate),
-        isSelected: this.isSelected(curDate)
+        isSelected: this.isSelected(curDate),
+        isDisabled: this.isDisabled(curDate)
       };
       curDate.hour(12);
 
@@ -184,6 +184,10 @@ export abstract class DatePickerBase {
     }
 
     return currDate.date() > selectedDate.date() && currDate.date() <= activeDate.date();
+  }
+
+  public isDisabled(date: any): boolean {
+    return true;
   }
 
   public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {
