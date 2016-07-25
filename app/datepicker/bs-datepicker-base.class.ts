@@ -2,6 +2,8 @@ import { DatePickerService } from './bs-datepicker.service';
 import { DatePickerViewMode, DatePickerOptions } from './bs-datepicker-options.provider';
 import * as moment from 'moment';
 
+import 'rxjs/add/operator/debounceTime';
+
 export abstract class DatePickerBase {
   protected datePickerService:DatePickerService;
   protected options:DatePickerOptions;
@@ -14,13 +16,12 @@ export abstract class DatePickerBase {
     datePickerService.viewDateChange.subscribe(() => {
       this.refresh(datePickerService.viewDate);
     });
-    datePickerService.activeDateChange.subscribe(() => {
-      this.refresh(datePickerService.selectedDate);
+    datePickerService.activeDateChange.debounceTime(100).subscribe(() => {
+      this.refresh(datePickerService.activeDate);
     });
     datePickerService.selectedDateChange.subscribe(() => {
       this.refresh(datePickerService.selectedDate);
     });
-
   }
 
   public abstract refresh(viewDate:any):void;
@@ -41,7 +42,7 @@ export abstract class DatePickerBase {
     }
   }
 
-  public activeDate(date:any){
+  public activeDate(date:any):void {
     this.datePickerService.activeDate = date;
   }
 
@@ -136,7 +137,8 @@ export abstract class DatePickerBase {
       calendar[row][col] = {
         date: curDate.clone().hour(hour).minute(minute).second(second),
         label: curDate.date(),
-        isActive: curDate.year() === year && curDate.month() === month && curDate.date() === (this.datePickerService.selectedDate && this.datePickerService.selectedDate.date())
+        isActive: this.isActive(curDate),
+        isSelected: this.isSelected(curDate)
       };
       curDate.hour(12);
 
@@ -152,6 +154,34 @@ export abstract class DatePickerBase {
     }
 
     return {weeks, calendar, locale};
+  }
+
+  public isSelected(currDate:any):boolean {
+    const selectedDate = this.datePickerService.selectedDate;
+    if (!selectedDate || !currDate) {
+      return false;
+    }
+
+    if (currDate.year() !== selectedDate.year() || currDate.month() !== selectedDate.month()) {
+      return false;
+    }
+
+    return currDate.date() === selectedDate.date();
+  }
+
+  public isActive(currDate:any):boolean {
+    const selectedDate = this.datePickerService.selectedDate;
+    const activeDate = this.datePickerService.activeDate;
+
+    if (!selectedDate || !activeDate || !currDate) {
+      return false;
+    }
+
+    if (currDate.year() !== activeDate.year() || currDate.month() !== activeDate.month()) {
+      return false;
+    }
+
+    return currDate.date() > selectedDate.date() && currDate.date() <= activeDate.date();
   }
 
   public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {

@@ -17,8 +17,8 @@
     <tr *ngFor="let week of calendar; let i = index">
       <td class="text-center h6"><em>{{ weeks[i] }}</em></td>
       <td *ngFor="let day of week" role="gridcell"
-          (click)="selectDate(day.date)"
-          [class.active]="day.isActive" [class.selected]="day.isSelected">
+          (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
+          [class.selected]="day.isActive" [class.active]="day.isSelected">
         <span>{{day.label}}</span>
       </td>
     </tr>

@@ -7,7 +7,7 @@ export class DatePickerService {
   @OnChange() public selectedDate:any;
   public selectedDateChange:EventEmitter<any> = new EventEmitter<any>();
 
-  @OnChange public activeDate: any;
+  @OnChange() public activeDate: any;
   public activeDateChange:EventEmitter<any> = new EventEmitter<any>();
 
   @OnChange(moment()) public viewDate:any;
