@@ -18,6 +18,9 @@ export class MonthPickerComponent extends DatePickerBase {
   }
 
   public refresh(viewDate:any):void {
+    if (this.options.viewMode !== 'months') {
+      return;
+    }
     this.title = viewDate.year();
     this.months = this.getMonthsCalendarMatrix(viewDate);
   }

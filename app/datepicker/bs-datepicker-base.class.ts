@@ -16,9 +16,9 @@ export abstract class DatePickerBase {
     datePickerService.viewDateChange.subscribe(() => {
       this.refresh(datePickerService.viewDate);
     });
-    datePickerService.activeDateChange.debounceTime(100).subscribe(() => {
-      this.refresh(datePickerService.activeDate);
-    });
+    // datePickerService.activeDateChange.debounceTime(150).subscribe(() => {
+    //   this.refresh(datePickerService.viewDate);
+    // });
     datePickerService.selectedDateChange.subscribe(() => {
       this.refresh(datePickerService.selectedDate);
     });
@@ -33,6 +33,7 @@ export abstract class DatePickerBase {
   public viewDate(date:any, _opts:{degrade:boolean}):void {
     const opts = Object.assign({}, {degrade: false}, _opts);
     this.datePickerService.viewDate = date;
+
     if (this.options.viewMode && opts.degrade) {
       if (this.options.viewMode === 'years') {
         this.options.viewMode = 'months';
