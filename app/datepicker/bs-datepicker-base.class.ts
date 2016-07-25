@@ -19,9 +19,9 @@ export abstract class DatePickerBase {
     // datePickerService.activeDateChange.debounceTime(150).subscribe(() => {
     //   this.refresh(datePickerService.viewDate);
     // });
-    datePickerService.selectedDateChange.subscribe(() => {
-      this.refresh(datePickerService.selectedDate);
-    });
+    // datePickerService.selectedDateChange.subscribe(() => {
+    //   this.refresh(datePickerService.selectedDate);
+    // });
   }
 
   public abstract refresh(viewDate:any):void;
@@ -48,6 +48,7 @@ export abstract class DatePickerBase {
   }
 
   public selectDate(date:any):void {
+    debugger
     this.datePickerService.selectedDate = date;
   }
 

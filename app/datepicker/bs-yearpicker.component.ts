@@ -15,6 +15,9 @@ export class YearPickerComponent extends DatePickerBase {
 
   public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
     super(datePickerService, options);
+    datePickerService.selectedDateChange.subscribe(() => {
+      this.refresh(datePickerService.selectedDate);
+    });
   }
 
   public refresh(viewDate:any):void {

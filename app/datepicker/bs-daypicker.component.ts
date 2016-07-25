@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import * as moment from 'moment';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
 import { DatePickerOptions } from './bs-datepicker-options.provider';
@@ -21,10 +20,14 @@ export class DayPickerComponent extends DatePickerBase {
   // locale options
   public locale:any;
 
-  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
+  public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     super(datePickerService, options);
-    datePickerService.activeDateChange.debounceTime(150).subscribe((activeDate) => {
-      this.markActive(activeDate);
+    datePickerService.activeDateChange.debounceTime(100)
+      .subscribe((activeDate:any) => {
+        this.markActive(activeDate);
+      });
+    datePickerService.selectedDateChange.subscribe(() => {
+      this.markSelected(datePickerService.selectedDate);
     });
   }
 
@@ -54,7 +57,31 @@ export class DayPickerComponent extends DatePickerBase {
     // mark proper dates as active
     for (let i = 0; i < this.calendar.length; i++) {
       for (let j = 0; j < this.calendar[i].length; j++) {
-        this.calendar[i][j].isActive = this.isActive(this.calendar[i][j].date);
+        this.calendar[i][j].isActive = this.calendar[i][j].isSelected !== true &&
+          this.isActive(this.calendar[i][j].date);
+      }
+    }
+  }
+
+  public markSelected(selectedDate:any): void {
+    if (!selectedDate) {
+    //   mark all is deselected
+      for (let i = 0; i < this.calendar.length; i++) {
+        for (let j = 0; j < this.calendar[i].length; j++) {
+          this.calendar[i][j].isSelected = false;
+        }
+      }
+      return;
+    }
+
+    // mark proper dates as selected
+    for (let i = 0; i < this.calendar.length; i++) {
+      for (let j = 0; j < this.calendar[i].length; j++) {
+        const isSelected = this.isSelected(this.calendar[i][j].date);
+        this.calendar[i][j].isSelected = isSelected;
+        if (isSelected) {
+          this.calendar[i][j].isActive = false;
+        }
       }
     }
   }
