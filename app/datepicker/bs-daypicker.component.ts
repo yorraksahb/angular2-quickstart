@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
+import { DatePickerOptions } from './bs-datepicker-options.provider';
 
 @Component({
   selector: 'bs-daypicker',
@@ -19,10 +20,9 @@ export class DayPickerComponent extends DatePickerBase {
   // locale options
   public locale:any;
 
-  private _datePickerService:DatePickerService;
-  public constructor(datePickerService:DatePickerService) {
-    super(datePickerService);
-    this._datePickerService = datePickerService;
+  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
+    super(datePickerService, options);
+
     this.refresh(datePickerService.viewDate);
     datePickerService.viewDateChange.subscribe((event:any) => {
       this.refresh(event);
@@ -48,7 +48,7 @@ export class DayPickerComponent extends DatePickerBase {
       firstDay: (localeData as any).firstDayOfWeek()
     };
 
-    const calendarMatrix = this._datePickerService.getCalendarMatrix(currentDay, this);
+    const calendarMatrix = this.datePickerService.getCalendarMatrix(currentDay, this);
     this.weeks = calendarMatrix.weeks;
     this.calendar = calendarMatrix.calendar;
     this.title = currentDay.format('MMM YYYY');

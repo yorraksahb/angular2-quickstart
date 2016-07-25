@@ -2,6 +2,7 @@ import { Component,Inject } from '@angular/core';
 import * as moment from 'moment';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
+import { DatePickerOptions } from './bs-datepicker-options.provider';
 
 @Component({
   selector: 'bs-monthpicker',
@@ -14,8 +15,8 @@ export class MonthPickerComponent extends DatePickerBase {
   public months:any[][];
   public title: string;
 
-  public constructor(datePickerService:DatePickerService) {
-    super(datePickerService);
+  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
+    super(datePickerService, options);
     this.refresh(datePickerService.viewDate);
     datePickerService.viewDateChange.subscribe((event:any) => {
       this.refresh(event.value);

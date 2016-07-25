@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
+import { DatePickerOptions } from './bs-datepicker-options.provider';
 
 @Component({
   selector: 'bs-yearpicker',
@@ -15,15 +16,15 @@ export class YearPickerComponent extends DatePickerBase {
 
   public yearsMatrix:any;
 
-  public constructor(datePickerService:DatePickerService) {
-    super(datePickerService);
+  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
+    super(datePickerService, options);
     this.refresh(datePickerService.viewDate);
     datePickerService.viewDateChange.subscribe((event:any) => {
       this.refresh(event.value);
     });
   }
 
-  public refresh(currentYear):void {
+  public refresh(currentYear:any):void {
     let year = this.getStartingYear(currentYear.year(), this.yearsStep);
     this.title = [year, year + this.yearsStep].join(' - ');
 

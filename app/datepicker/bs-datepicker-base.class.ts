@@ -1,10 +1,17 @@
 import { DatePickerService } from './bs-datepicker.service';
+import { DatePickerViewMode, DatePickerOptions } from './bs-datepicker-options.provider';
 
 export class DatePickerBase {
-  private datePickerService:DatePickerService;
+  protected datePickerService:DatePickerService;
+  protected options: DatePickerOptions;
 
-  public constructor(datePickerService:DatePickerService) {
+  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
     this.datePickerService = datePickerService;
+    this.options = options;
+  }
+
+  public viewMode(mode: DatePickerViewMode) {
+    this.options.viewMode = mode;
   }
 
   public viewDate(date:any):void {
