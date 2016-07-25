@@ -1,9 +1,9 @@
-<div class="datepicker-head label-success">
+<div class="bs-datepicker-head label-success">
   <button class="previous" (click)="prev('years', yearsStep)"><span>&lsaquo;</span></button>
   <button class="current"><span>{{title}}</span></button>
   <button class="next" (click)="next('years', yearsStep)"><span>&rsaquo;</span></button>
 </div>
-<div class="datepicker-body">
+<div class="bs-datepicker-body">
   <table role="grid" class="years">
     <tbody>
     <tr *ngFor="let yearsRow of yearsMatrix">
