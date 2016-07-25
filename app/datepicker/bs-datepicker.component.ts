@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { DayPickerComponent } from './bs-daypicker.component';
 import { MonthPickerComponent } from './bs-monthpicker.component';
 import { YearPickerComponent } from './bs-yearpicker.component';
@@ -14,7 +14,7 @@ import { DatePickerService } from './bs-datepicker.service';
 })
 export class DatePickerComponent {
 // here will be parsed options and set defaults
-  public constructor(){
-
-  }
+//   public constructor() {
+//
+//   }
 }

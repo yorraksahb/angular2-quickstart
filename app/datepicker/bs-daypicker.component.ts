@@ -24,11 +24,11 @@ export class DayPickerComponent extends DatePickerBase {
     super(datePickerService);
     this._datePickerService = datePickerService;
     this.refresh(datePickerService.viewDate);
-    datePickerService.viewDateChanged.subscribe((event:any) => {
-      this.refresh(event.value);
+    datePickerService.viewDateChange.subscribe((event:any) => {
+      this.refresh(event);
     });
-    datePickerService.selectedDateChanged.subscribe((event:any) => {
-      this.refresh(event.value);
+    datePickerService.selectedDateChange.subscribe((event:any) => {
+      this.refresh(event);
     });
   }
 

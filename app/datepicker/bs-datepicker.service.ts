@@ -1,37 +1,29 @@
-import {Injectable} from '@angular/core';
-import { EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
+
+function OnChange(defaultValue?:any):any {
+  const sufix = 'Change';
+  return function OnChangeHandler(target:any, propertyKey:string) {
+    let _value = defaultValue;
+    Object.defineProperty(target, propertyKey, {
+      'get': function ():any { return _value; },
+      'set': function (value:any):void {
+        _value = value;
+        this[propertyKey + sufix].emit(value);
+      }
+    });
+  };
+}
 
 @Injectable()
 export class DatePickerService {
-  public get selectedDate():any {
-    return this._selectedDate;
-  }
+  @OnChange() public selectedDate:any;
+  public selectedDateChange:EventEmitter<any> = new EventEmitter<any>();
 
-  public set selectedDate(value:any) {
-    const prevValue = this._selectedDate;
-    this._selectedDate = value;
-    this.selectedDateChanged.emit({value, prevValue});
-  }
+  @OnChange(moment()) public viewDate:any;
+  public viewDateChange:EventEmitter<any> = new EventEmitter<any>();
 
-  public selectedDateChanged:EventEmitter<any> = new EventEmitter<any>();
-
-  public get viewDate():any {
-    return this._viewDate;
-  }
-
-  public set viewDate(value:any) {
-    const prevValue = this._viewDate;
-    this._viewDate = value;
-    this.viewDateChanged.emit({value, prevValue});
-  }
-
-  public viewDateChanged:EventEmitter<any> = new EventEmitter<any>();
-
-  private _viewDate:any = moment();
-  private _selectedDate:any = moment();
-
-  public getCalendarMatrix(currentDay: any, options: any):any {
+  public getCalendarMatrix(currentDay:any, options:any):any {
     //
     // Build the matrix of dates that will populate the calendar
     //
@@ -48,13 +40,19 @@ export class DatePickerService {
     const minute = currentDay.minute();
     const second = currentDay.second();
     // month range
-    const daysInMonth = moment([year, month]).daysInMonth();
+    const daysInMonth = moment([year, month])
+      .daysInMonth();
     const firstDay = moment([year, month, 1]);
     const lastDay = moment([year, month, daysInMonth]);
     // prev
-    const lastMonth = moment(firstDay).subtract(1, 'month').month();
-    const lastYear = moment(firstDay).subtract(1, 'month').year();
-    const daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
+    const lastMonth = moment(firstDay)
+      .subtract(1, 'month')
+      .month();
+    const lastYear = moment(firstDay)
+      .subtract(1, 'month')
+      .year();
+    const daysInLastMonth = moment([lastYear, lastMonth])
+      .daysInMonth();
     const dayOfWeek = firstDay.day();
 
     // initialize a 6 rows x 7 columns array for the calendar
@@ -82,7 +80,9 @@ export class DatePickerService {
 
     let curDate = moment([lastYear, lastMonth, startDay, 12, minute, second]);
     // where the f*** 42 came from
-    for (let [i, col,row] = [0, 0, 0]; i < calendarH * calendarW; i++, col++, curDate = moment(curDate).add(24, 'hour')) {
+    for (let [i, col,row] = [0, 0,
+      0]; i < calendarH * calendarW; i++, col++, curDate = moment(curDate)
+      .add(24, 'hour')) {
       if (i > 0 && col % 7 === 0) {
         col = 0;
         row++;
@@ -92,20 +92,24 @@ export class DatePickerService {
       }
 
       calendar[row][col] = {
-        date: curDate.clone().hour(hour).minute(minute).second(second),
+        date: curDate.clone()
+          .hour(hour)
+          .minute(minute)
+          .second(second),
         label: curDate.date(),
         isActive: curDate.year() === year && curDate.month() === month && curDate.date() === (this.selectedDate && this.selectedDate.date())
       };
       curDate.hour(12);
 
       // todo: take in account min and max dates
-      // if (this.minDate && calendar[row][col].format('YYYY-MM-DD') == this.minDate.format('YYYY-MM-DD') && calendar[row][col].isBefore(this.minDate) && side == 'left') {
-      //   calendar[row][col] = this.minDate.clone();
-      // }
-      //
-      // if (this.maxDate && calendar[row][col].format('YYYY-MM-DD') == this.maxDate.format('YYYY-MM-DD') && calendar[row][col].isAfter(this.maxDate) && side == 'right') {
-      //   calendar[row][col] = this.maxDate.clone();
-      // }
+      // if (this.minDate && calendar[row][col].format('YYYY-MM-DD') ==
+      // this.minDate.format('YYYY-MM-DD') &&
+      // calendar[row][col].isBefore(this.minDate) && side == 'left') {
+      // calendar[row][col] = this.minDate.clone(); }  if (this.maxDate &&
+      // calendar[row][col].format('YYYY-MM-DD') ==
+      // this.maxDate.format('YYYY-MM-DD') &&
+      // calendar[row][col].isAfter(this.maxDate) && side == 'right') {
+      // calendar[row][col] = this.maxDate.clone(); }
     }
 
     return {weeks, calendar};

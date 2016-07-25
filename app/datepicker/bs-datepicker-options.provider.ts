@@ -87,9 +87,9 @@ export class TimePickerOptions {
 
 export class DatePickerOptions {
   public mode: 'date' | 'daterange' = 'date';
-  public ui?:DatePickerUiOptions;
-  public date?:DatePickerDateOptions;
-  public format?:DatePickerFormatOptions;
+  public ui:DatePickerUiOptions;
+  public date:DatePickerDateOptions;
+  public format:DatePickerFormatOptions;
   public locale:string | DatePickerLocale = 'en';
   public timepicker:boolean | TimePickerOptions = false;
 
