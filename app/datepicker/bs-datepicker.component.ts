@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DayPickerComponent } from './bs-daypicker.component';
 import { MonthPickerComponent } from './bs-monthpicker.component';
 import { YearPickerComponent } from './bs-yearpicker.component';

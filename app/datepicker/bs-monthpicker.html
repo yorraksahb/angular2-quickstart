@@ -1,33 +1,17 @@
-<table role="grid">
-  <thead>
-  <tr>
-    <th>
-      <button type="button" class="btn btn-default btn-sm pull-left"
-              (click)="prev('years')" tabindex="-1">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-      </button>
-    </th>
-    <th>
-      <button type="button" class="btn btn-default btn-sm" tabindex="-1" style="width:100%;"
-              (click)="viewMode('years')">
-        <strong>{{title}}</strong>
-      </button>
-    </th>
-    <th>
-      <button type="button" class="btn btn-default btn-sm pull-right" (click)="next('years')" tabindex="-1">
-        <i class="glyphicon glyphicon-chevron-right"></i>
-      </button>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let row of months">
-    <td *ngFor="let month of row" class="text-center" role="gridcell">
-      <button type="button" style="min-width:100%;" class="btn btn-default" tabindex="-1"
-              (click)="viewDate(month.date)" [class.active]="month.isActive">
+<div class="datepicker-head label-success">
+  <button class="previous" (click)="prev('years')"><span>&lsaquo;</span></button>
+  <button class="current" (click)="viewMode('years')"><span>{{title}}</span></button>
+  <button class="next" (click)="next('years')"><span>&rsaquo;</span></button>
+</div>
+<div class="datepicker-body">
+  <table role="grid" class="months">
+    <tbody>
+    <tr *ngFor="let row of months">
+      <td *ngFor="let month of row" role="gridcell" (click)="viewDate(month.date)"
+          [class.active]="month.isActive">
         <span>{{month.label}}</span>
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

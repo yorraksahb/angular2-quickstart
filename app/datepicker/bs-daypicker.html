@@ -1,50 +1,27 @@
-<table role="grid">
-  <thead>
-  <tr>
-    <!-- go prev -->
-    <th (click)="prev('months')">
-      <button type="button"
-              class="btn btn-default btn-secondary btn-sm pull-left"
-              tabindex="-1">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-      </button>
-    </th>
-    <!-- current month/year -->
-    <th colspan="6">
-      <button type="button" class="btn btn-default btn-secondary btn-sm" style="width: 100%;"
-              (click)="viewMode('months')">
-        <strong>{{title}}</strong>
-      </button>
-    </th>
-
-    <!--go next-->
-    <th (click)="next('months')">
-      <button type="button"
-              class="btn btn-default btn-secondary btn-sm pull-right"
-              tabindex="-1">
-        <i class="glyphicon glyphicon-chevron-right"></i>
-      </button>
-    </th>
-  </tr>
-
-  <tr>
-    <th></th><!--if show weeks-->
-    <th *ngFor="let weekday of locale.weekdays; let i = index"
-        class="text-center">
-      <small aria-label="weekday"><b>{{locale.weekdaysShort[i]}}</b></small>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let week of calendar; let i = index">
-    <td class="text-center h6"><em>{{ weeks[i] }}</em></td>
-    <td *ngFor="let day of week" role="gridcell" class="text-center"
-        (click)="selectDate(day.date)">
-      <button type="button" style="min-width:100%;" class="btn btn-default btn-sm" tabindex="-1"
-        [class.active]="day.isActive">
+<div class="datepicker-head label-success">
+  <button class="previous" (click)="prev('months')"><span>&lsaquo;</span></button>
+  <button class="current" (click)="viewMode('months')"><span>{{title}}</span></button>
+  <button class="next" (click)="next('months')"><span>&rsaquo;</span></button>
+</div>
+<div class="datepicker-body">
+  <table role="grid" class="days">
+    <thead>
+    <tr>
+      <th></th><!--if show weeks-->
+      <th *ngFor="let weekday of locale.weekdays; let i = index"
+          class="text-center" aria-label="weekday">{{locale.weekdaysShort[i]}}
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let week of calendar; let i = index">
+      <td class="text-center h6"><em>{{ weeks[i] }}</em></td>
+      <td *ngFor="let day of week" role="gridcell"
+          (click)="selectDate(day.date)"
+          [class.active]="day.isActive" [class.selected]="day.isSelected">
         <span>{{day.label}}</span>
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
