@@ -1,24 +1,24 @@
-.datepicker{
+.bs-datepicker{
   display: inline-block;
   vertical-align: top;
-  width: 244px;
+  min-width: 244px;
   min-height: 250px;
   background: #fff;
   box-shadow: 0 10px 20px rgba(84, 112, 139, 0.1);
 }
-.datepicker-head{
+.bs-datepicker-head{
   height: 50px;
   padding: 10px;
   border-radius: 3px 3px 0 0;
   text-align: justify;
 }
-.datepicker-head:after{
+.bs-datepicker-head:after{
   content: "";
   display: inline-block;
   vertical-align: top;
   width: 100%;
 }
-.datepicker-head button{
+.bs-datepicker-head button{
   display: inline-block;
   vertical-align: top;
   padding: 0;
@@ -31,51 +31,55 @@
   color: #fff;
   transition: 0.3s;
 }
-.datepicker-head button.next, .datepicker-head button.previous{
+.bs-datepicker-head button.next, .bs-datepicker-head button.previous{
   border-radius: 50%;
   width: 30px;
   height: 30px;
 }
-.datepicker-head button.next span, .datepicker-head button.previous span{
+.bs-datepicker-head button.next span, .bs-datepicker-head button.previous span{
   font-size: 28px;
-  line-height: 25px;
+  line-height: 1;
   display: inline-block;
+  position: relative;
+  top: -1px;
 }
-.datepicker-head button.current{
+.bs-datepicker-head button.current{
   border-radius: 15px;
   width: 155px;
 }
-.datepicker-head button:hover, .datepicker-head button:focus, .datepicker-head button:active{
+.bs-datepicker-head button:hover, .bs-datepicker-head button:focus, .bs-datepicker-head button:active{
   outline: none;
 }
-.datepicker-head button:hover{
+.bs-datepicker-head button:hover{
   background-color: rgba(0, 0, 0, 0.1);
 }
-.datepicker-head button:active{
+.bs-datepicker-head button:active{
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.datepicker-body{
+.bs-datepicker-body{
   padding: 10px;
   border-radius: 0 0 3px 3px;
 }
-.datepicker-body table{
+.bs-datepicker-body table{
   width: 100%;
   border-collapse: separate;
   /*  border-spacing: 2px;*/
 }
-.datepicker-body table th{
+.bs-datepicker-body table th{
   font-size: 13px;
   color: #9aaec1;
   font-weight: 400;
   text-align: center;
 }
-.datepicker-body table td{
+.bs-datepicker-body table td{
   color: #54708b;
   padding: 1px;
+  text-align: center;
 }
-.datepicker-body table td span {
+.bs-datepicker-body table td span, .bs-datepicker-body table td em {
   display: block;
+  margin: 0 auto;
   font-size: 13px;
   width: 28px;
   height: 28px;
@@ -84,32 +88,41 @@
   transition: background-color 0.3s;
   position: relative;
   z-index: 1;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
-.datepicker-body table td:not(.disabled) span{
+.bs-datepicker-body table td em{
+  font-size: 11px;
+  width: 12px;
+  text-align: left;
+  color: #9aaec1;
+}
+.bs-datepicker-body table td:not(.disabled) span{
   cursor: pointer;
 }
-.datepicker-body table td:not(.disabled) span:hover{
+.bs-datepicker-body table td:not(.disabled) span:hover{
   background-color: #e9edf0;
 }
-.datepicker-body table td.disabled span{
+.bs-datepicker-body table td.disabled span{
   color: #ddd;
 }
-.datepicker-body table td.active span{
+.bs-datepicker-body table td.active span{
   color: #fff;
 }
-.datepicker-body table td.selected {
+.bs-datepicker-body table td.selected {
   background: #eee;
   position: relative;
 }
-.datepicker-body table td.selected span {
+.bs-datepicker-body table td.selected span {
   background-color: #eee;
   border-radius: 0px;
   width: 100%;
 }
-.datepicker-body table td[class*="select-"] span{
+.bs-datepicker-body table td[class*="select-"] span{
   color: #fff;
 }
-.datepicker-body table td.selected.select-start span {
+.bs-datepicker-body table td.selected.select-start span {
   border-radius: 10px 0px 0px 10px;
   width: 32px;
   height: 30px;
@@ -117,7 +130,7 @@
   top: 0;
   right: 0;
 }
-.datepicker-body table td.selected.select-end span {
+.bs-datepicker-body table td.selected.select-end span {
   border-radius: 0px 10px 10px 0px;
   width: 32px;
   height: 30px;
@@ -125,7 +138,7 @@
   top: 0;
   left: 0;
 }
-.datepicker-body table td.selected.select-end:after, .datepicker-body table td.selected.select-start:after {
+.bs-datepicker-body table td.selected.select-end:after, .bs-datepicker-body table td.selected.select-start:after {
   content: "";
   display: block;
   width: 100%;
@@ -136,30 +149,30 @@
   left: 0;
   z-index: 0;
 }
-.label-default+.datepicker-body table td.active span, .label-default+.datepicker-body table td[class*="select-"] span{
+.label-default~.bs-datepicker-body table td.active span, .label-default~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #777;
 }
-.label-primary+.datepicker-body table td.active span, .label-primary+.datepicker-body table td[class*="select-"] span{
+.label-primary~.bs-datepicker-body table td.active span, .label-primary~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #337ab7;
 }
-.label-success+.datepicker-body table td.active span, .label-success+.datepicker-body table td[class*="select-"] span{
+.label-success~.bs-datepicker-body table td.active span, .label-success~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #5cb85c;
 }
-.label-danger+.datepicker-body table td.active span, .label-danger+.datepicker-body table td[class*="select-"] span{
+.label-danger~.bs-datepicker-body table td.active span, .label-danger~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #d9534f;
 }
-.label-warning+.datepicker-body table td.active span, .label-warning+.datepicker-body table td[class*="select-"] span{
+.label-warning~.bs-datepicker-body table td.active span, .label-warning~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #f0ad4e;
 }
-.label-info+.datepicker-body table td.active span, .label-info+.datepicker-body table td[class*="select-"] span{
+.label-info~.bs-datepicker-body table td.active span, .label-info~.bs-datepicker-body table td[class*="select-"] span{
   background-color: #5bc0de;
 }
-.datepicker-body table.months td span, .datepicker-body table.years td span{
+.bs-datepicker-body table.months td span, .bs-datepicker-body table.years td span{
   width: 46px;
   height: 46px;
   line-height: 45px;
   margin: 0 auto;
 }
-.datepicker-body table.months tr:not(:last-child) td span, .datepicker-body table.years tr:not(:last-child) td span{
+.bs-datepicker-body table.months tr:not(:last-child) td span, .bs-datepicker-body table.years tr:not(:last-child) td span{
   margin-bottom: 14px;
 }
