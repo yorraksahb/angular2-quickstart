@@ -201,6 +201,15 @@ export abstract class DatePickerBase implements OnInit {
     const minDate = this.options.date && this.options.date.min;
     const maxDate = this.options.date && this.options.date.max;
     // min, max, weekdays
+    if (minDate && moment(date).isSameOrBefore(minDate)) {
+      return true;
+    }
+
+    if (maxDate && moment(date).isSameOrAfter(maxDate)) {
+      return true;
+    }
+
+    // todo: check dates options
     return false;
   }
 
