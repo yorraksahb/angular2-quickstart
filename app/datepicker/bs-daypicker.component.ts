@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import * as moment from 'moment';
 import { DatePickerBase } from './bs-datepicker-base.class';
 import { DatePickerService } from './bs-datepicker.service';
+import { DatePickerOptions } from './bs-datepicker-options.provider';
+import { DatePickerDate } from './DatePickerDate.class';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'bs-daypicker',
@@ -11,46 +14,80 @@ import { DatePickerService } from './bs-datepicker.service';
 })
 export class DayPickerComponent extends DatePickerBase {
   // title in the head
-  public title:string;
+  public viewMonth:string;
+  public viewYear:string;
   // weeks numbers
   public weeks:string[];
   // days matrix
-  public calendar:number[][];
+  public calendar:DatePickerDate[][];
   // locale options
   public locale:any;
 
-  private _datePickerService:DatePickerService;
-  public constructor(datePickerService:DatePickerService) {
-    super(datePickerService);
-    this._datePickerService = datePickerService;
-    this.refresh(datePickerService.viewDate);
-    datePickerService.viewDateChange.subscribe((event:any) => {
-      this.refresh(event);
-    });
-    datePickerService.selectedDateChange.subscribe((event:any) => {
-      this.refresh(event);
+  public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
+    super(datePickerService, options);
+    datePickerService.activeDateChange.debounceTime(100)
+      .subscribe((activeDate:any) => {
+        this.markActive(activeDate);
+      });
+    datePickerService.selectedDateChange.subscribe(() => {
+      this.markSelected(datePickerService.selectedDate);
     });
   }
 
   public refresh(currentDay:any):void {
-    const localeData = moment.localeData();
-    this.locale = {
-      direction: 'ltr',
-      format: localeData.longDateFormat('L'),
-      separator: ' - ',
-      applyLabel: 'Apply',
-      cancelLabel: 'Cancel',
-      weekLabel: 'W',
-      customRangeLabel: 'Custom Range',
-      weekdays: moment.weekdays(true),
-      weekdaysShort: moment.weekdaysMin(true),
-      monthNames: moment.monthsShort(),
-      firstDay: (localeData as any).firstDayOfWeek()
-    };
+    if (this.options.viewMode !== 'days') {
+      return;
+    }
 
-    const calendarMatrix = this._datePickerService.getCalendarMatrix(currentDay, this);
-    this.weeks = calendarMatrix.weeks;
+    const calendarMatrix = this.getDaysCalendarMatrix(currentDay, this.options);
     this.calendar = calendarMatrix.calendar;
-    this.title = currentDay.format('MMM YYYY');
+    this.weeks = calendarMatrix.weeks;
+    this.locale = calendarMatrix.locale;
+    // this.title = currentDay.format('MMM YYYY');
+    this.viewMonth = moment(currentDay).format(this.options.format.monthTitle);
+    this.viewYear = moment(currentDay).format(this.options.format.yearTitle);
+  }
+
+  public markActive(activeDate:any):void {
+    if (!activeDate) {
+      // mark all is inactive
+      for (let i = 0; i < this.calendar.length; i++) {
+        for (let j = 0; j < this.calendar[i].length; j++) {
+          this.calendar[i][j].isActive = false;
+        }
+      }
+      return;
+    }
+
+    // mark proper dates as active
+    for (let i = 0; i < this.calendar.length; i++) {
+      for (let j = 0; j < this.calendar[i].length; j++) {
+        this.calendar[i][j].isActive = this.calendar[i][j].isSelected !== true &&
+          this.isActive(this.calendar[i][j].date);
+      }
+    }
+  }
+
+  public markSelected(selectedDate:any): void {
+    if (!selectedDate) {
+    //   mark all is deselected
+      for (let i = 0; i < this.calendar.length; i++) {
+        for (let j = 0; j < this.calendar[i].length; j++) {
+          this.calendar[i][j].isSelected = false;
+        }
+      }
+      return;
+    }
+
+    // mark proper dates as selected
+    for (let i = 0; i < this.calendar.length; i++) {
+      for (let j = 0; j < this.calendar[i].length; j++) {
+        const isSelected = this.isSelected(this.calendar[i][j].date);
+        this.calendar[i][j].isSelected = isSelected;
+        if (isSelected) {
+          this.calendar[i][j].isActive = false;
+        }
+      }
+    }
   }
 }

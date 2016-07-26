@@ -7,7 +7,7 @@
   <table role="grid" class="months">
     <tbody>
     <tr *ngFor="let row of months">
-      <td *ngFor="let month of row" role="gridcell" (click)="viewDate(month.date)"
+      <td *ngFor="let month of row" role="gridcell" (click)="viewDate(month.date, {degrade: true})"
           [class.active]="month.isActive">
         <span>{{month.label}}</span>
       </td>
