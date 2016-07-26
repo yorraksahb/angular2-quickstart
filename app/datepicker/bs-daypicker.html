@@ -1,16 +1,15 @@
 <div class="bs-datepicker-head label-success">
   <button class="previous" (click)="prev('months')"><span>&lsaquo;</span></button>
-  <button class="current" (click)="viewMode('months')"><span>{{title}}</span></button>
+  <button class="current" (click)="viewMode('months')"><span>{{viewMonth}}</span></button>
+  <button class="current" (click)="viewMode('years')"><span>{{viewYear}}</span></button>
   <button class="next" (click)="next('months')"><span>&rsaquo;</span></button>
 </div>
 <div class="bs-datepicker-body">
-  <table role="grid" class="days">
+  <table role="grid" class="days weeks">
     <thead>
     <tr>
       <th></th><!--if show weeks-->
-      <th *ngFor="let weekday of locale.weekdays; let i = index"
-          class="text-center" aria-label="weekday">{{locale.weekdaysShort[i]}}
-      </th>
+      <th *ngFor="let weekday of locale.weekdays; let i = index" aria-label="weekday">{{locale.weekdaysShort[i]}}</th>
     </tr>
     </thead>
     <tbody>
@@ -19,8 +18,9 @@
       <td *ngFor="let day of week" role="gridcell"
           (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
           [class.disabled]="day.isDisabled"
-          [class.selected]="day.isActive"
-          [class.active]="day.isSelected">
+          [class.active]="day.isActive"
+          [class.select-start]="day.isSelected"
+          [class.selected]="day.isSelected">
         <span>{{day.label}}</span>
       </td>
     </tr>

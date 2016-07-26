@@ -149,20 +149,20 @@
   background: #e9edf0;
 }
 .bs-datepicker-body table tr td:last-child.selected:before{
-  border-radius: 0 3px 3px 0;
-  width: 100%;
+    border-radius: 0 3px 3px 0;
+    width: 100%;
 }
 .bs-datepicker-body table.weeks tr td:nth-child(2).selected:before{
-  border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
 }
 .bs-datepicker-body table:not(.weeks) tr td:first-child:before{
-  border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
 }
 .bs-datepicker-body table td.selected.select-start:before {
-  left: 35%;
+    left: 35%;
 }
 .bs-datepicker-body table td.selected.select-end:before {
-  left: -85%;
+    left: -85%;
 }
 .bs-datepicker-body table td[class*="select-"] span{
   border-radius: 50%;

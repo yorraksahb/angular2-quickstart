@@ -4,6 +4,8 @@ import { DatePickerService } from './bs-datepicker.service';
 import { DatePickerOptions } from './bs-datepicker-options.provider';
 import { DatePickerDate } from './DatePickerDate.class';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'bs-daypicker',
   exportAs: 'bs-daypicker',
@@ -12,7 +14,8 @@ import { DatePickerDate } from './DatePickerDate.class';
 })
 export class DayPickerComponent extends DatePickerBase {
   // title in the head
-  public title:string;
+  public viewMonth:string;
+  public viewYear:string;
   // weeks numbers
   public weeks:string[];
   // days matrix
@@ -40,7 +43,9 @@ export class DayPickerComponent extends DatePickerBase {
     this.calendar = calendarMatrix.calendar;
     this.weeks = calendarMatrix.weeks;
     this.locale = calendarMatrix.locale;
-    this.title = currentDay.format('MMM YYYY');
+    // this.title = currentDay.format('MMM YYYY');
+    this.viewMonth = moment(currentDay).format(this.options.format.monthTitle);
+    this.viewYear = moment(currentDay).format(this.options.format.yearTitle);
   }
 
   public markActive(activeDate:any):void {
