@@ -19,9 +19,9 @@
       <td *ngFor="let day of week" role="gridcell"
           (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
           [class.disabled]="day.isDisabled"
-          [class.active]="day.isActive"
+          [class.selected]="day.isActive"
           [class.select-start]="day.isSelected"
-          [class.selected]="day.isSelected">
+          [class.active]="day.isSelected">
         <span>{{day.label}}</span>
       </td>
     </tr>

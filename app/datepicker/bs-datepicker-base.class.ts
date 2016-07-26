@@ -194,14 +194,14 @@ export abstract class DatePickerBase implements OnInit {
     }
 
     return moment(currDate).isAfter(selectedDate) &&
-      moment(currDate).isSameOrBefore(activeDate);
+      moment(currDate).isBefore(activeDate);
   }
 
   public isDisabled(date:any):boolean {
     const minDate = this.options.date && this.options.date.min;
     const maxDate = this.options.date && this.options.date.max;
     // min, max, weekdays
-    return true;
+    return false;
   }
 
   public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {
