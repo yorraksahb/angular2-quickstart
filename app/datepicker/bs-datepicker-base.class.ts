@@ -3,10 +3,14 @@ import { DatePickerViewMode, DatePickerOptions } from './bs-datepicker-options.p
 import * as moment from 'moment';
 
 import 'rxjs/add/operator/debounceTime';
+import { OnInit } from '@angular/core';
+import { DatePickerDate } from './DatePickerDate.class';
 
-export abstract class DatePickerBase {
+export abstract class DatePickerBase implements OnInit {
   protected datePickerService:DatePickerService;
   protected options:DatePickerOptions;
+
+  // protected calendar: DatePickerDate[][];
 
   public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     this.datePickerService = datePickerService;
@@ -17,11 +21,21 @@ export abstract class DatePickerBase {
       this.refresh(datePickerService.viewDate);
     });
     // datePickerService.activeDateChange.debounceTime(150).subscribe(() => {
-    //   this.refresh(datePickerService.viewDate);
+    //   this.markActive(datePickerService.viewDate);
     // });
     // datePickerService.selectedDateChange.subscribe(() => {
-    //   this.refresh(datePickerService.selectedDate);
+    //   this.markSelected(datePickerService.selectedDate);
     // });
+  }
+
+  public ngOnInit():void {
+    if (this.options.date && this.options.date.initial) {
+      this.datePickerService.viewDate = this.options.date.initial;
+    }
+
+    if (this.options.date && this.options.date.selected) {
+      this.datePickerService.selectedDate = this.options.date.selected;
+    }
   }
 
   public abstract refresh(viewDate:any):void;
@@ -179,14 +193,14 @@ export abstract class DatePickerBase {
       return false;
     }
 
-    if (currDate.year() !== activeDate.year() || currDate.month() !== activeDate.month()) {
-      return false;
-    }
-
-    return currDate.date() > selectedDate.date() && currDate.date() <= activeDate.date();
+    return moment(currDate).isAfter(selectedDate) &&
+      moment(currDate).isSameOrBefore(activeDate);
   }
 
-  public isDisabled(date: any): boolean {
+  public isDisabled(date:any):boolean {
+    const minDate = this.options.date && this.options.date.min;
+    const maxDate = this.options.date && this.options.date.max;
+    // min, max, weekdays
     return true;
   }
 
