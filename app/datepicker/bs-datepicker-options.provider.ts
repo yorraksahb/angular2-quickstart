@@ -31,19 +31,21 @@ export interface DatePickerDateOptions {
   end:any;
 }
 
-export interface DatePickerFormatOptions {
+export class DatePickerFormatOptions {
   /** day format in calendar */
-  day:string;
+  public day:string = 'D';
   /** month format in calendar */
-  month:string;
+  public month:string = 'MMM';
   /** year format in calendar */
-  year:string;
+  public year:string = 'YYYY';
   /** weekdays format in calendar */
-  weekday:string;
-  /** format of title when at days calendar */
-  dayTitle:string;
-  /** format of title when at months calendar */
-  monthTitle:string;
+  public weekday:string = 'dd';
+  // /** format of title when at days calendar */
+  // dayTitle:string;
+  /** format of month in title */
+  public monthTitle:string = 'MMMM';
+  /** format of year in title */
+  public yearTitle:string = 'YYYY';
 }
 
 export class DatePickerUiOptions {
@@ -97,7 +99,7 @@ export class DatePickerOptions {
 
   public ui:DatePickerUiOptions = new DatePickerUiOptions();
   public date:DatePickerDateOptions;
-  public format:DatePickerFormatOptions;
+  public format:DatePickerFormatOptions = new DatePickerFormatOptions();
   public locale:string | DatePickerLocale = 'en';
   public timepicker:boolean | TimePickerOptions = false;
 
