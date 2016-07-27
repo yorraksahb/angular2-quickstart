@@ -1,10 +1,8 @@
-import { DatePickerService } from './bs-datepicker.service';
-import { DatePickerViewMode, DatePickerOptions } from './bs-datepicker-options.provider';
+import { DatePickerService } from './bs-date-picker.service';
+import { DatePickerViewMode, DatePickerOptions } from './bs-date-picker-options.provider';
 import * as moment from 'moment';
 
-import 'rxjs/add/operator/debounceTime';
 import { OnInit } from '@angular/core';
-import { DatePickerDate } from './DatePickerDate.class';
 
 export abstract class DatePickerBase implements OnInit {
   protected datePickerService:DatePickerService;

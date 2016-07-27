@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { DatePickerBase } from './bs-datepicker-base.class';
-import { DatePickerService } from './bs-datepicker.service';
-import { DatePickerOptions } from './bs-datepicker-options.provider';
-import { DatePickerDate } from './DatePickerDate.class';
+import { DatePickerBase } from './bs-date-picker-base.class';
+import { DatePickerService } from './bs-date-picker.service';
+import { DatePickerOptions } from './bs-date-picker-options.provider';
+import { DatePickerDate } from './date-picker-date.class';
 
 import * as moment from 'moment';
 
 @Component({
   selector: 'bs-daypicker',
   exportAs: 'bs-daypicker',
-  templateUrl: './bs-daypicker.html',
+  templateUrl: './bs-day-picker.html',
   moduleId: module.id
 })
 export class DayPickerComponent extends DatePickerBase {
@@ -25,7 +25,7 @@ export class DayPickerComponent extends DatePickerBase {
 
   public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     super(datePickerService, options);
-    datePickerService.activeDateChange.debounceTime(100)
+    datePickerService.activeDateChange
       .subscribe((activeDate:any) => {
         this.markActive(activeDate);
       });

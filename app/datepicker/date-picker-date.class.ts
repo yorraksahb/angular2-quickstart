@@ -1,4 +1,4 @@
-import { DatePickerBase } from './bs-datepicker-base.class';
+import { DatePickerBase } from './bs-date-picker-base.class';
 export class DatePickerDate {
   public isActive: boolean;
   public isSelected: boolean;

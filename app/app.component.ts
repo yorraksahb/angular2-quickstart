@@ -3,7 +3,7 @@ import { NgModel } from '@angular/forms';
 import {
   AlertComponent, DATEPICKER_DIRECTIVES
 } from 'ng2-bootstrap/ng2-bootstrap';
-import { DatePickerInlineComponent } from './datepicker/bs-datepicker-inline.componet';
+import { DatePickerInlineComponent } from './datepicker/bs-date-picker-inline.componet';
 import * as moment from 'moment';
 moment.locale('ru');
 
@@ -14,12 +14,7 @@ moment.locale('ru');
   template: `
 <br><hr>
 <div class="row">
-  <div class="col-md-6">
     <bs-datepicker-inline></bs-datepicker-inline>
-  </div>
-  <div class="col-md-6">
-    <bs-datepicker-inline></bs-datepicker-inline>
-  </div>
 </div>
 
 `

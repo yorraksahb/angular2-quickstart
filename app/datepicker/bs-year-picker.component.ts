@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { DatePickerBase } from './bs-datepicker-base.class';
-import { DatePickerService } from './bs-datepicker.service';
-import { DatePickerOptions } from './bs-datepicker-options.provider';
+import { DatePickerBase } from './bs-date-picker-base.class';
+import { DatePickerService } from './bs-date-picker.service';
+import { DatePickerOptions } from './bs-date-picker-options.provider';
 
 @Component({
   selector: 'bs-yearpicker',
   exportAs: 'bs-yearpicker',
   moduleId: module.id,
-  templateUrl: './bs-yearpicker.html'
+  templateUrl: './bs-year-picker.html'
 })
 export class YearPickerComponent extends DatePickerBase {
   public title:string;
