@@ -66,6 +66,7 @@
   padding: 10px;
   border-radius: 0 0 3px 3px;
   height: 230px;
+  border: 1px solid #eee;
 }
 .bs-datepicker-body table{
   width: 100%;
@@ -212,12 +213,11 @@
 .bs-datepicker-body table.months tr:not(:last-child) td span, .bs-datepicker-body table.years tr:not(:last-child) td span{
   margin-bottom: 8px;
 }
-.bs-datepicker.bs-timepicker{
+.bs-datepicker.bs-timepicker, .bs-datepicker.bs-padding{
   padding: 15px;
 }
 .bs-datepicker.bs-timepicker .bs-datepicker-body{
   border: 1px solid #eee;
-  margin-bottom: 10px;
 }
 .bs-datepicker .current-timedate{
   color: #54708b;
@@ -233,6 +233,18 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+.bs-datepicker .current-timedate span:not(:empty):before {
+  content: "";
+  width: 15px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 4px;
+  vertical-align: text-bottom;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABMklEQVQoU9VTwW3CQBCcOUgBtEBKSAukAnBKME+wFCAlYIhk8sQlxFABtJAScAsuAPBEewYcxCP8ouxrPDsza61uiVN1o6RNHD4htSCmq49RfO71BvMJqBBkITRf1kmUW49nQRC9h1I5AZlBClaL8aP1fKgOOxCx8aSLs+Q19eZuNO8QmPqJRtDFguy7OAcDbJPs+/BKVPDIPrvD2ZJgWAmVe7O0rI0Vqs1seyWUXpuJoppYCa5L+U++NpNPkr5OE2oMdARsb3gykJT5ydZcL8Z9Ww60nxg2LhjON9li9OwXZzo+xLbp3nC2s9CL2RrueGyVrgwNm8HpsCzZ9EEW6kqXlo1GQe03FzP/7W8Hl0dBtu7Bf7zt6mIwvX1RvzDCm7+q3mAW0Dl/GPdUCeXrZLT9BrDrGkm4qlPvAAAAAElFTkSuQmCC);
+}
+.bs-timepicker-container{
+  margin-top: 10px;
 }
 .bs-timepicker-label{
   color: #54708b;
