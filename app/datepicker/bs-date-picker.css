@@ -150,7 +150,7 @@
   left: -25%;
   width: 140%;
   height: 20px;
-  background: transparent;  
+  background: transparent;
 }
 .bs-datepicker-body table td.active:not(.select-start):before{
   background: #e9edf0;
@@ -270,7 +270,6 @@
 .bs-timepicker .switch-time-format{
   text-transform:uppercase;
   width: 54px;
-  float: right;
   height: 25px;
   border-radius: 20px;
   border: 1px solid #e9edf0;
