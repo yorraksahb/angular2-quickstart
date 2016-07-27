@@ -60,7 +60,33 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public selectDate(date:any):void {
-    this.datePickerService.selectedDate = date;
+    if (this.isDisabled(date)) {
+      return;
+    }
+
+    if (this.options.isDatePicker) {
+      this.datePickerService.selectedDate = date;
+      return;
+    }
+
+    if (this.options.isDateRangePicker) {
+      if (!this.datePickerService.selectedDate) {
+        this.datePickerService.selectedDate = date;
+        return;
+      }
+      if (this.datePickerService.selectedEndDate) {
+        this.datePickerService.selectedDate = date;
+        this.datePickerService.selectedEndDate = void 0;
+        return;
+      }
+      if (moment(this.datePickerService.selectedDate).isAfter(date)) {
+        this.datePickerService.selectedDate = date;
+        this.datePickerService.selectedEndDate = void 0;
+        return;
+      }
+
+      this.datePickerService.selectedEndDate = date;
+    }
   }
 
   public prev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
@@ -170,25 +196,31 @@ export abstract class DatePickerBase implements OnInit {
     return {weeks, calendar, locale};
   }
 
-  public isSelected(currDate:any):boolean {
+  public isSelected(date:any):boolean {
+    return moment(date).isSame(this.datePickerService.selectedDate) ||
+      moment(date).isSame(this.datePickerService.selectedEndDate);
+  }
+
+  public isActive(currDate:any):boolean {
+    if (this.options.isDatePicker) {
+      return false;
+    }
+
     const selectedDate = this.datePickerService.selectedDate;
+    const selectedEndDate = this.datePickerService.selectedEndDate;
+    const activeDate = this.datePickerService.activeDate;
+
     if (!selectedDate || !currDate) {
       return false;
     }
 
-    if (currDate.year() !== selectedDate.year() || currDate.month() !== selectedDate.month()) {
+    if (selectedDate && !activeDate && !selectedEndDate) {
       return false;
     }
 
-    return currDate.date() === selectedDate.date();
-  }
-
-  public isActive(currDate:any):boolean {
-    const selectedDate = this.datePickerService.selectedDate;
-    const activeDate = this.datePickerService.activeDate;
-
-    if (!selectedDate || !activeDate || !currDate) {
-      return false;
+    if (selectedEndDate) {
+      return moment(currDate).isAfter(selectedDate) &&
+      moment(currDate).isBefore(selectedEndDate);
     }
 
     return moment(currDate).isAfter(selectedDate) &&

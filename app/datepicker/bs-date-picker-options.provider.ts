@@ -46,7 +46,8 @@ export class DatePickerFormatOptions {
   public monthTitle:string = 'MMMM';
   /** format of year in title */
   public yearTitle:string = 'YYYY';
-  public currentDate: string = 'LLL';
+  /** current date format */
+  public currentDate:string = 'LLL';
 }
 
 export class DatePickerUiOptions {
@@ -94,7 +95,7 @@ export class TimePickerOptions {
 @Injectable()
 export class DatePickerOptions {
   /** current date picker mode */
-  public mode:'date' | 'daterange' = 'date';
+  public mode?:'date' | 'daterange' = 'date';
   /** current date picker view mode (if supported) */
   public viewMode:DatePickerViewMode = 'days';
 
@@ -108,7 +109,19 @@ export class DatePickerOptions {
   /** predefined set of ranges {'today': [moment(), moment()]} */
   public ranges:Object;
 
-  public static setDefaults(options:DatePickerOptions):void {
+  public static setDefaults(options:any):void {
     Object.assign(defaults, options);
+  }
+
+  public constructor() {
+    Object.assign(this, defaults);
+  }
+
+  public get isDatePicker():boolean {
+    return this.mode === 'date';
+  }
+
+  public get isDateRangePicker():boolean {
+    return this.mode === 'daterange';
   }
 }

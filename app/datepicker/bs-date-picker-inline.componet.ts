@@ -23,4 +23,9 @@ export class DatePickerInlineComponent {
   public toggle():void {
     this.isHidden = !this.isHidden;
   }
+
+  public constructor () {
+    // DatePickerOptions.setDefaults({mode: 'date'});
+    DatePickerOptions.setDefaults({mode: 'daterange'});
+  }
 }

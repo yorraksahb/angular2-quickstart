@@ -25,12 +25,11 @@ export class DayPickerComponent extends DatePickerBase {
 
   public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     super(datePickerService, options);
-    datePickerService.activeDateChange
-      .subscribe((activeDate:any) => {
-        this.markActive(activeDate);
-      });
-    datePickerService.selectedDateChange.subscribe(() => {
-      this.markSelected(datePickerService.selectedDate);
+    datePickerService.activeDateChange.subscribe(() => {this.markActive();});
+    datePickerService.selectedDateChange.subscribe(() => {this.markSelected();});
+    datePickerService.selectedEndDateChange.subscribe(() => {
+      this.markSelected();
+      this.markActive();
     });
   }
 
@@ -48,17 +47,7 @@ export class DayPickerComponent extends DatePickerBase {
     this.viewYear = moment(currentDay).format(this.options.format.yearTitle);
   }
 
-  public markActive(activeDate:any):void {
-    if (!activeDate) {
-      // mark all is inactive
-      for (let i = 0; i < this.calendar.length; i++) {
-        for (let j = 0; j < this.calendar[i].length; j++) {
-          this.calendar[i][j].isActive = false;
-        }
-      }
-      return;
-    }
-
+  public markActive():void {
     // mark proper dates as active
     for (let i = 0; i < this.calendar.length; i++) {
       for (let j = 0; j < this.calendar[i].length; j++) {
@@ -68,17 +57,7 @@ export class DayPickerComponent extends DatePickerBase {
     }
   }
 
-  public markSelected(selectedDate:any): void {
-    if (!selectedDate) {
-    //   mark all is deselected
-      for (let i = 0; i < this.calendar.length; i++) {
-        for (let j = 0; j < this.calendar[i].length; j++) {
-          this.calendar[i][j].isSelected = false;
-        }
-      }
-      return;
-    }
-
+  public markSelected(): void {
     // mark proper dates as selected
     for (let i = 0; i < this.calendar.length; i++) {
       for (let j = 0; j < this.calendar[i].length; j++) {
