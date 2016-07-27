@@ -69,21 +69,39 @@ export abstract class DatePickerBase implements OnInit {
     }
 
     if (this.options.isDatePicker) {
+      // select date
       this.datePickerService.selectedDate = date;
       return;
     }
 
     if (this.options.isDateRangePicker) {
+      // if no selected then set start date
       if (!this.datePickerService.selectedDate) {
         this.datePickerService.selectedDate = date;
         return;
       }
+
+      // select new range start
       if (this.datePickerService.selectedEndDate) {
         this.datePickerService.selectedDate = date;
         this.datePickerService.selectedEndDate = void 0;
         return;
       }
-      if (moment(this.datePickerService.selectedDate).isAfter(date)) {
+
+      // todo: exit if disabled date in the middle
+      const customDates = this.options.customDates;
+      if (customDates) {
+        for (let i = 0; i < customDates.length; i++) {
+          if (customDates[i].isDisabled &&
+            moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate) &&
+            moment(customDates[i].date).isSameOrBefore(date)) {
+            return;
+          }
+        }
+      }
+
+      // if start date is selected than select end date
+      if (this.isSame(this.datePickerService.selectedDate, date)) {
         this.datePickerService.selectedDate = date;
         this.datePickerService.selectedEndDate = void 0;
         return;
@@ -201,8 +219,12 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public isSelected(date:any):boolean {
-    return moment(date).isSame(this.datePickerService.selectedDate) ||
-      moment(date).isSame(this.datePickerService.selectedEndDate);
+    if (!date) {
+      return false;
+    }
+
+    return this.isSame(this.datePickerService.selectedDate, date) ||
+      this.isSame(this.datePickerService.selectedEndDate, date);
   }
 
   public isActive(currDate:any):boolean {
@@ -224,7 +246,7 @@ export abstract class DatePickerBase implements OnInit {
 
     if (selectedEndDate) {
       return moment(currDate).isAfter(selectedDate) &&
-      moment(currDate).isBefore(selectedEndDate);
+        moment(currDate).isBefore(selectedEndDate);
     }
 
     return moment(currDate).isAfter(selectedDate) &&
@@ -239,18 +261,18 @@ export abstract class DatePickerBase implements OnInit {
     const minDate = this.options.date && this.options.date.min;
     const maxDate = this.options.date && this.options.date.max;
 
-    if (minDate && moment(date).isSameOrBefore(minDate)) {
+    if (minDate && moment(date).isSameOrBefore(minDate, 'day')) {
       return true;
     }
 
-    if (maxDate && moment(date).isSameOrAfter(maxDate)) {
+    if (maxDate && moment(date).isSameOrAfter(maxDate, 'day')) {
       return true;
     }
 
     const customDates = this.options.customDates;
     if (customDates) {
       for (let i = 0; i < customDates.length; i++) {
-        if (customDates[i].isDisabled && customDates[i].date.format('L') === date.format('L')) {
+        if (customDates[i].isDisabled && this.isSame(customDates[i].date, date)) {
           return true;
         }
       }
@@ -299,5 +321,13 @@ export abstract class DatePickerBase implements OnInit {
     const yearsStep = this.options.ui.yearColumns * this.options.ui.yearRows;
     // return ((year - 1) / this.yearsStep) * this.yearsStep + 1;
     return year - year % yearsStep;
+  }
+
+  public isSame(date1:any, date2:any):boolean {
+    if (!date1 || !date2) {
+      return false;
+    }
+
+    return moment(date1).isSame(date2, 'day');
   }
 }

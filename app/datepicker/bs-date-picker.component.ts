@@ -7,7 +7,7 @@ import { DatePickerService } from './bs-date-picker.service';
 import { DatePickerOptions } from './bs-date-picker-options.provider';
 import { DateTimePickerComponent } from './bs-date-time-picker.component';
 import { CurrentDateComponent } from './bs-current-date.component';
-import { CustomRangePickerComponent } from './bs-custom-range-picker';
+import { CustomRangePickerComponent } from './bs-custom-range-picker.component';
 
 @Component({
   selector: 'bs-datepicker',
@@ -16,7 +16,7 @@ import { CustomRangePickerComponent } from './bs-custom-range-picker';
   directives: [DayPickerComponent, MonthPickerComponent, YearPickerComponent,
     DateTimePickerComponent, CurrentDateComponent, CustomRangePickerComponent,
     NgSwitch, NgSwitchCase],
-  providers: [DatePickerService, DatePickerOptions],
+  // providers: [DatePickerService, DatePickerOptions],
   moduleId: module.id
 })
 export class DatePickerComponent {

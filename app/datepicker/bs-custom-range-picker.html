@@ -1,9 +1,9 @@
 <div class="bs-datepicker-predefined-btns">
-  <button>Today</button>
-  <button>Yesterday</button>
-  <button>Last 7 days</button>
-  <button>Last 30 days</button>
-  <button>This Month</button>
+  <button (click)="active(0, 0)">Today</button>
+  <button (click)="active(1, 1)">Yesterday</button>
+  <button (click)="active(7, 0)">Last 7 days</button>
+  <button (click)="active(30, 0)">Last 30 days</button>
+  <button (click)="active(27, 4)">This Month</button>
   <button>Last Month</button>
   <button>Custom Range</button>
 </div>
