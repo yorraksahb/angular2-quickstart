@@ -56,6 +56,10 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public activeDate(date:any):void {
+    if (this.isDisabled(date)) {
+      return;
+    }
+
     this.datePickerService.activeDate = date;
   }
 
@@ -228,15 +232,28 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public isDisabled(date:any):boolean {
+    if (!date) {
+      return true;
+    }
+
     const minDate = this.options.date && this.options.date.min;
     const maxDate = this.options.date && this.options.date.max;
-    // min, max, weekdays
+
     if (minDate && moment(date).isSameOrBefore(minDate)) {
       return true;
     }
 
     if (maxDate && moment(date).isSameOrAfter(maxDate)) {
       return true;
+    }
+
+    const customDates = this.options.customDates;
+    if (customDates) {
+      for (let i = 0; i < customDates.length; i++) {
+        if (customDates[i].isDisabled && customDates[i].date.format('L') === date.format('L')) {
+          return true;
+        }
+      }
     }
 
     // todo: check dates options

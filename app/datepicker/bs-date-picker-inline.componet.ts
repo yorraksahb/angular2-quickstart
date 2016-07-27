@@ -5,7 +5,7 @@ import { CustomRangePickerComponent } from './bs-custom-range-picker';
 import { DatePickerOptions } from './bs-date-picker-options.provider';
 import { DatePickerService } from './bs-date-picker.service';
 // moment.weekdays(true) - returns ordered weekdays
-
+import * as moment from 'moment';
 // todos:
 // 1. week days names
 // 2. moths days
@@ -26,6 +26,14 @@ export class DatePickerInlineComponent {
 
   public constructor () {
     // DatePickerOptions.setDefaults({mode: 'date'});
-    DatePickerOptions.setDefaults({mode: 'daterange'});
+    DatePickerOptions.setDefaults({
+      mode: 'daterange',
+      customDates: [{
+        date: moment().subtract(5, 'days'),
+        isDisabled: true
+      }],
+      date: {
+        // min : moment().subtract(5, 'days')
+      }} as DatePickerOptions);
   }
 }

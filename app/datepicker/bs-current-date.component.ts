@@ -15,13 +15,21 @@ export class CurrentDateComponent extends DatePickerBase {
   public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(()=>this.refresh());
+    datePickerService.activeDateChange.subscribe(()=>this.refresh());
   }
 
   public refresh():void {
+    if (this.datePickerService.activeDate) {
+      this.title = moment(this.datePickerService.activeDate)
+        .format(this.options.format.currentDate);
+      return;
+    }
+
     if (!this.datePickerService.selectedDate) {
       this.title = '';
       return;
     }
+
     this.title = moment(this.datePickerService.selectedDate)
       .format(this.options.format.currentDate);
   }
