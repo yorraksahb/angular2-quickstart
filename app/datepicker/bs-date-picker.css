@@ -61,7 +61,6 @@
 .bs-datepicker-head button:active, .bs-datepicker-btns button.colored:active:after{
   background-color: rgba(0, 0, 0, 0.2);
 }
-
 .bs-datepicker-body{
   padding: 10px;
   border-radius: 0 0 3px 3px;
@@ -92,7 +91,6 @@
   height: 30px;
   line-height: 30px;
   border-radius: 50%;
-/*  transition: background-color 0.3s;*/
   position: relative;
   z-index: 1;
   -moz-user-select: none;
@@ -122,14 +120,6 @@
 }
 .bs-datepicker-body table td.active {
   position: relative;
-}
-/*
-.bs-datepicker-body table td.active:hover span{
-  background: transparent !important;
-}
-*/
-.bs-datepicker-body table td.active span {
-/*  border-radius: 0px;*/
 }
 .bs-datepicker-body table td.active.select-start span:after, .bs-datepicker-body table td.active.select-end span:after{
   content: "";
@@ -245,6 +235,7 @@
 }
 .bs-timepicker-container{
   margin-top: 10px;
+  text-align: center;
 }
 .bs-timepicker-label{
   color: #54708b;
