@@ -36,7 +36,7 @@ export abstract class DatePickerBase implements OnInit {
     }
   }
 
-  public abstract refresh(viewDate:any):void;
+  public abstract refresh(date:any):void;
 
   public viewMode(mode:DatePickerViewMode):void {
     this.options.viewMode = mode;

@@ -7,7 +7,7 @@ import { DatePickerService } from './bs-date-picker.service';
 import { DatePickerOptions } from './bs-date-picker-options.provider';
 import { DateTimePickerComponent } from './bs-date-time-picker.component';
 import { CurrentDateComponent } from './bs-current-date.component';
-import { CustomRangePickerComponent } from './custom-range-picker';
+import { CustomRangePickerComponent } from './bs-custom-range-picker';
 
 @Component({
   selector: 'bs-datepicker',

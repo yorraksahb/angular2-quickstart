@@ -46,6 +46,7 @@ export class DatePickerFormatOptions {
   public monthTitle:string = 'MMMM';
   /** format of year in title */
   public yearTitle:string = 'YYYY';
+  public currentDate: string = 'LLL';
 }
 
 export class DatePickerUiOptions {
