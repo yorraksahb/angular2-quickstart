@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { DatePickerBase } from './bs-date-picker-base.class';
-import { DatePickerService } from './bs-date-picker.service';
-import { DatePickerOptions } from './bs-date-picker-options.provider';
-import { DatePickerDate } from './date-picker-date.class';
+import { DatePickerBase } from '../common/bs-date-picker-base.class';
+import { DatePickerService } from '../common/bs-date-picker.service';
+import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
+import { DatePickerDate } from '../common/date-picker-date.class';
 
 import * as moment from 'moment';
 
