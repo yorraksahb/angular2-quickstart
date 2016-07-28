@@ -16,6 +16,10 @@ export abstract class DatePickerBase implements OnInit {
     this.datePickerService = datePickerService;
     this.options = options;
 
+    if (!datePickerService.viewDate) {
+      datePickerService.viewDate = moment();
+    }
+
     this.refresh(datePickerService.viewDate);
     datePickerService.viewDateChange.subscribe(() => {
       this.refresh(datePickerService.viewDate);
@@ -335,12 +339,12 @@ export abstract class DatePickerBase implements OnInit {
         row++;
       }
       if (col === 0) {
-        weeks[row] = curDate.week();
+        weeks[row] = this.options.ui.showISOWeekNumbers ? curDate.format('w') :curDate.format('W');
       }
 
       calendar[row][col] = {
         date: curDate.clone().hour(hour).minute(minute).second(second),
-        label: curDate.date(),
+        label: curDate.format(this.options.format.day),
         isActive: this.isActive(curDate),
         isSelected: this.isSelected(curDate),
         isDisabled: this.isDisabled(curDate),

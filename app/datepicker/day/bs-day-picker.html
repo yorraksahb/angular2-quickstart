@@ -10,13 +10,13 @@
   <table role="grid" class="days weeks">
     <thead>
     <tr>
-      <th></th><!--if show weeks-->
+      <th *ngIf="options.ui.showWeekNumbers"></th><!--if show weeks-->
       <th *ngFor="let weekday of locale.weekdays; let i = index" aria-label="weekday">{{locale.weekdaysShort[i]}}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let week of calendar; let i = index">
-      <td class="week"><span>{{ weeks[i] }}</span></td>
+      <td class="week" *ngIf="options.ui.showWeekNumbers"><span>{{ weeks[i] }}</span></td>
       <td *ngFor="let day of week" role="gridcell"
           (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
           [class.disabled]="day.isDisabled"

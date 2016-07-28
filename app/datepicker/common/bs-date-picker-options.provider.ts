@@ -54,13 +54,9 @@ export class DatePickerFormatOptions {
 
 export class DatePickerUiOptions {
   /** show localized week numbers at the start of each week on the calendars */
-  public showWeekNumbers:boolean = false;
+  public showWeekNumbers:boolean = true;
   /** show ISO week numbers at the start of each week on the calendars */
   public showISOWeekNumbers:boolean = false;
-  /** show dropdown (if supported) to select month */
-  public showMonthDropdown:boolean = false;
-  /** show dropdown (if supported) to select year */
-  public showYearDropdown:boolean = false;
   /** if `true` label `Custom Ranges` will be shown if `ranges` are defined */
   public showCustomRangeLabel:boolean = true;
   /** if `false` and one of ranges is selected, calendar will be hidden */
@@ -152,7 +148,11 @@ export class DatePickerOptions {
         this.viewMode = this.ui.maxMode;
       }
 
-      this.ui = Object.assign({}, this.ui, ui);
+      if (typeof ui.showWeekNumbers !== 'undefined') {
+        this.ui.showWeekNumbers = !!ui.showWeekNumbers;
+      }
+
+      // this.ui = Object.assign({}, this.ui, ui);
     }
 
     // Object.assign(this, options);

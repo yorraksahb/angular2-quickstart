@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { DatePickerComponent } from 'ng2-bootstrap/ng2-bootstrap';
 import * as moment from 'moment';
 import { DatePickerComponent } from './datepicker/bs-date-picker.component';
 import { NgModel } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 moment.locale('ru');
 
 @Component({
@@ -25,10 +23,12 @@ moment.locale('ru');
 export class AppComponent implements OnInit {
   public opts:any = {
     mode: 'date',
-    viewMode: 'months',
+    viewMode: 'days',
     ui: {
       minMode: 'days',
-      maxMode: 'days'
+      maxMode: 'months',
+      showWeekNumbers: 1,
+      showISOWeekNumbers: 0
     },
     customDates: [{
       date: moment().subtract(15, 'days'),
