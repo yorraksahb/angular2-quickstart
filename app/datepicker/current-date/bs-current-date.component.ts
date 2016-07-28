@@ -3,6 +3,7 @@ import { DatePickerBase } from '../common/bs-date-picker-base.class';
 import { DatePickerService } from '../common/bs-date-picker.service';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 import * as moment from 'moment';
+
 @Component({
   selector: 'bs-current-date',
   exportAs: 'bs-current-date',

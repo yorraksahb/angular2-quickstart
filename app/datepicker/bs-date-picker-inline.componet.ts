@@ -30,7 +30,7 @@ export class DatePickerInlineComponent {
       mode: 'daterange',
       customDates: [{
         date: moment().subtract(5, 'days'),
-        isDisabled: true
+        isDisabled: false
       }],
       date: {
         // min : moment().subtract(5, 'days')
