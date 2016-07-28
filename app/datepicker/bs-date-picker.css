@@ -109,7 +109,11 @@
 .bs-datepicker-body table td:not(.disabled) span{
   cursor: pointer;
 }
-.bs-datepicker-body table.days td + td:not(.disabled):not(.selected):hover span, .bs-datepicker-body table:not(.days) td:not(.disabled):not(.selected):hover span{
+/*.bs-datepicker-body table.days td + td:not(.disabled):not(.selected):hover span, .bs-datepicker-body table:not(.days) td:not(.disabled):not(.selected):hover span{*/
+  /*background-color: #e9edf0;*/
+  /*transition: 0s;*/
+/*}*/
+.bs-datepicker-body table.days td.is-highlighted:not(.disabled):not(.selected) span, .bs-datepicker-body table:not(.days) td.is-highlighted:not(.disabled):not(.selected) span{
   background-color: #e9edf0;
   transition: 0s;
 }
@@ -140,7 +144,8 @@
   z-index: 0;
   top: 5px;
   left: -25%;
-  width: 140%;
+  /*width: 140%;*/
+  width: 100%;
   height: 20px;
   background: transparent;
 }
@@ -150,7 +155,11 @@
 .bs-datepicker-body table td.active.select-start + td.active:before{
   left: -20%;
 }
-.bs-datepicker-body table.days td.active + td:not(.active):hover:before, .bs-datepicker-body table.days td.select-start + td.select-end:before, .bs-datepicker-body table.days td.select-start + td:not(.active):hover:before{
+/*.bs-datepicker-body table.days td.active + td:not(.active):hover:before, .bs-datepicker-body table.days td.select-start + td.select-end:before, .bs-datepicker-body table.days td.select-start + td:not(.active):hover:before{*/
+  /*background: #e9edf0;*/
+  /*width: 100%;*/
+/*}*/
+.bs-datepicker-body table.days td.active + td.is-highlighted:before, .bs-datepicker-body table.days td.select-start + td.select-end:before, .bs-datepicker-body table.days td.select-start + td.is-highlighted:before, .bs-datepicker-body table.days td.active + td.select-end:before{
   background: #e9edf0;
   width: 100%;
 }
