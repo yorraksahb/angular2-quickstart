@@ -84,9 +84,15 @@ export abstract class DatePickerBase implements OnInit {
       }
 
       // if end date lesser then the start date
-      if (moment(date).isSameOrBefore(this.datePickerService.selectedDate, 'day')) {
+      if (moment(date).isBefore(this.datePickerService.selectedDate, 'day')) {
         this.datePickerService.selectedDate = date;
         this.datePickerService.selectedEndDate = void 0;
+        return;
+      }
+
+      // allow to select one date at range picker
+      if (moment(date).isSame(this.datePickerService.selectedDate, 'day')) {
+        this.datePickerService.selectedEndDate = date;
         return;
       }
 
@@ -98,15 +104,8 @@ export abstract class DatePickerBase implements OnInit {
       }
 
       // don't allow to select range with disabled dates in the middle
-      const customDates = this.options.customDates;
-      if (customDates) {
-        for (let i = 0; i < customDates.length; i++) {
-          if (customDates[i].isDisabled &&
-            moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate, 'day') &&
-            moment(customDates[i].date).isSameOrBefore(date, 'day')) {
-            return;
-          }
-        }
+      if (this.isDisabledDateInRange(date)) {
+        return;
       }
 
       // if start date is selected than select end date
@@ -154,11 +153,19 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
+
+
     if (selectedEndDate) {
-      return moment(currDate).isAfter(selectedDate) &&
-        moment(currDate).isBefore(selectedEndDate);
+      if (this.isDisabledDateInRange(selectedEndDate)) {
+        return false;
+      }
+      return moment(currDate).isAfter(selectedDate, 'day') &&
+        moment(currDate).isBefore(selectedEndDate, 'day');
     }
 
+    if (this.isDisabledDateInRange(activeDate)) {
+      return false;
+    }
     return moment(currDate).isAfter(selectedDate, 'day') &&
       moment(currDate).isBefore(activeDate, 'day');
   }
@@ -211,8 +218,30 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public isHighlighted(date:any):boolean {
-    // todo: add disabled date in the middle checks
+    if (this.isDisabledDateInRange(date)) {
+      return false;
+    }
+
     return moment(date).isSame(this.datePickerService.activeDate, 'day');
+  }
+
+  public isDisabledDateInRange(date: any):boolean {
+    if (!this.options.isDateRangePicker) {
+      return false;
+    }
+
+    const customDates = this.options.customDates;
+    if (customDates) {
+      for (let i = 0; i < customDates.length; i++) {
+        if (customDates[i].isDisabled &&
+          moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate, 'day') &&
+          moment(customDates[i].date).isSameOrBefore(date, 'day')) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   public getDaysCalendarMatrix(viewDate:any, options:any):any {

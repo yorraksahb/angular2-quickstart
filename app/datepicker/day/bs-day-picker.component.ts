@@ -55,7 +55,7 @@ export class DayPickerComponent extends DatePickerBase {
           continue;
         }
         if (this.calendar[i][j].isDisabled) {
-          return;
+          continue;
         }
         this.calendar[i][j].isActive = this.isActive(this.calendar[i][j].date);
         this.calendar[i][j].isHighlighted = this.isHighlighted(this.calendar[i][j].date);
