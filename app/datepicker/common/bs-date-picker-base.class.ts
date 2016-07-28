@@ -18,6 +18,10 @@ export abstract class DatePickerBase implements OnInit {
     datePickerService.viewDateChange.subscribe(() => {
       this.refresh(datePickerService.viewDate);
     });
+    options.onUpdate.subscribe(() => {
+      this.refresh(datePickerService.viewDate);
+    });
+
     // datePickerService.activeDateChange.debounceTime(150).subscribe(() => {
     //   this.markActive(datePickerService.viewDate);
     // });
@@ -73,6 +77,7 @@ export abstract class DatePickerBase implements OnInit {
     if (this.options.isDatePicker) {
       // select date
       this.datePickerService.selectedDate = date;
+      this.datePickerService.selectedEndDate = void 0;
       return;
     }
 
@@ -132,6 +137,10 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
+    if (this.options.isDatePicker) {
+      return this.isSame(this.datePickerService.selectedDate, date);
+    }
+
     return this.isSame(this.datePickerService.selectedDate, date) ||
       this.isSame(this.datePickerService.selectedEndDate, date);
   }
@@ -152,8 +161,6 @@ export abstract class DatePickerBase implements OnInit {
     if (selectedDate && !activeDate && !selectedEndDate) {
       return false;
     }
-
-
 
     if (selectedEndDate) {
       if (this.isDisabledDateInRange(selectedEndDate)) {

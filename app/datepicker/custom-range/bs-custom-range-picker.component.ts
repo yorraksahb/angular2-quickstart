@@ -17,7 +17,7 @@ export class CustomRangePickerComponent extends DatePickerBase {
     super(datePickerService, options);
   }
 
-  public active(start, end) {
+  public active(start:any, end:any):void {
     const startDate = moment().subtract(start, 'days');
     const endDate = moment().subtract(end, 'days');
 

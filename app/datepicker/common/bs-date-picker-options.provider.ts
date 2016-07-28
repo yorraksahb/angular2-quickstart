@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { EventEmitter } from '@angular/compiler/src/facade/async';
 const defaults = {};
 
 export type DatePickerViewMode = 'days' | 'months' | 'years';
@@ -109,10 +110,19 @@ export class DatePickerOptions {
   /** predefined set of ranges {'today': [moment(), moment()]} */
   public ranges:Object;
 
+  public onUpdate:EventEmitter<DatePickerOptions> = new EventEmitter();
+
   public static setDefaults(options:any):void {
     Object.assign(defaults, options);
   }
 
+  public update(options: any):DatePickerOptions {
+    Object.assign(this, options);
+    this.onUpdate.emit(this);
+    return this;
+  }
+
+  // todo: add event emitter on options change
   public constructor() {
     Object.assign(this, defaults);
   }

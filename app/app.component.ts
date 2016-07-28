@@ -1,52 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { NgModel } from '@angular/forms';
-import {
-  AlertComponent, DATEPICKER_DIRECTIVES
-} from 'ng2-bootstrap/ng2-bootstrap';
-import { DatePickerInlineComponent } from './datepicker/bs-date-picker-inline.componet';
+// import { DatePickerComponent } from 'ng2-bootstrap/ng2-bootstrap';
 import * as moment from 'moment';
+import { DatePickerComponent } from './datepicker/bs-date-picker.component';
+import { NgModel } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
 moment.locale('ru');
 
 @Component({
   selector: 'my-app',
-  directives: [AlertComponent, DATEPICKER_DIRECTIVES, NgModel,
-    DatePickerInlineComponent],
+  directives: [DatePickerComponent, NgModel],
   template: `
-<br><hr>
+<input type="text" [(ngModel)]="opts.mode">
+<button class="btn btn-success btn-sm" (click)="refresh()">refresh</button>
+<pre>{{opts | json}}</pre>
 <div class="row">
-    <bs-datepicker-inline></bs-datepicker-inline>
+    <bs-datepicker [options]="opts"></bs-datepicker>
+    <!--<bs-datepicker-inline [options]="opts"></bs-datepicker-inline>-->
 </div>
 
 `
-  // template: `
-  //   <alert type="info">ng2-bootstrap hello world!</alert>
-  //     <pre>Selected date is: <em *ngIf="dt">{{ getDate() |
-  // date:'fullDate'}}</em></pre> <h4>Inline</h4> <div
-  // style="display:inline-block; min-height:290px;"> <datepicker
-  // [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true"></datepicker>
-  // </div> `
+
 })
 export class AppComponent implements OnInit {
-  public dt:Date = new Date();
-  public minDate:Date = void 0;
-  public events:Array<any>;
-  public tomorrow:Date;
-  public afterTomorrow:Date;
-  public formats:Array<string> = ['DD-MM-YYYY', 'YYYY/MM/DD', 'DD.MM.YYYY',
-    'shortDate'];
-  public format:string = this.formats[0];
-  public dateOptions:any = {
-    formatYear: 'YY',
-    startingDay: 1
+  public opts:any = {
+    mode: 'date',
+    customDates: [{
+      date: moment().subtract(15, 'days'),
+      isDisabled: true
+    }],
+    date: {
+      // min : moment().subtract(5, 'days')
+    }
   };
-  public opened:boolean = false;
-  public title:string = 'piu test';
-
-  public getDate():number {
-    return this.dt && this.dt.getTime() || new Date().getTime();
-  }
 
   public constructor() {
+  }
+
+  public refresh() {
+    this.opts = Object.assign({}, this.opts);
   }
 
   public ngOnInit():void {

@@ -1,7 +1,13 @@
-<div class="bs-datepicker bs-timepicker label-success" role="application" [ngSwitch]="options.viewMode">
-  <bs-current-date></bs-current-date>
-  <bs-daypicker *ngSwitchCase="'days'"></bs-daypicker>
-  <bs-monthpicker *ngSwitchCase="'months'"></bs-monthpicker>
-  <bs-yearpicker *ngSwitchCase="'years'"></bs-yearpicker>
-  <bs-datetimepicker></bs-datetimepicker>
+<div class="bs-datepicker-multiple">
+  <div class="left">
+    <bs-date-picker-view></bs-date-picker-view>
+    <bs-date-picker-view></bs-date-picker-view>
+  </div>
+  <div class="right">
+    <bs-custom-range-picker></bs-custom-range-picker>
+  </div>
+  <div class="bs-datepicker-btns">
+    <button class="label-success colored"><span>Apply</span></button>
+    <button><span>Cancel</span></button>
+  </div>
 </div>
