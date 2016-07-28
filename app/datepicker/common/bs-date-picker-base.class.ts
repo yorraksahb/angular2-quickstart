@@ -1,8 +1,10 @@
 import { DatePickerService } from './bs-date-picker.service';
-import { DatePickerViewMode, DatePickerOptions } from './bs-date-picker-options.provider';
+import { DatePickerViewMode, DatePickerOptions, DatePickerViewModes } from './bs-date-picker-options.provider';
 import * as moment from 'moment';
 
 import { OnInit } from '@angular/core';
+
+export type Granularity = 'day' | 'month' | 'year';
 
 export abstract class DatePickerBase implements OnInit {
   protected datePickerService:DatePickerService;
@@ -21,13 +23,6 @@ export abstract class DatePickerBase implements OnInit {
     options.onUpdate.subscribe(() => {
       this.refresh(datePickerService.viewDate);
     });
-
-    // datePickerService.activeDateChange.debounceTime(150).subscribe(() => {
-    //   this.markActive(datePickerService.viewDate);
-    // });
-    // datePickerService.selectedDateChange.subscribe(() => {
-    //   this.markSelected(datePickerService.selectedDate);
-    // });
   }
 
   public ngOnInit():void {
@@ -42,19 +37,35 @@ export abstract class DatePickerBase implements OnInit {
 
   public abstract refresh(date:any):void;
 
+  /**
+   * Selects new view mode
+   * do nothing if mode <> min/max modes
+   */
   public viewMode(mode:DatePickerViewMode):void {
-    this.options.viewMode = mode;
+    if (DatePickerViewModes[mode] >= DatePickerViewModes[this.options.ui.minMode] &&
+      DatePickerViewModes[mode] <= DatePickerViewModes[this.options.ui.maxMode]) {
+      this.options.viewMode = mode;
+    }
   }
 
   public viewDate(date:any, _opts:{degrade:boolean}):void {
     const opts = Object.assign({}, {degrade: false}, _opts);
     this.datePickerService.viewDate = date;
 
+    // fixme: triple if, oh really?
     if (this.options.viewMode && opts.degrade) {
       if (this.options.viewMode === 'years') {
-        this.options.viewMode = 'months';
+        if (DatePickerViewModes.months >= DatePickerViewModes[this.options.ui.minMode]) {
+          this.options.viewMode = 'months';
+        } else {
+          this.selectDate(date);
+        }
       } else if (this.options.viewMode === 'months') {
-        this.options.viewMode = 'days';
+        if (DatePickerViewModes.days >= DatePickerViewModes[this.options.ui.minMode]) {
+          this.options.viewMode = 'days';
+        } else {
+          this.selectDate(date);
+        }
       }
     }
   }
@@ -177,7 +188,7 @@ export abstract class DatePickerBase implements OnInit {
       moment(currDate).isBefore(activeDate, 'day');
   }
 
-  public isDisabled(date:any):boolean {
+  public isDisabled(date:any, granularity:Granularity = 'day'):boolean {
     if (!date) {
       return true;
     }
@@ -185,11 +196,11 @@ export abstract class DatePickerBase implements OnInit {
     const minDate = this.options.date && this.options.date.min;
     const maxDate = this.options.date && this.options.date.max;
 
-    if (minDate && moment(date).isSameOrBefore(minDate, 'day')) {
+    if (minDate && moment(date).isSameOrBefore(minDate, granularity)) {
       return true;
     }
 
-    if (maxDate && moment(date).isSameOrAfter(maxDate, 'day')) {
+    if (maxDate && moment(date).isSameOrAfter(maxDate, granularity)) {
       return true;
     }
 

@@ -11,6 +11,7 @@ moment.locale('ru');
   directives: [DatePickerComponent, NgModel],
   template: `
 <input type="text" [(ngModel)]="opts.mode">
+<input type="text" [(ngModel)]="opts.viewMode">
 <button class="btn btn-success btn-sm" (click)="refresh()">refresh</button>
 <pre>{{opts | json}}</pre>
 <div class="row">
@@ -24,6 +25,11 @@ moment.locale('ru');
 export class AppComponent implements OnInit {
   public opts:any = {
     mode: 'date',
+    viewMode: 'months',
+    ui: {
+      minMode: 'days',
+      maxMode: 'days'
+    },
     customDates: [{
       date: moment().subtract(15, 'days'),
       isDisabled: true

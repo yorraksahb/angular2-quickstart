@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/compiler/src/facade/async';
 const defaults = {};
 
+export const DatePickerViewModes = {days: 0, months: 1, years: 2};
 export type DatePickerViewMode = 'days' | 'months' | 'years';
 
 export interface DatePickerCustomDates {
@@ -117,7 +118,44 @@ export class DatePickerOptions {
   }
 
   public update(options: any):DatePickerOptions {
-    Object.assign(this, options);
+    let {mode, viewMode, ui, date, format, locale, timepicker, customDates, ranges} = options;
+    if (mode && (mode === 'date' || mode === 'daterange')) {
+      this.mode = mode;
+    }
+
+    if (viewMode && viewMode in DatePickerViewModes) {
+      this.viewMode = viewMode;
+    }
+
+    // UI options
+    if (ui) {
+      // mini maxy view modes
+      if (ui.minMode in DatePickerViewModes) {
+        this.ui.minMode = ui.minMode;
+      }
+
+      if (ui.maxMode in DatePickerViewModes) {
+        if (DatePickerViewModes[this.ui.maxMode] > DatePickerViewModes[this.ui.minMode]) {
+          this.ui.maxMode = ui.maxMode;
+        } else {
+          this.ui.maxMode = this.ui.minMode;
+        }
+      }
+
+      // if view mode is lesser than min -> fix view mode
+      if (DatePickerViewModes[this.ui.minMode] > DatePickerViewModes[this.viewMode] ) {
+        this.viewMode = this.ui.minMode;
+      }
+
+      // if view mode is gt than max -> fix view mode
+      if (DatePickerViewModes[this.ui.maxMode] < DatePickerViewModes[this.viewMode] ) {
+        this.viewMode = this.ui.maxMode;
+      }
+
+      this.ui = Object.assign({}, this.ui, ui);
+    }
+
+    // Object.assign(this, options);
     this.onUpdate.emit(this);
     return this;
   }

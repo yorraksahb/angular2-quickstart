@@ -20,6 +20,8 @@ export class CurrentDateComponent extends DatePickerBase {
   }
 
   public refresh():void {
+    // todo: add support of timepicker enabled/disabled
+    // todo: add support of min view mode
     if (this.datePickerService.activeDate) {
       this.title = moment(this.datePickerService.activeDate)
         .format(this.options.format.currentDate);
