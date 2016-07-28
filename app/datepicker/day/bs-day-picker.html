@@ -16,7 +16,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let week of calendar; let i = index">
-      <td class="text-center h6"><em>{{ weeks[i] }}</em></td>
+      <td class="week"><span>{{ weeks[i] }}</span></td>
       <td *ngFor="let day of week" role="gridcell"
           (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
           [class.disabled]="day.isDisabled"
