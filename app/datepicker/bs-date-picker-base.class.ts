@@ -126,6 +126,84 @@ export abstract class DatePickerBase implements OnInit {
     this.datePickerService.viewDate = this.datePickerService.viewDate.clone().add(step, unitOfTime);
   }
 
+  public isSelected(date:any):boolean {
+    if (!date) {
+      return false;
+    }
+
+    return this.isSame(this.datePickerService.selectedDate, date) ||
+      this.isSame(this.datePickerService.selectedEndDate, date);
+  }
+
+  public isActive(currDate:any):boolean {
+    if (this.options.isDatePicker) {
+      return false;
+    }
+
+    const selectedDate = this.datePickerService.selectedDate;
+    const selectedEndDate = this.datePickerService.selectedEndDate;
+    const activeDate = this.datePickerService.activeDate;
+
+    if (!selectedDate || !currDate) {
+      return false;
+    }
+
+    if (selectedDate && !activeDate && !selectedEndDate) {
+      return false;
+    }
+
+    if (selectedEndDate) {
+      return moment(currDate).isAfter(selectedDate) &&
+        moment(currDate).isBefore(selectedEndDate);
+    }
+
+    return moment(currDate).isAfter(selectedDate) &&
+      moment(currDate).isBefore(activeDate);
+  }
+
+  public isDisabled(date:any):boolean {
+    if (!date) {
+      return true;
+    }
+
+    const minDate = this.options.date && this.options.date.min;
+    const maxDate = this.options.date && this.options.date.max;
+
+    if (minDate && moment(date).isSameOrBefore(minDate, 'day')) {
+      return true;
+    }
+
+    if (maxDate && moment(date).isSameOrAfter(maxDate, 'day')) {
+      return true;
+    }
+
+    const customDates = this.options.customDates;
+    if (customDates) {
+      for (let i = 0; i < customDates.length; i++) {
+        if (customDates[i].isDisabled && this.isSame(customDates[i].date, date)) {
+          return true;
+        }
+      }
+    }
+
+    // todo: check dates options
+    return false;
+  }
+
+  public isSelectionStart(date:any):boolean {
+    if (!this.options.isDateRangePicker) {
+      return false;
+    }
+    return this.isSame(date, this.datePickerService.selectedDate);
+  }
+
+  public isSelectionEnd(date:any):boolean {
+    if (!this.options.isDateRangePicker) {
+      return false;
+    }
+    return this.isSame(date, this.datePickerService.selectedEndDate);
+  }
+
   public getDaysCalendarMatrix(viewDate:any, options:any):any {
     const localeData = moment.localeData();
     const locale = {
@@ -207,86 +285,14 @@ export abstract class DatePickerBase implements OnInit {
         label: curDate.date(),
         isActive: this.isActive(curDate),
         isSelected: this.isSelected(curDate),
-        isDisabled: this.isDisabled(curDate)
+        isDisabled: this.isDisabled(curDate),
+        isSelectionStart: this.isSelectionStart(curDate),
+        isSelectionEnd: this.isSelectionEnd(curDate)
       };
       curDate.hour(12);
-
-      // todo: take in account min and max dates
-      // if (this.minDate && calendar[row][col].format('YYYY-MM-DD') ==
-      // this.minDate.format('YYYY-MM-DD') &&
-      // calendar[row][col].isBefore(this.minDate) && side == 'left') {
-      // calendar[row][col] = this.minDate.clone(); }  if (this.maxDate &&
-      // calendar[row][col].format('YYYY-MM-DD') ==
-      // this.maxDate.format('YYYY-MM-DD') &&
-      // calendar[row][col].isAfter(this.maxDate) && side == 'right') {
-      // calendar[row][col] = this.maxDate.clone(); }
     }
 
     return {weeks, calendar, locale};
-  }
-
-  public isSelected(date:any):boolean {
-    if (!date) {
-      return false;
-    }
-
-    return this.isSame(this.datePickerService.selectedDate, date) ||
-      this.isSame(this.datePickerService.selectedEndDate, date);
-  }
-
-  public isActive(currDate:any):boolean {
-    if (this.options.isDatePicker) {
-      return false;
-    }
-
-    const selectedDate = this.datePickerService.selectedDate;
-    const selectedEndDate = this.datePickerService.selectedEndDate;
-    const activeDate = this.datePickerService.activeDate;
-
-    if (!selectedDate || !currDate) {
-      return false;
-    }
-
-    if (selectedDate && !activeDate && !selectedEndDate) {
-      return false;
-    }
-
-    if (selectedEndDate) {
-      return moment(currDate).isAfter(selectedDate) &&
-        moment(currDate).isBefore(selectedEndDate);
-    }
-
-    return moment(currDate).isAfter(selectedDate) &&
-      moment(currDate).isBefore(activeDate);
-  }
-
-  public isDisabled(date:any):boolean {
-    if (!date) {
-      return true;
-    }
-
-    const minDate = this.options.date && this.options.date.min;
-    const maxDate = this.options.date && this.options.date.max;
-
-    if (minDate && moment(date).isSameOrBefore(minDate, 'day')) {
-      return true;
-    }
-
-    if (maxDate && moment(date).isSameOrAfter(maxDate, 'day')) {
-      return true;
-    }
-
-    const customDates = this.options.customDates;
-    if (customDates) {
-      for (let i = 0; i < customDates.length; i++) {
-        if (customDates[i].isDisabled && this.isSame(customDates[i].date, date)) {
-          return true;
-        }
-      }
-    }
-
-    // todo: check dates options
-    return false;
   }
 
   public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {

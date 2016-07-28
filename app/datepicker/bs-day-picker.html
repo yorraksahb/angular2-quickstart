@@ -21,7 +21,8 @@
           (click)="selectDate(day.date)" (mouseenter)="activeDate(day.date)" (mouseleave)="activeDate()"
           [class.disabled]="day.isDisabled"
           [class.active]="day.isActive"
-          [class.select-start]="day.isSelected"
+          [class.select-start]="day.isSelectionStart"
+          [class.select-end]="day.isSelectionEnd"
           [class.selected]="day.isSelected">
         <span>{{day.label}}</span>
       </td>
