@@ -7,6 +7,7 @@
   box-shadow: 0 10px 20px rgba(84, 112, 139, 0.1);
 }
 .bs-datepicker-head{
+  min-width: 270px;
   height: 50px;
   padding: 10px;
   border-radius: 3px 3px 0 0;
@@ -149,7 +150,7 @@
 .bs-datepicker-body table td.active.select-start + td.active:before{
   left: -20%;
 }
-.bs-datepicker-body table.days td.active + td:not(.active):hover:before{
+.bs-datepicker-body table.days td.active + td:not(.active):hover:before, .bs-datepicker-body table.days td.select-start + td.select-end:before, .bs-datepicker-body table.days td.select-start + td:not(.active):hover:before{
   background: #e9edf0;
   width: 100%;
 }
