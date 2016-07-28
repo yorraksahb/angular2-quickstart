@@ -1,9 +1,9 @@
 import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { DatePickerComponent } from './bs-date-picker.component';
-import { CustomRangePickerComponent } from './bs-custom-range-picker.component';
-import { DatePickerOptions } from './bs-date-picker-options.provider';
-import { DatePickerService } from './bs-date-picker.service';
+import { CustomRangePickerComponent } from './custom-range/bs-custom-range-picker.component';
+import { DatePickerOptions } from './common/bs-date-picker-options.provider';
+import { DatePickerService } from './common/bs-date-picker.service';
 // moment.weekdays(true) - returns ordered weekdays
 import * as moment from 'moment';
 // todos:
