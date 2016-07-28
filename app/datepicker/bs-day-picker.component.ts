@@ -69,6 +69,8 @@ export class DayPickerComponent extends DatePickerBase {
       for (let j = 0; j < this.calendar[i].length; j++) {
         const isSelected = this.isSelected(this.calendar[i][j].date);
         this.calendar[i][j].isSelected = isSelected;
+        this.calendar[i][j].isSelectionStart = this.isSelectionStart(this.calendar[i][j].date);
+        this.calendar[i][j].isSelectionEnd = this.isSelectionEnd(this.calendar[i][j].date);
         if (isSelected) {
           this.calendar[i][j].isActive = false;
         }

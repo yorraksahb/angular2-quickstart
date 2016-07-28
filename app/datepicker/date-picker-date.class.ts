@@ -3,6 +3,8 @@ export class DatePickerDate {
   public isActive: boolean;
   public isSelected: boolean;
   public isDisabled: boolean;
+  public isSelectionStart: boolean;
+  public isSelectionEnd: boolean;
   public date: any;
 
   public constructor(date: any, opts: Object, base: DatePickerBase) {
