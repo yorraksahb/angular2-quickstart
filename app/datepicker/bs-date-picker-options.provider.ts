@@ -95,7 +95,7 @@ export class TimePickerOptions {
 @Injectable()
 export class DatePickerOptions {
   /** current date picker mode */
-  public mode?:'date' | 'daterange' = 'date';
+  public mode:'date' | 'daterange' = 'date';
   /** current date picker view mode (if supported) */
   public viewMode:DatePickerViewMode = 'days';
 

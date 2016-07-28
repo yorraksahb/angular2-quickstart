@@ -34,6 +34,6 @@ export class DatePickerInlineComponent {
       }],
       date: {
         // min : moment().subtract(5, 'days')
-      }} as DatePickerOptions);
+      }});
   }
 }

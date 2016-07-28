@@ -81,6 +81,13 @@ export abstract class DatePickerBase implements OnInit {
         return;
       }
 
+      // if end date lesser then the start date
+      if (moment(date).isSameOrBefore(this.datePickerService.selectedDate, 'day')) {
+        this.datePickerService.selectedDate = date;
+        this.datePickerService.selectedEndDate = void 0;
+        return;
+      }
+
       // select new range start
       if (this.datePickerService.selectedEndDate) {
         this.datePickerService.selectedDate = date;
@@ -88,13 +95,13 @@ export abstract class DatePickerBase implements OnInit {
         return;
       }
 
-      // todo: exit if disabled date in the middle
+      // don't allow to select range with disabled dates in the middle
       const customDates = this.options.customDates;
       if (customDates) {
         for (let i = 0; i < customDates.length; i++) {
           if (customDates[i].isDisabled &&
-            moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate) &&
-            moment(customDates[i].date).isSameOrBefore(date)) {
+            moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate, 'day') &&
+            moment(customDates[i].date).isSameOrBefore(date, 'day')) {
             return;
           }
         }
