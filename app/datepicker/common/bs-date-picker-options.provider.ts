@@ -57,6 +57,8 @@ export class DatePickerUiOptions {
   public showWeekNumbers:boolean = true;
   /** show ISO week numbers at the start of each week on the calendars */
   public showISOWeekNumbers:boolean = false;
+  /** enables current date under calendar */
+  public showCurrentDate: boolean = true;
   /** if `true` label `Custom Ranges` will be shown if `ranges` are defined */
   public showCustomRangeLabel:boolean = true;
   /** if `false` and one of ranges is selected, calendar will be hidden */
@@ -152,6 +154,9 @@ export class DatePickerOptions {
         this.ui.showWeekNumbers = !!ui.showWeekNumbers;
       }
 
+      if (typeof ui.showCurrentDate !== 'undefined') {
+        this.ui.showCurrentDate = !!ui.showCurrentDate;
+      }
       // this.ui = Object.assign({}, this.ui, ui);
     }
 

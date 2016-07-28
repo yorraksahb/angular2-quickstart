@@ -12,14 +12,20 @@ import * as moment from 'moment';
 })
 export class CurrentDateComponent extends DatePickerBase {
   public title: string;
+  public isShown: boolean = true;
 
   public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(()=>this.refresh());
     datePickerService.activeDateChange.subscribe(()=>this.refresh());
+    options.onUpdate.subscribe(()=>this.refresh());
   }
 
   public refresh():void {
+    if (!this.options.ui.showCurrentDate) {
+      this.isShown = false;
+      return;
+    }
     // todo: add support of timepicker enabled/disabled
     // todo: add support of min view mode
     if (this.datePickerService.activeDate) {

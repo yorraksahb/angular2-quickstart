@@ -28,7 +28,8 @@ export class AppComponent implements OnInit {
       minMode: 'days',
       maxMode: 'months',
       showWeekNumbers: 1,
-      showISOWeekNumbers: 0
+      showISOWeekNumbers: 0,
+      showCurrentDate: 1
     },
     customDates: [{
       date: moment().subtract(15, 'days'),
@@ -39,10 +40,7 @@ export class AppComponent implements OnInit {
     }
   };
 
-  public constructor() {
-  }
-
-  public refresh() {
+  public refresh():void {
     this.opts = Object.assign({}, this.opts);
   }
 
