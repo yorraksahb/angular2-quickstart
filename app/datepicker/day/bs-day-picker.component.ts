@@ -57,8 +57,8 @@ export class DayPickerComponent extends DatePickerBase {
         if (this.calendar[i][j].isDisabled) {
           return;
         }
-        this.calendar[i][j].isActive = this.calendar[i][j].isSelected !== true &&
-          this.isActive(this.calendar[i][j].date);
+        this.calendar[i][j].isActive = this.isActive(this.calendar[i][j].date);
+        this.calendar[i][j].isHighlighted = this.isHighlighted(this.calendar[i][j].date);
       }
     }
   }
@@ -73,6 +73,7 @@ export class DayPickerComponent extends DatePickerBase {
         this.calendar[i][j].isSelectionEnd = this.isSelectionEnd(this.calendar[i][j].date);
         if (isSelected) {
           this.calendar[i][j].isActive = false;
+          this.calendar[i][j].isHighlighted = false;
         }
       }
     }

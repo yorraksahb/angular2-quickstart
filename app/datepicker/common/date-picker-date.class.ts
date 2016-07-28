@@ -5,6 +5,9 @@ export class DatePickerDate {
   public isDisabled: boolean;
   public isSelectionStart: boolean;
   public isSelectionEnd: boolean;
+  public isOtherMonth: boolean;
+  public isHighlighted: boolean;
+
   public date: any;
 
   public constructor(date: any, opts: Object, base: DatePickerBase) {

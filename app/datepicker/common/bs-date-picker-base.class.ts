@@ -60,6 +60,8 @@ export abstract class DatePickerBase implements OnInit {
       return;
     }
 
+    // todo: add range check
+
     this.datePickerService.activeDate = date;
   }
 
@@ -157,8 +159,8 @@ export abstract class DatePickerBase implements OnInit {
         moment(currDate).isBefore(selectedEndDate);
     }
 
-    return moment(currDate).isAfter(selectedDate) &&
-      moment(currDate).isBefore(activeDate);
+    return moment(currDate).isAfter(selectedDate, 'day') &&
+      moment(currDate).isBefore(activeDate, 'day');
   }
 
   public isDisabled(date:any):boolean {
@@ -202,6 +204,15 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
     return this.isSame(date, this.datePickerService.selectedEndDate);
+  }
+
+  public isOtherMonth(date:any):boolean {
+    return !moment(date).isSame(this.datePickerService.viewDate, 'month');
+  }
+
+  public isHighlighted(date:any):boolean {
+    // todo: add disabled date in the middle checks
+    return moment(date).isSame(this.datePickerService.activeDate, 'day');
   }
 
   public getDaysCalendarMatrix(viewDate:any, options:any):any {
@@ -287,7 +298,9 @@ export abstract class DatePickerBase implements OnInit {
         isSelected: this.isSelected(curDate),
         isDisabled: this.isDisabled(curDate),
         isSelectionStart: this.isSelectionStart(curDate),
-        isSelectionEnd: this.isSelectionEnd(curDate)
+        isSelectionEnd: this.isSelectionEnd(curDate),
+        isOtherMonth: this.isOtherMonth(curDate),
+        isHighlighted: this.isHighlighted(curDate)
       };
       curDate.hour(12);
     }

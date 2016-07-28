@@ -372,3 +372,5 @@
 .bs-datepicker-predefined-btns button:active, .bs-datepicker-predefined-btns button:hover{
   background-color: #54708b;
 }
+
+.bs-datepicker .is-other-month { opacity: 0.25; }

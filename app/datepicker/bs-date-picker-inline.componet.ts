@@ -29,8 +29,8 @@ export class DatePickerInlineComponent {
     DatePickerOptions.setDefaults({
       mode: 'daterange',
       customDates: [{
-        date: moment().subtract(5, 'days'),
-        isDisabled: false
+        date: moment().subtract(15, 'days'),
+        isDisabled: true
       }],
       date: {
         // min : moment().subtract(5, 'days')
