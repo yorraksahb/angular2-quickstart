@@ -412,9 +412,16 @@ export abstract class DatePickerBase implements OnInit {
     for (let row = 0; row < rows; row++) {
       yearsMatrix[row] = new Array(cols);
       for (let coll = 0; coll < cols; coll++, year++) {
+        const date = moment([year, viewDate.month()]);
         yearsMatrix[row][coll] = {
-          date: moment([year, viewDate.month()]),
-          label: year
+          date: date,
+          label: date.format(this.options.format.year),
+          isActive: this.isActive(date),
+          isSelected: this.isSelected(date),
+          isDisabled: this.isDisabled(date),
+          isSelectionStart: this.isSelectionStart(date),
+          isSelectionEnd: this.isSelectionEnd(date),
+          isHighlighted: this.isHighlighted(date)
         };
       }
     }

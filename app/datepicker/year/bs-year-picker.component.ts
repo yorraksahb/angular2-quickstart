@@ -27,6 +27,7 @@ export class YearPickerComponent extends DatePickerBase {
     if (this.options.viewMode !== 'years') {
       return;
     }
+    // fixme: use formatting
     const yearsStep = this.options.ui.yearColumns * this.options.ui.yearRows;
     let year = this.getStartingYear(viewDate.year());
     this.title = [year, year + yearsStep].join(' - ');
