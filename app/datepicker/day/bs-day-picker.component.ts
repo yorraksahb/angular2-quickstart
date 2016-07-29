@@ -7,19 +7,20 @@ import * as moment from 'moment';
 import { CalendarOptionsClass } from '../common/bs-calendar-options.provider';
 
 @Component({
-  selector: 'bs-daypicker',
-  exportAs: 'bs-daypicker',
+  selector: 'bs-day-picker',
+  exportAs: 'bs-day-picker',
   templateUrl: './bs-day-picker.html',
   moduleId: module.id
 })
 export class DayPickerComponent extends DatePickerBase {
+  // days matrix
+  public calendar:DatePickerDate[][];
   // title in the head
   public viewMonth:string;
   public viewYear:string;
   // weeks numbers
   public weeks:number[];
-  // days matrix
-  public calendar:DatePickerDate[][];
+
   // locale options
   public locale:any;
 
@@ -29,16 +30,6 @@ export class DayPickerComponent extends DatePickerBase {
     super(datePickerState, options);
     this.cOptions = cOptions;
     this.refresh(datePickerState.viewDate);
-    datePickerState.activeDateChange.subscribe(() => {
-      this.markActive();
-    });
-    datePickerState.selectedDateChange.subscribe(() => {
-      this.markSelected();
-    });
-    datePickerState.selectedEndDateChange.subscribe(() => {
-      this.markSelected();
-      this.markActive();
-    });
   }
 
   public refresh(_viewDate:any):void {
@@ -60,37 +51,5 @@ export class DayPickerComponent extends DatePickerBase {
     this.locale = this.getLocale();
     this.viewMonth = moment(viewDate).format(this.options.format.monthTitle);
     this.viewYear = moment(viewDate).format(this.options.format.yearTitle);
-  }
-
-  public markActive():void {
-    // mark proper dates as active
-    for (let i = 0; i < this.calendar.length; i++) {
-      for (let j = 0; j < this.calendar[i].length; j++) {
-        if (this.calendar[i][j].isSelected) {
-          continue;
-        }
-        if (this.calendar[i][j].isDisabled) {
-          continue;
-        }
-        this.calendar[i][j].isActive = this.isActive(this.calendar[i][j].date);
-        this.calendar[i][j].isHighlighted = this.isHighlighted(this.calendar[i][j].date);
-      }
-    }
-  }
-
-  public markSelected():void {
-    // mark proper dates as selected
-    for (let i = 0; i < this.calendar.length; i++) {
-      for (let j = 0; j < this.calendar[i].length; j++) {
-        const isSelected = this.isSelected(this.calendar[i][j].date);
-        this.calendar[i][j].isSelected = isSelected;
-        this.calendar[i][j].isSelectionStart = this.isSelectionStart(this.calendar[i][j].date);
-        this.calendar[i][j].isSelectionEnd = this.isSelectionEnd(this.calendar[i][j].date);
-        if (isSelected) {
-          this.calendar[i][j].isActive = false;
-          this.calendar[i][j].isHighlighted = false;
-        }
-      }
-    }
   }
 }

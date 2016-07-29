@@ -2,8 +2,8 @@
      *ngIf="isShown"
      [ngSwitch]="options.viewMode">
   <bs-current-date></bs-current-date>
-  <bs-daypicker *ngSwitchCase="'days'"></bs-daypicker>
-  <bs-monthpicker *ngSwitchCase="'months'"></bs-monthpicker>
-  <bs-yearpicker *ngSwitchCase="'years'"></bs-yearpicker>
+  <bs-day-picker *ngSwitchCase="'days'"></bs-day-picker>
+  <bs-month-picker *ngSwitchCase="'months'"></bs-month-picker>
+  <bs-year-picker *ngSwitchCase="'years'"></bs-year-picker>
   <bs-datetimepicker></bs-datetimepicker>
 </div>

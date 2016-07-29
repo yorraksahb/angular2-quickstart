@@ -1,12 +1,12 @@
 <div class="bs-datepicker-head label-success">
-  <button class="previous" (click)="prev('years', yearsStep)"><span>&lsaquo;</span></button>
+  <button class="previous" (click)="viewPrev('years', yearsStep)"><span>&lsaquo;</span></button>
   <button class="current"><span>{{title}}</span></button>
-  <button class="next" (click)="next('years', yearsStep)"><span>&rsaquo;</span></button>
+  <button class="next" (click)="viewNext('years', yearsStep)"><span>&rsaquo;</span></button>
 </div>
 <div class="bs-datepicker-body">
   <table role="grid" class="years">
     <tbody>
-    <tr *ngFor="let yearsRow of yearsMatrix">
+    <tr *ngFor="let yearsRow of calendar">
       <td *ngFor="let year of yearsRow" role="gridcell" (click)="viewDate(year.date, {degrade: true})">
         <span>{{year.label}}</span>
       </td>

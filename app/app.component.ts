@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
       showWeekNumbers: 1,
       showISOWeekNumbers: 0,
       showCurrentDate: 1,
-      alwaysShowCalendars: 0
+      alwaysShowCalendars: 1
     },
     ranges: {
       'Today': [moment(), moment()],

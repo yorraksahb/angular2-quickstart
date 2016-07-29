@@ -4,19 +4,22 @@ import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 
 @Component({
-  selector: 'bs-yearpicker',
-  exportAs: 'bs-yearpicker',
+  selector: 'bs-year-picker',
+  exportAs: 'bs-year-picker',
   moduleId: module.id,
   templateUrl: './bs-year-picker.html'
 })
 export class YearPickerComponent extends DatePickerBase {
   public title:string;
-  public yearsMatrix:any;
+  public calendar:any;
+  public get yearsStep():number {
+    return this.options ? (this.options.ui.yearRows * this.options.ui.yearColumns) : 5;
+  }
 
   public constructor(datePickerService:DatePickerState, options: DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(() => {
-      this.refresh(datePickerService.selectedDate);
+      this.refresh(datePickerService.viewDate);
     });
   }
 
@@ -27,6 +30,6 @@ export class YearPickerComponent extends DatePickerBase {
     const yearsStep = this.options.ui.yearColumns * this.options.ui.yearRows;
     let year = this.getStartingYear(viewDate.year());
     this.title = [year, year + yearsStep].join(' - ');
-    this.yearsMatrix = this.getYearsCalendarMatrix(viewDate);
+    this.calendar = this.getYearsCalendarMatrix(viewDate);
   }
 }

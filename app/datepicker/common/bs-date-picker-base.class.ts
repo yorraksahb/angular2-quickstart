@@ -3,6 +3,7 @@ import { DatePickerViewMode, DatePickerOptions, DatePickerViewModes } from './bs
 import * as moment from 'moment';
 
 import { OnInit } from '@angular/core';
+import { DatePickerDate } from './date-picker-date.class';
 
 export type Granularity = 'day' | 'month' | 'year';
 
@@ -10,23 +11,34 @@ export abstract class DatePickerBase implements OnInit {
   protected datePickerState:DatePickerState;
   protected options:DatePickerOptions;
 
-  // protected calendar: DatePickerDate[][];
+  protected calendar: DatePickerDate[][];
 
-  public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
-    this.datePickerState = datePickerService;
+  public constructor(datePickerState:DatePickerState, options:DatePickerOptions) {
+    this.datePickerState = datePickerState;
     this.options = options;
 
-    if (!datePickerService.viewDate) {
-      datePickerService.viewDate = moment();
+    if (!datePickerState.viewDate) {
+      datePickerState.viewDate = moment();
     }
 
-    this.refresh(datePickerService.viewDate);
-    datePickerService.viewDateChange.subscribe(() => {
-      this.refresh(datePickerService.viewDate);
-    });
+    this.refresh(datePickerState.viewDate);
+
     options.onUpdate.subscribe(() => {
       this.ngOnInit();
-      this.refresh(datePickerService.viewDate);
+      this.refresh(datePickerState.viewDate);
+    });
+    datePickerState.viewDateChange.subscribe(() => {
+      this.refresh(datePickerState.viewDate);
+    });
+    datePickerState.activeDateChange.subscribe(() => {
+      this.markActive();
+    });
+    datePickerState.selectedDateChange.subscribe(() => {
+      this.markSelected();
+    });
+    datePickerState.selectedEndDateChange.subscribe(() => {
+      this.markSelected();
+      this.markActive();
     });
   }
 
@@ -145,11 +157,11 @@ export abstract class DatePickerBase implements OnInit {
     this.datePickerState.selectedEndDate = void 0;
   }
 
-  public prev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
+  public viewPrev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
     this.datePickerState.viewDate = this.datePickerState.viewDate.clone().subtract(step, unitOfTime);
   }
 
-  public next(unitOfTime:'days'|'months'|'years', step:number = 1):void {
+  public viewNext(unitOfTime:'days'|'months'|'years', step:number = 1):void {
     this.datePickerState.viewDate = this.datePickerState.viewDate.clone().add(step, unitOfTime);
   }
 
@@ -274,6 +286,44 @@ export abstract class DatePickerBase implements OnInit {
     }
 
     return false;
+  }
+
+  public markActive():void {
+    if (!this.calendar || !this.calendar.length) {
+      return;
+    }
+    // mark proper dates as active
+    for (let i = 0; i < this.calendar.length; i++) {
+      for (let j = 0; j < this.calendar[i].length; j++) {
+        if (this.calendar[i][j].isSelected) {
+          continue;
+        }
+        if (this.calendar[i][j].isDisabled) {
+          continue;
+        }
+        this.calendar[i][j].isActive = this.isActive(this.calendar[i][j].date);
+        this.calendar[i][j].isHighlighted = this.isHighlighted(this.calendar[i][j].date);
+      }
+    }
+  }
+
+  public markSelected():void {
+    if (!this.calendar || !this.calendar.length) {
+      return;
+    }
+    // mark proper dates as selected
+    for (let i = 0; i < this.calendar.length; i++) {
+      for (let j = 0; j < this.calendar[i].length; j++) {
+        const isSelected = this.isSelected(this.calendar[i][j].date);
+        this.calendar[i][j].isSelected = isSelected;
+        this.calendar[i][j].isSelectionStart = this.isSelectionStart(this.calendar[i][j].date);
+        this.calendar[i][j].isSelectionEnd = this.isSelectionEnd(this.calendar[i][j].date);
+        if (isSelected) {
+          this.calendar[i][j].isActive = false;
+          this.calendar[i][j].isHighlighted = false;
+        }
+      }
+    }
   }
 
   public getDaysCalendarMatrix(viewDate:moment.Moment):any {

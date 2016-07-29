@@ -1,12 +1,12 @@
 <div class="bs-datepicker-head label-success">
-  <button class="previous" (click)="prev('years')"><span>&lsaquo;</span></button>
+  <button class="previous" (click)="viewPrev('years')"><span>&lsaquo;</span></button>
   <button class="current" (click)="viewMode('years')"><span>{{title}}</span></button>
-  <button class="next" (click)="next('years')"><span>&rsaquo;</span></button>
+  <button class="next" (click)="viewNext('years')"><span>&rsaquo;</span></button>
 </div>
 <div class="bs-datepicker-body">
   <table role="grid" class="months">
     <tbody>
-    <tr *ngFor="let row of months">
+    <tr *ngFor="let row of calendar">
       <td *ngFor="let month of row" role="gridcell" (click)="viewDate(month.date, {degrade: true})"
           [class.active]="month.isActive">
         <span>{{month.label}}</span>
