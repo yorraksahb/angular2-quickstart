@@ -1,4 +1,6 @@
-<div class="bs-datepicker bs-timepicker label-success" role="application" [ngSwitch]="options.viewMode">
+<div class="bs-datepicker bs-timepicker label-success" role="application"
+     *ngIf="isShown"
+     [ngSwitch]="options.viewMode">
   <bs-current-date></bs-current-date>
   <bs-daypicker *ngSwitchCase="'days'"></bs-daypicker>
   <bs-monthpicker *ngSwitchCase="'months'"></bs-monthpicker>

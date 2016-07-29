@@ -35,9 +35,9 @@ export class CurrentDateComponent extends DatePickerBase {
     }
     // todo: add support of timepicker enabled/disabled
     // todo: add support of min view mode
-    const active = this.datePickerService.activeDate;
-    const selected = this.datePickerService.selectedDate;
-    const selectedEnd = this.datePickerService.selectedEndDate;
+    const active = this.datePickerState.activeDate;
+    const selected = this.datePickerState.selectedDate;
+    const selectedEnd = this.datePickerState.selectedEndDate;
 
     if (this.options.isDatePicker) {
       this.title = this.getTitle(active || selected);

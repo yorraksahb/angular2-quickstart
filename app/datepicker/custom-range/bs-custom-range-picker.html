@@ -1,10 +1,6 @@
-<div class="bs-datepicker-predefined-btns">
-
-  <button (click)="active(0, 0)">Today</button>
-  <button (click)="active(1, 1)">Yesterday</button>
-  <button (click)="active(7, 0)">Last 7 days</button>
-  <button (click)="active(30, 0)">Last 30 days</button>
-  <button (click)="active(27, 4)">This Month</button>
-  <button>Last Month</button>
-  <button>Custom Range</button>
+<div class="bs-datepicker-predefined-btns" *ngIf="isShown">
+  <button *ngFor="let range of ranges"
+          (click)="selectRange(range.value)">{{ range.key }}
+  </button>
+  <button (click)="showCalendars()" *ngIf="isCustomRangeShown">Custom Range</button>
 </div>

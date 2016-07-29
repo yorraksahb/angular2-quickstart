@@ -8,7 +8,9 @@ import { DateTimePickerComponent } from './time/bs-date-time-picker.component';
 import { CurrentDateComponent } from './current-date/bs-current-date.component';
 import { CustomRangePickerComponent } from './custom-range/bs-custom-range-picker.component';
 import { CalendarOptionsClass } from './common/bs-calendar-options.provider';
+import { DatePickerState } from './common/bs-date-picker-state.provider';
 
+// todo: rename to calendar
 @Component({
   selector: 'bs-date-picker-view',
   exportAs: 'bs-date-picker-view',
@@ -20,13 +22,15 @@ import { CalendarOptionsClass } from './common/bs-calendar-options.provider';
   moduleId: module.id
 })
 export class DatePickerViewComponent implements OnInit {
+  public isShown:boolean = true;
   public options:DatePickerOptions;
-  public cOptions: CalendarOptionsClass;
+  public cOptions:CalendarOptionsClass;
   @Input() public bsRole:string;
 
-  public constructor(datePickerOptions:DatePickerOptions, cOptions: CalendarOptionsClass) {
+  public constructor(datePickerState:DatePickerState, datePickerOptions:DatePickerOptions, cOptions:CalendarOptionsClass) {
     this.options = datePickerOptions;
     this.cOptions = cOptions;
+    datePickerState.showCalendarsChange.subscribe((v:boolean) => this.isShown = v);
   }
 
   public ngOnInit():void {

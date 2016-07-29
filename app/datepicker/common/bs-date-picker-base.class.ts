@@ -7,13 +7,13 @@ import { OnInit } from '@angular/core';
 export type Granularity = 'day' | 'month' | 'year';
 
 export abstract class DatePickerBase implements OnInit {
-  protected datePickerService:DatePickerState;
+  protected datePickerState:DatePickerState;
   protected options:DatePickerOptions;
 
   // protected calendar: DatePickerDate[][];
 
   public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
-    this.datePickerService = datePickerService;
+    this.datePickerState = datePickerService;
     this.options = options;
 
     if (!datePickerService.viewDate) {
@@ -25,17 +25,18 @@ export abstract class DatePickerBase implements OnInit {
       this.refresh(datePickerService.viewDate);
     });
     options.onUpdate.subscribe(() => {
+      this.ngOnInit();
       this.refresh(datePickerService.viewDate);
     });
   }
 
   public ngOnInit():void {
     if (this.options.date && this.options.date.initial) {
-      this.datePickerService.viewDate = this.options.date.initial;
+      this.datePickerState.viewDate = moment(this.options.date.initial);
     }
 
     if (this.options.date && this.options.date.selected) {
-      this.datePickerService.selectedDate = this.options.date.selected;
+      this.datePickerState.selectedDate = moment(this.options.date.selected);
     }
   }
 
@@ -54,7 +55,7 @@ export abstract class DatePickerBase implements OnInit {
 
   public viewDate(date:moment.Moment, _opts:{degrade:boolean}):void {
     const opts = Object.assign({}, {degrade: false}, _opts);
-    this.datePickerService.viewDate = date;
+    this.datePickerState.viewDate = date;
 
     // fixme: triple if, oh really?
     if (this.options.viewMode && opts.degrade) {
@@ -81,7 +82,7 @@ export abstract class DatePickerBase implements OnInit {
 
     // todo: add range check
 
-    this.datePickerService.activeDate = date;
+    this.datePickerState.activeDate = date;
   }
 
   public selectDate(date:moment.Moment):void {
@@ -91,35 +92,35 @@ export abstract class DatePickerBase implements OnInit {
 
     if (this.options.isDatePicker) {
       // select date
-      this.datePickerService.selectedDate = date;
-      this.datePickerService.selectedEndDate = void 0;
+      this.datePickerState.selectedDate = date;
+      this.datePickerState.selectedEndDate = void 0;
       return;
     }
 
     if (this.options.isDateRangePicker) {
       // if no selected then set start date
-      if (!this.datePickerService.selectedDate) {
-        this.datePickerService.selectedDate = date;
+      if (!this.datePickerState.selectedDate) {
+        this.datePickerState.selectedDate = date;
         return;
       }
 
       // if end date lesser then the start date
-      if (moment(date).isBefore(this.datePickerService.selectedDate, 'day')) {
-        this.datePickerService.selectedDate = date;
-        this.datePickerService.selectedEndDate = void 0;
+      if (moment(date).isBefore(this.datePickerState.selectedDate, 'day')) {
+        this.datePickerState.selectedDate = date;
+        this.datePickerState.selectedEndDate = void 0;
         return;
       }
 
       // allow to select one date at range picker
-      if (moment(date).isSame(this.datePickerService.selectedDate, 'day')) {
-        this.datePickerService.selectedEndDate = date;
+      if (moment(date).isSame(this.datePickerState.selectedDate, 'day')) {
+        this.datePickerState.selectedEndDate = date;
         return;
       }
 
       // select new range start
-      if (this.datePickerService.selectedEndDate) {
-        this.datePickerService.selectedDate = date;
-        this.datePickerService.selectedEndDate = void 0;
+      if (this.datePickerState.selectedEndDate) {
+        this.datePickerState.selectedDate = date;
+        this.datePickerState.selectedEndDate = void 0;
         return;
       }
 
@@ -129,22 +130,22 @@ export abstract class DatePickerBase implements OnInit {
       }
 
       // if start date is selected than select end date
-      if (this.isSame(this.datePickerService.selectedDate, date)) {
-        this.datePickerService.selectedDate = date;
-        this.datePickerService.selectedEndDate = void 0;
+      if (this.isSame(this.datePickerState.selectedDate, date)) {
+        this.datePickerState.selectedDate = date;
+        this.datePickerState.selectedEndDate = void 0;
         return;
       }
 
-      this.datePickerService.selectedEndDate = date;
+      this.datePickerState.selectedEndDate = date;
     }
   }
 
   public prev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
-    this.datePickerService.viewDate = this.datePickerService.viewDate.clone().subtract(step, unitOfTime);
+    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().subtract(step, unitOfTime);
   }
 
   public next(unitOfTime:'days'|'months'|'years', step:number = 1):void {
-    this.datePickerService.viewDate = this.datePickerService.viewDate.clone().add(step, unitOfTime);
+    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().add(step, unitOfTime);
   }
 
   public isSelected(date:moment.Moment):boolean {
@@ -153,11 +154,11 @@ export abstract class DatePickerBase implements OnInit {
     }
 
     if (this.options.isDatePicker) {
-      return this.isSame(this.datePickerService.selectedDate, date);
+      return this.isSame(this.datePickerState.selectedDate, date);
     }
 
-    return this.isSame(this.datePickerService.selectedDate, date) ||
-      this.isSame(this.datePickerService.selectedEndDate, date);
+    return this.isSame(this.datePickerState.selectedDate, date) ||
+      this.isSame(this.datePickerState.selectedEndDate, date);
   }
 
   public isActive(currDate:moment.Moment):boolean {
@@ -165,9 +166,9 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
-    const selectedDate = this.datePickerService.selectedDate;
-    const selectedEndDate = this.datePickerService.selectedEndDate;
-    const activeDate = this.datePickerService.activeDate;
+    const selectedDate = this.datePickerState.selectedDate;
+    const selectedEndDate = this.datePickerState.selectedEndDate;
+    const activeDate = this.datePickerState.activeDate;
 
     if (!selectedDate || !currDate) {
       return false;
@@ -225,14 +226,14 @@ export abstract class DatePickerBase implements OnInit {
     if (!this.options.isDateRangePicker) {
       return false;
     }
-    return this.isSame(date, this.datePickerService.selectedDate);
+    return this.isSame(date, this.datePickerState.selectedDate);
   }
 
   public isSelectionEnd(date:moment.Moment):boolean {
     if (!this.options.isDateRangePicker) {
       return false;
     }
-    return this.isSame(date, this.datePickerService.selectedEndDate);
+    return this.isSame(date, this.datePickerState.selectedEndDate);
   }
 
   public isOtherMonth(date:moment.Moment, viewDate:moment.Moment):boolean {
@@ -244,11 +245,11 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
-    if (!this.datePickerService.activeDate || !date) {
+    if (!this.datePickerState.activeDate || !date) {
       return false;
     }
 
-    return moment(date).isSame(this.datePickerService.activeDate, 'day');
+    return moment(date).isSame(this.datePickerState.activeDate, 'day');
   }
 
   public isDisabledDateInRange(date: moment.Moment):boolean {
@@ -260,7 +261,7 @@ export abstract class DatePickerBase implements OnInit {
     if (customDates) {
       for (let i = 0; i < customDates.length; i++) {
         if (customDates[i].isDisabled &&
-          moment(customDates[i].date).isSameOrAfter(this.datePickerService.selectedDate, 'day') &&
+          moment(customDates[i].date).isSameOrAfter(this.datePickerState.selectedDate, 'day') &&
           moment(customDates[i].date).isSameOrBefore(date, 'day')) {
           return true;
         }

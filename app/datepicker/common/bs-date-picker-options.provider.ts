@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
 const defaults = {};
 
 export const DatePickerViewModes = {days: 0, months: 1, years: 2};
@@ -61,7 +62,7 @@ export class DatePickerUiOptions {
   /** if `true` label `Custom Ranges` will be shown if `ranges` are defined */
   public showCustomRangeLabel:boolean = true;
   /** if `false` and one of ranges is selected, calendar will be hidden */
-  public alwaysShowCalendars:boolean = true;
+  public alwaysShowCalendars:boolean = false;
   /** lower level of view mode */
   public minMode:DatePickerViewMode = 'days';
   /** upper level of view mode */
@@ -108,7 +109,7 @@ export class DatePickerOptions {
 
   public customDates:DatePickerCustomDates[];
   /** predefined set of ranges {'today': [moment(), moment()]} */
-  public ranges:Object;
+  public ranges:{[key:string]:moment.Moment[]|string[]|Date[]};
 
   public onUpdate:EventEmitter<DatePickerOptions> = new EventEmitter();
 
@@ -158,7 +159,22 @@ export class DatePickerOptions {
       if (typeof ui.showCurrentDate !== 'undefined') {
         this.ui.showCurrentDate = !!ui.showCurrentDate;
       }
+
+      if (typeof ui.showCustomRangeLabel !== 'undefined') {
+        this.ui.showCustomRangeLabel = !!ui.showCustomRangeLabel;
+      }
+
+      if (typeof ui.alwaysShowCalendars !== 'undefined') {
+        this.ui.alwaysShowCalendars = !!ui.alwaysShowCalendars;
+      }
+
       // this.ui = Object.assign({}, this.ui, ui);
+    }
+
+    // Ranges options
+    if (ranges) {
+      this.ranges = ranges;
+
     }
 
     // Object.assign(this, options);
