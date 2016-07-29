@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePickerBase } from '../common/bs-date-picker-base.class';
-import { DatePickerService } from '../common/bs-date-picker.service';
+import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 import * as moment from 'moment';
 
@@ -14,7 +14,7 @@ export class CurrentDateComponent extends DatePickerBase {
   public title: string;
   public isShown: boolean = true;
 
-  public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
+  public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(()=>this.refresh());
     datePickerService.activeDateChange.subscribe(()=>this.refresh());

@@ -22,7 +22,7 @@ moment.locale('ru');
 })
 export class AppComponent implements OnInit {
   public opts:any = {
-    mode: 'date',
+    mode: 'daterange',
     viewMode: 'days',
     ui: {
       minMode: 'days',

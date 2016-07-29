@@ -1,4 +1,4 @@
-import { DatePickerService } from './bs-date-picker.service';
+import { DatePickerState } from './bs-date-picker-state.provider';
 import { DatePickerViewMode, DatePickerOptions, DatePickerViewModes } from './bs-date-picker-options.provider';
 import * as moment from 'moment';
 
@@ -7,12 +7,12 @@ import { OnInit } from '@angular/core';
 export type Granularity = 'day' | 'month' | 'year';
 
 export abstract class DatePickerBase implements OnInit {
-  protected datePickerService:DatePickerService;
+  protected datePickerService:DatePickerState;
   protected options:DatePickerOptions;
 
   // protected calendar: DatePickerDate[][];
 
-  public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
+  public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
     this.datePickerService = datePickerService;
     this.options = options;
 
@@ -266,29 +266,10 @@ export abstract class DatePickerBase implements OnInit {
     return false;
   }
 
-  public getDaysCalendarMatrix(viewDate:any, options:any):any {
-    const localeData = moment.localeData();
-    const locale = {
-      direction: 'ltr',
-      format: localeData.longDateFormat('L'),
-      separator: ' - ',
-      applyLabel: 'Apply',
-      cancelLabel: 'Cancel',
-      weekLabel: 'W',
-      customRangeLabel: 'Custom Range',
-      weekdays: moment.weekdays(true),
-      weekdaysShort: moment.weekdaysMin(true),
-      monthNames: moment.monthsShort(),
-      firstDay: (localeData as any).firstDayOfWeek()
-    };
+  public getDaysCalendarMatrix(viewDate:any):any {
     //
     // Build the matrix of dates that will populate the calendar
     //
-    const calendar1 = {
-      month: viewDate,
-      firstDay: void 0,
-      lastDay: void 0
-    };
     // current date
     const month = viewDate.month();
     const year = viewDate.year();
@@ -297,49 +278,29 @@ export abstract class DatePickerBase implements OnInit {
     const minute = viewDate.minute();
     const second = viewDate.second();
     // month range
-    const daysInMonth = moment([year, month]).daysInMonth();
     const firstDay = moment([year, month, 1]);
-    const lastDay = moment([year, month, daysInMonth]);
     // prev
     const lastMonth = moment(firstDay).subtract(1, 'month').month();
     const lastYear = moment(firstDay).subtract(1, 'month').year();
-    const daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
-    const dayOfWeek = firstDay.day();
 
     // initialize a 6 rows x 7 columns array for the calendar
-    const calendarW = 6;
-    const calendarH = 7;
+    const calendarW = this.options.ui.dayColums;
+    const calendarH = this.options.ui.dayRows;
     const calendar = new Array(calendarW);
-    calendar1.firstDay = firstDay;
-    calendar1.lastDay = lastDay;
 
-    // initialize weeks row
-    const weeks = new Array(calendarH);
     for (let j = 0; j < calendarW; j++) {
       calendar[j] = new Array(calendarH);
     }
 
-    // populate the calendar with date objects
-    let startDay = daysInLastMonth - dayOfWeek + locale.firstDay + 1;
-    if (startDay > daysInLastMonth) {
-      startDay -= 7;
-    }
-
-    if (dayOfWeek === locale.firstDay) {
-      startDay = daysInLastMonth - 6;
-    }
-
+    const startDay = this.getStartingDay(viewDate).date();
+    // fixme: take in account time picker
     let curDate = moment([lastYear, lastMonth, startDay, 12, minute, second]);
     // where the f*** 42 came from
-    for (let [i, col,row] = [0, 0,
-      0]; i < calendarH * calendarW; i++, col++, curDate = moment(curDate)
+    for (let [i, col,row] = [0, 0, 0]; i < calendarH * calendarW; i++, col++, curDate = moment(curDate)
       .add(24, 'hour')) {
       if (i > 0 && col % 7 === 0) {
         col = 0;
         row++;
-      }
-      if (col === 0) {
-        weeks[row] = this.options.ui.showISOWeekNumbers ? curDate.format('w') :curDate.format('W');
       }
 
       calendar[row][col] = {
@@ -356,7 +317,7 @@ export abstract class DatePickerBase implements OnInit {
       curDate.hour(12);
     }
 
-    return {weeks, calendar, locale};
+    return calendar;
   }
 
   public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {
@@ -394,13 +355,69 @@ export abstract class DatePickerBase implements OnInit {
     return yearsMatrix;
   }
 
+  public getWeeksNumbers(viewDate:any):number[] {
+    // initialize weeks row
+    const calendarH = this.options.ui.dayRows;
+    const startDay = this.getStartingDay(viewDate);
+    const weeks = new Array(calendarH);
+
+    let startWeek_ = this.options.ui.showISOWeekNumbers ? startDay.format('ww') :startDay.format('WW');
+    let startWeek = parseInt(startWeek_, 10);
+    for (let i = 0; i < calendarH; i++) {
+      weeks[i] = startWeek++;
+    }
+
+    return weeks;
+  }
+
+  public getLocale():any {
+    const localeData = moment.localeData();
+    return {
+      direction: 'ltr',
+      format: localeData.longDateFormat('L'),
+      separator: ' - ',
+      applyLabel: 'Apply',
+      cancelLabel: 'Cancel',
+      weekLabel: 'W',
+      customRangeLabel: 'Custom Range',
+      weekdays: moment.weekdays(true),
+      weekdaysShort: moment.weekdaysMin(true),
+      monthNames: moment.monthsShort(),
+      firstDay: (localeData as any).firstDayOfWeek()
+    };
+  }
+
+  public getStartingDay(viewDate: moment.Moment):moment.Moment {
+    const locale = this.getLocale();
+    const month = viewDate.month();
+    const year = viewDate.year();
+    const firstDay = moment([year, month, 1]);
+    // prev
+    const lastMonth = moment(firstDay).subtract(1, 'month').month();
+    const lastYear = moment(firstDay).subtract(1, 'month').year();
+
+    const daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
+    const dayOfWeek = firstDay.day();
+    // populate the calendar with date objects
+    let startDay = daysInLastMonth - dayOfWeek + locale.firstDay + 1;
+    if (startDay > daysInLastMonth) {
+      startDay -= 7;
+    }
+
+    if (dayOfWeek === locale.firstDay) {
+      startDay = daysInLastMonth - 6;
+    }
+
+    return moment([year, lastMonth, startDay]);
+  }
+
   public getStartingYear(year:number):number {
     const yearsStep = this.options.ui.yearColumns * this.options.ui.yearRows;
     // return ((year - 1) / this.yearsStep) * this.yearsStep + 1;
     return year - year % yearsStep;
   }
 
-  public isSame(date1:any, date2:any):boolean {
+  public isSame(date1:moment.Moment, date2:moment.Moment):boolean {
     if (!date1 || !date2) {
       return false;
     }

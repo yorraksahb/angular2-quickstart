@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { EventEmitter } from '@angular/compiler/src/facade/async';
+import { Injectable, EventEmitter } from '@angular/core';
 const defaults = {};
 
 export const DatePickerViewModes = {days: 0, months: 1, years: 2};
@@ -73,6 +72,8 @@ export class DatePickerUiOptions {
   public yearRows:number = 4;
   /** number of rows displayed in year selection mode */
   public yearColumns:number = 5;
+  public dayColums:number = 6;
+  public dayRows:number = 7;
 }
 
 export class DatePickerLocale {

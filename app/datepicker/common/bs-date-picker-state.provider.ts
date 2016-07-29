@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { OnChange } from '../../utils/decorators';
 
 @Injectable()
-export class DatePickerService {
+export class DatePickerState {
   @OnChange() public selectedDate:any;
   public selectedDateChange:EventEmitter<any> = new EventEmitter<any>();
 

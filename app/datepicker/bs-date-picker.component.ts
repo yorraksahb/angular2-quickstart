@@ -1,7 +1,7 @@
 import { Component, Inject, Input, EventEmitter } from '@angular/core';
 import { DatePickerOptions } from './common/bs-date-picker-options.provider';
 import { CustomRangePickerComponent } from './custom-range/bs-custom-range-picker.component';
-import { DatePickerService } from './common/bs-date-picker.service';
+import { DatePickerState } from './common/bs-date-picker-state.provider';
 import { DatePickerViewComponent } from './bs-date-picker-view.component';
 import { OnChange } from '../utils/decorators';
 
@@ -10,7 +10,7 @@ import { OnChange } from '../utils/decorators';
   exportAs: 'bs-datepicker',
   templateUrl: './bs-date-picker.html',
   directives: [DatePickerViewComponent, CustomRangePickerComponent],
-  providers: [DatePickerService, DatePickerOptions],
+  providers: [DatePickerState, DatePickerOptions],
   moduleId: module.id
 })
 export class DatePickerComponent {

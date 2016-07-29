@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePickerBase } from '../common/bs-date-picker-base.class';
-import { DatePickerService } from '../common/bs-date-picker.service';
+import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 
 @Component({
@@ -13,7 +13,7 @@ export class YearPickerComponent extends DatePickerBase {
   public title:string;
   public yearsMatrix:any;
 
-  public constructor(datePickerService:DatePickerService, options: DatePickerOptions) {
+  public constructor(datePickerService:DatePickerState, options: DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(() => {
       this.refresh(datePickerService.selectedDate);

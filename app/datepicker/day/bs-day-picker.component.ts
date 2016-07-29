@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { DatePickerBase } from '../common/bs-date-picker-base.class';
-import { DatePickerService } from '../common/bs-date-picker.service';
+import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 import { DatePickerDate } from '../common/date-picker-date.class';
-
 import * as moment from 'moment';
+import { CalendarOptionsClass } from '../common/bs-calendar-options.provider';
 
 @Component({
   selector: 'bs-daypicker',
@@ -17,34 +17,49 @@ export class DayPickerComponent extends DatePickerBase {
   public viewMonth:string;
   public viewYear:string;
   // weeks numbers
-  public weeks:string[];
+  public weeks:number[];
   // days matrix
   public calendar:DatePickerDate[][];
   // locale options
   public locale:any;
 
-  public constructor(datePickerService:DatePickerService, options:DatePickerOptions) {
+  private cOptions:CalendarOptionsClass;
+
+  public constructor(datePickerService:DatePickerState, options:DatePickerOptions, cOptions:CalendarOptionsClass) {
     super(datePickerService, options);
-    datePickerService.activeDateChange.subscribe(() => {this.markActive();});
-    datePickerService.selectedDateChange.subscribe(() => {this.markSelected();});
+    this.cOptions = cOptions;
+    this.refresh(datePickerService.viewDate);
+    datePickerService.activeDateChange.subscribe(() => {
+      this.markActive();
+    });
+    datePickerService.selectedDateChange.subscribe(() => {
+      this.markSelected();
+    });
     datePickerService.selectedEndDateChange.subscribe(() => {
       this.markSelected();
       this.markActive();
     });
   }
 
-  public refresh(currentDay:any):void {
+  public refresh(_viewDate:any):void {
+    if (!this.cOptions) {
+      return;
+    }
+
     if (this.options.viewMode !== 'days') {
       return;
     }
 
-    const calendarMatrix = this.getDaysCalendarMatrix(currentDay, this.options);
-    this.calendar = calendarMatrix.calendar;
-    this.weeks = calendarMatrix.weeks;
-    this.locale = calendarMatrix.locale;
-    // this.title = currentDay.format('MMM YYYY');
-    this.viewMonth = moment(currentDay).format(this.options.format.monthTitle);
-    this.viewYear = moment(currentDay).format(this.options.format.yearTitle);
+    let viewDate = _viewDate;
+    if (this.cOptions.isRight()) {
+      viewDate = _viewDate.clone().add(this.cOptions.offset, 'months');
+    }
+
+    this.calendar = this.getDaysCalendarMatrix(viewDate);
+    this.weeks = this.getWeeksNumbers(viewDate);
+    this.locale = this.getLocale();
+    this.viewMonth = moment(viewDate).format(this.options.format.monthTitle);
+    this.viewYear = moment(viewDate).format(this.options.format.yearTitle);
   }
 
   public markActive():void {
@@ -63,7 +78,7 @@ export class DayPickerComponent extends DatePickerBase {
     }
   }
 
-  public markSelected(): void {
+  public markSelected():void {
     // mark proper dates as selected
     for (let i = 0; i < this.calendar.length; i++) {
       for (let j = 0; j < this.calendar[i].length; j++) {
