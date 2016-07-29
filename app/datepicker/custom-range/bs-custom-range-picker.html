@@ -1,6 +1,7 @@
-<div class="bs-datepicker-predefined-btns" *ngIf="isShown">
+<div class="bs-datepicker-predefined-btns" *ngIf="isShown" (mouseleave)="finishPreviewRange()">
   <button *ngFor="let range of ranges"
-          (click)="selectRange(range.value)">{{ range.key }}
+          (click)="selectRange(range.value)"
+          (mouseover)="previewRange(range.value)">{{ range.key }}
   </button>
   <button (click)="showCalendars()" *ngIf="isCustomRangeShown">Custom Range</button>
 </div>

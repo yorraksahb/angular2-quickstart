@@ -55,18 +55,28 @@ export class CustomRangePickerComponent extends DatePickerBase {
     this.datePickerState.showCalendars = this._showCalendars || this.options.ui.alwaysShowCalendars;
   }
 
-  public selectRange(range:moment.Moment):void {
-    // this._showCalendars = false;
-    debugger
+  public selectRange(range:moment.Moment[]):void {
+    this._showCalendars = false;
+    this.selectDate(null);
+    this.selectDate(null);
     this.selectDate(range[0]);
     this.selectDate(range[1]);
   }
 
-  public previewRange(index:number):void {
+  private _prev:moment.Moment[];
+
+  public previewRange(range:moment.Moment[]):void {
+    if (!this._prev) {
+      this._prev = [this.datePickerState.selectedDate, this.datePickerState.selectedEndDate];
+    }
+    this.selectDate(range[0]);
+    this.selectDate(range[1]);
   }
 
-  public finishPreviewRange(index:number):void {
-
+  public finishPreviewRange():void {
+    this.datePickerState.selectedDate = this._prev[0];
+    this.datePickerState.selectedEndDate = this._prev[1];
+    this._prev = void 0;
   }
 
   public showCalendars():void {

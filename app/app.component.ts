@@ -29,7 +29,8 @@ export class AppComponent implements OnInit {
       maxMode: 'years',
       showWeekNumbers: 1,
       showISOWeekNumbers: 0,
-      showCurrentDate: 1
+      showCurrentDate: 1,
+      alwaysShowCalendars: 1
     },
     ranges: {
       'Today': [moment(), moment()],
