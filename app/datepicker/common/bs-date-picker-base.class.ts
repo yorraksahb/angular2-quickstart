@@ -11,7 +11,7 @@ export abstract class DatePickerBase implements OnInit {
   protected datePickerState:DatePickerState;
   protected options:DatePickerOptions;
 
-  protected calendar: DatePickerDate[][];
+  protected calendar:DatePickerDate[][];
 
   public constructor(datePickerState:DatePickerState, options:DatePickerOptions) {
     this.datePickerState = datePickerState;
@@ -24,19 +24,18 @@ export abstract class DatePickerBase implements OnInit {
     this.refresh(datePickerState.viewDate);
 
     options.onUpdate.subscribe(() => {
-      this.ngOnInit();
       this.refresh(datePickerState.viewDate);
     });
-    datePickerState.viewDateChange.subscribe(() => {
+    datePickerState.viewDateChange.subscribe((v) => {
       this.refresh(datePickerState.viewDate);
     });
-    datePickerState.activeDateChange.subscribe(() => {
+    datePickerState.activeDateChange.subscribe((v) => {
       this.markActive();
     });
-    datePickerState.selectedDateChange.subscribe(() => {
+    datePickerState.selectedDateChange.subscribe((v) => {
       this.markSelected();
     });
-    datePickerState.selectedEndDateChange.subscribe(() => {
+    datePickerState.selectedEndDateChange.subscribe((v) => {
       this.markSelected();
       this.markActive();
     });
@@ -44,15 +43,23 @@ export abstract class DatePickerBase implements OnInit {
 
   public ngOnInit():void {
     if (this.options.date) {
-      const selected = this.options.date.selected;
-      const selectedEnd = this.options.date.selectedEnd;
-      this.datePickerState.viewDate = moment(this.options.date.initial);
+      const selected = this.datePickerState.selectedDate || this.options.date.selected;
+      const selectedEnd = this.datePickerState.selectedEndDate || this.options.date.selectedEnd;
+      this.datePickerState.viewDate = this.datePickerState.viewDate || moment(this.options.date.initial);
       this.datePickerState.selectedDate = selected ? moment(selected) : void 0;
       this.datePickerState.selectedEndDate = selectedEnd ? moment(selectedEnd) : void 0;
     }
   }
 
   public abstract refresh(date:any):void;
+
+  public viewPrev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
+    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().subtract(step, unitOfTime);
+  }
+
+  public viewNext(unitOfTime:'days'|'months'|'years', step:number = 1):void {
+    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().add(step, unitOfTime);
+  }
 
   /**
    * Selects new view mode
@@ -117,14 +124,14 @@ export abstract class DatePickerBase implements OnInit {
       }
 
       // if end date lesser then the start date
-      if (moment(date).isBefore(this.datePickerState.selectedDate, 'day')) {
+      if (moment(date).isBefore(this.datePickerState.selectedDate, this.viewGranularity)) {
         this.datePickerState.selectedDate = date;
         this.datePickerState.selectedEndDate = void 0;
         return;
       }
 
       // allow to select one date at range picker
-      if (moment(date).isSame(this.datePickerState.selectedDate, 'day')) {
+      if (moment(date).isSame(this.datePickerState.selectedDate, this.viewGranularity)) {
         this.datePickerState.selectedEndDate = date;
         return;
       }
@@ -155,14 +162,6 @@ export abstract class DatePickerBase implements OnInit {
   public resetSelection():void {
     this.datePickerState.selectedDate = void 0;
     this.datePickerState.selectedEndDate = void 0;
-  }
-
-  public viewPrev(unitOfTime:'days'|'months'|'years', step:number = 1):void {
-    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().subtract(step, unitOfTime);
-  }
-
-  public viewNext(unitOfTime:'days'|'months'|'years', step:number = 1):void {
-    this.datePickerState.viewDate = this.datePickerState.viewDate.clone().add(step, unitOfTime);
   }
 
   public isSelected(date:moment.Moment):boolean {
@@ -196,18 +195,19 @@ export abstract class DatePickerBase implements OnInit {
     }
 
     if (selectedEndDate) {
+      // fixme: makes sense only for day selection
       if (this.isDisabledDateInRange(selectedEndDate)) {
         return false;
       }
-      return moment(currDate).isAfter(selectedDate, 'day') &&
-        moment(currDate).isBefore(selectedEndDate, 'day');
+      return moment(currDate).isAfter(selectedDate, this.viewGranularity) &&
+        moment(currDate).isBefore(selectedEndDate, this.viewGranularity);
     }
 
     if (this.isDisabledDateInRange(activeDate)) {
       return false;
     }
-    return moment(currDate).isAfter(selectedDate, 'day') &&
-      moment(currDate).isBefore(activeDate, 'day');
+    return moment(currDate).isAfter(selectedDate, this.viewGranularity) &&
+      moment(currDate).isBefore(activeDate, this.viewGranularity);
   }
 
   public isDisabled(date:moment.Moment, granularity:Granularity = 'day'):boolean {
@@ -266,10 +266,10 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
-    return moment(date).isSame(this.datePickerState.activeDate, 'day');
+    return moment(date).isSame(this.datePickerState.activeDate, this.viewGranularity);
   }
 
-  public isDisabledDateInRange(date: moment.Moment):boolean {
+  public isDisabledDateInRange(date:moment.Moment):boolean {
     if (!this.options.isDateRangePicker) {
       return false;
     }
@@ -278,8 +278,8 @@ export abstract class DatePickerBase implements OnInit {
     if (customDates) {
       for (let i = 0; i < customDates.length; i++) {
         if (customDates[i].isDisabled &&
-          moment(customDates[i].date).isSameOrAfter(this.datePickerState.selectedDate, 'day') &&
-          moment(customDates[i].date).isSameOrBefore(date, 'day')) {
+          moment(customDates[i].date).isSameOrAfter(this.datePickerState.selectedDate, this.viewGranularity) &&
+          moment(customDates[i].date).isSameOrBefore(date, this.viewGranularity)) {
           return true;
         }
       }
@@ -387,11 +387,17 @@ export abstract class DatePickerBase implements OnInit {
     for (let row = 0; row < h; row++) {
       months[row] = new Array(w);
       for (let coll = 0; coll < w; coll++) {
-        let monthNum = row * w + coll;
+        const monthNum = row * w + coll;
+        const date = moment([viewDate.year(), monthNum, 1]);
         months[row][coll] = {
-          date: moment([viewDate.year(), monthNum, 1]),
-          label: moment.months()[monthNum],
-          isActive: monthNum === viewDate.month()
+          date: date,
+          label: date.format(this.options.format.month),
+          isActive: this.isActive(date),
+          isSelected: this.isSelected(date),
+          isDisabled: this.isDisabled(date),
+          isSelectionStart: this.isSelectionStart(date),
+          isSelectionEnd: this.isSelectionEnd(date),
+          isHighlighted: this.isHighlighted(date)
         };
       }
     }
@@ -421,7 +427,7 @@ export abstract class DatePickerBase implements OnInit {
     const startDay = this.getStartingDay(viewDate);
     const weeks = new Array(calendarH);
 
-    let startWeek_ = this.options.ui.showISOWeekNumbers ? startDay.format('ww') :startDay.format('WW');
+    let startWeek_ = this.options.ui.showISOWeekNumbers ? startDay.format('ww') : startDay.format('WW');
     let startWeek = parseInt(startWeek_, 10);
     for (let i = 0; i < calendarH; i++) {
       weeks[i] = startWeek++;
@@ -447,7 +453,7 @@ export abstract class DatePickerBase implements OnInit {
     };
   }
 
-  public getStartingDay(viewDate: moment.Moment):moment.Moment {
+  public getStartingDay(viewDate:moment.Moment):moment.Moment {
     const locale = this.getLocale();
     const month = viewDate.month();
     const year = viewDate.year();
@@ -482,6 +488,19 @@ export abstract class DatePickerBase implements OnInit {
       return false;
     }
 
-    return moment(date1).isSame(date2, 'day');
+    return moment(date1).isSame(date2, this.viewGranularity);
+  }
+
+  public get viewGranularity():string {
+    switch (this.options.viewMode) {
+      case 'days':
+        return 'day';
+      case 'months':
+        return 'month';
+      case 'years':
+        return 'years';
+      default:
+        throw new Error('Unexpected view mode');
+    }
   }
 }

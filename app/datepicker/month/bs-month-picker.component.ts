@@ -16,9 +16,6 @@ export class MonthPickerComponent extends DatePickerBase {
 
   public constructor(datePickerService:DatePickerState, options: DatePickerOptions) {
     super(datePickerService, options);
-    // datePickerService.selectedDateChange.subscribe(() => {
-    //   this.refresh(datePickerService.viewDate);
-    // });
   }
 
   public refresh(viewDate:moment.Moment):void {
