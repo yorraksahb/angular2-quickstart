@@ -52,7 +52,7 @@ export abstract class DatePickerBase implements OnInit {
     }
   }
 
-  public viewDate(date:any, _opts:{degrade:boolean}):void {
+  public viewDate(date:moment.Moment, _opts:{degrade:boolean}):void {
     const opts = Object.assign({}, {degrade: false}, _opts);
     this.datePickerService.viewDate = date;
 
@@ -74,7 +74,7 @@ export abstract class DatePickerBase implements OnInit {
     }
   }
 
-  public activeDate(date:any):void {
+  public activeDate(date:moment.Moment):void {
     if (this.isDisabled(date)) {
       return;
     }
@@ -84,7 +84,7 @@ export abstract class DatePickerBase implements OnInit {
     this.datePickerService.activeDate = date;
   }
 
-  public selectDate(date:any):void {
+  public selectDate(date:moment.Moment):void {
     if (this.isDisabled(date)) {
       return;
     }
@@ -147,7 +147,7 @@ export abstract class DatePickerBase implements OnInit {
     this.datePickerService.viewDate = this.datePickerService.viewDate.clone().add(step, unitOfTime);
   }
 
-  public isSelected(date:any):boolean {
+  public isSelected(date:moment.Moment):boolean {
     if (!date) {
       return false;
     }
@@ -160,7 +160,7 @@ export abstract class DatePickerBase implements OnInit {
       this.isSame(this.datePickerService.selectedEndDate, date);
   }
 
-  public isActive(currDate:any):boolean {
+  public isActive(currDate:moment.Moment):boolean {
     if (this.options.isDatePicker) {
       return false;
     }
@@ -192,7 +192,7 @@ export abstract class DatePickerBase implements OnInit {
       moment(currDate).isBefore(activeDate, 'day');
   }
 
-  public isDisabled(date:any, granularity:Granularity = 'day'):boolean {
+  public isDisabled(date:moment.Moment, granularity:Granularity = 'day'):boolean {
     if (!date) {
       return true;
     }
@@ -221,25 +221,25 @@ export abstract class DatePickerBase implements OnInit {
     return false;
   }
 
-  public isSelectionStart(date:any):boolean {
+  public isSelectionStart(date:moment.Moment):boolean {
     if (!this.options.isDateRangePicker) {
       return false;
     }
     return this.isSame(date, this.datePickerService.selectedDate);
   }
 
-  public isSelectionEnd(date:any):boolean {
+  public isSelectionEnd(date:moment.Moment):boolean {
     if (!this.options.isDateRangePicker) {
       return false;
     }
     return this.isSame(date, this.datePickerService.selectedEndDate);
   }
 
-  public isOtherMonth(date:any):boolean {
-    return !moment(date).isSame(this.datePickerService.viewDate, 'month');
+  public isOtherMonth(date:moment.Moment, viewDate:moment.Moment):boolean {
+    return !moment(date).isSame(viewDate, 'month');
   }
 
-  public isHighlighted(date:any):boolean {
+  public isHighlighted(date:moment.Moment):boolean {
     if (this.isDisabledDateInRange(date)) {
       return false;
     }
@@ -247,7 +247,7 @@ export abstract class DatePickerBase implements OnInit {
     return moment(date).isSame(this.datePickerService.activeDate, 'day');
   }
 
-  public isDisabledDateInRange(date: any):boolean {
+  public isDisabledDateInRange(date: moment.Moment):boolean {
     if (!this.options.isDateRangePicker) {
       return false;
     }
@@ -266,7 +266,7 @@ export abstract class DatePickerBase implements OnInit {
     return false;
   }
 
-  public getDaysCalendarMatrix(viewDate:any):any {
+  public getDaysCalendarMatrix(viewDate:moment.Moment):any {
     //
     // Build the matrix of dates that will populate the calendar
     //
@@ -311,7 +311,7 @@ export abstract class DatePickerBase implements OnInit {
         isDisabled: this.isDisabled(curDate),
         isSelectionStart: this.isSelectionStart(curDate),
         isSelectionEnd: this.isSelectionEnd(curDate),
-        isOtherMonth: this.isOtherMonth(curDate),
+        isOtherMonth: this.isOtherMonth(curDate, viewDate),
         isHighlighted: this.isHighlighted(curDate)
       };
       curDate.hour(12);
@@ -320,7 +320,7 @@ export abstract class DatePickerBase implements OnInit {
     return calendar;
   }
 
-  public getMonthsCalendarMatrix(viewDate:any/*, options:any*/):any {
+  public getMonthsCalendarMatrix(viewDate:moment.Moment/*, options:any*/):any {
     const w = 3;
     const h = 4;
     let months = new Array(h);
@@ -338,7 +338,7 @@ export abstract class DatePickerBase implements OnInit {
     return months;
   }
 
-  public getYearsCalendarMatrix(viewDate:any/*, options:any*/):any {
+  public getYearsCalendarMatrix(viewDate:moment.Moment/*, options:any*/):any {
     let year = this.getStartingYear(viewDate.year());
     const cols = this.options.ui.yearColumns;
     const rows = this.options.ui.yearRows;
@@ -355,7 +355,7 @@ export abstract class DatePickerBase implements OnInit {
     return yearsMatrix;
   }
 
-  public getWeeksNumbers(viewDate:any):number[] {
+  public getWeeksNumbers(viewDate:moment.Moment):number[] {
     // initialize weeks row
     const calendarH = this.options.ui.dayRows;
     const startDay = this.getStartingDay(viewDate);
