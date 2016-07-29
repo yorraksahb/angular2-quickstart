@@ -16,9 +16,11 @@ import { NgIf, NgFor } from '@angular/common';
 export class CustomRangePickerComponent extends DatePickerBase {
   public isShown:boolean = false;
   public isCustomRangeShown:boolean = true;
-  public ranges:{key:string, value:moment.Moment}[];
+  public ranges:{key:string, value:moment.Moment[]}[];
 
   private _showCalendars: boolean = false;
+  private _prevSelected:moment.Moment[];
+
   public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
     super(datePickerService, options);
     options.onUpdate.subscribe(() => this.refresh());
@@ -48,7 +50,7 @@ export class CustomRangePickerComponent extends DatePickerBase {
     this.isShown = true;
 
     this.ranges = keys.map((key:string) => {
-      const value = this.options.ranges[key].map((date:any)=> moment(date));
+      const value = (this.options.ranges[key] as string[]).map((date:any)=> moment(date));
       return {key,value};
     });
 
@@ -57,26 +59,29 @@ export class CustomRangePickerComponent extends DatePickerBase {
 
   public selectRange(range:moment.Moment[]):void {
     this._showCalendars = false;
-    this.selectDate(null);
-    this.selectDate(null);
+    this._prevSelected = void 0;
+    this.resetSelection();
     this.selectDate(range[0]);
     this.selectDate(range[1]);
   }
 
-  private _prev:moment.Moment[];
-
   public previewRange(range:moment.Moment[]):void {
-    if (!this._prev) {
-      this._prev = [this.datePickerState.selectedDate, this.datePickerState.selectedEndDate];
+    if (!this._prevSelected) {
+      this._prevSelected = [this.datePickerState.selectedDate, this.datePickerState.selectedEndDate];
     }
+    this.resetSelection();
     this.selectDate(range[0]);
     this.selectDate(range[1]);
   }
 
   public finishPreviewRange():void {
-    this.datePickerState.selectedDate = this._prev[0];
-    this.datePickerState.selectedEndDate = this._prev[1];
-    this._prev = void 0;
+    if (!this._prevSelected) {
+      return;
+    }
+
+    this.datePickerState.selectedDate = this._prevSelected[0];
+    this.datePickerState.selectedEndDate = this._prevSelected[1];
+    this._prevSelected = void 0;
   }
 
   public showCalendars():void {

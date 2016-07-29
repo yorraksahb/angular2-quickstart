@@ -26,11 +26,9 @@ export interface DatePickerDateOptions {
   /** initially viewed, not selected, date if value is not set */
   initial:any;
   /** initially selected date, if value is not set, in date picker mode */
-  selected:any | any[];
-  /** initially selected start date in date range picker mode */
-  start:any;
+  selected:any;
   /** initially selected end date in date range picker mode */
-  end:any;
+  selectedEnd:any;
 }
 
 export class DatePickerFormatOptions {
@@ -102,7 +100,7 @@ export class DatePickerOptions {
   public viewMode:DatePickerViewMode = 'days';
 
   public ui:DatePickerUiOptions = new DatePickerUiOptions();
-  public date:DatePickerDateOptions;
+  public date:DatePickerDateOptions = {} as DatePickerDateOptions;
   public format:DatePickerFormatOptions = new DatePickerFormatOptions();
   public locale:string | DatePickerLocale = 'en';
   public timepicker:boolean | TimePickerOptions = false;

@@ -31,12 +31,12 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public ngOnInit():void {
-    if (this.options.date && this.options.date.initial) {
+    if (this.options.date) {
+      const selected = this.options.date.selected;
+      const selectedEnd = this.options.date.selectedEnd;
       this.datePickerState.viewDate = moment(this.options.date.initial);
-    }
-
-    if (this.options.date && this.options.date.selected) {
-      this.datePickerState.selectedDate = moment(this.options.date.selected);
+      this.datePickerState.selectedDate = selected ? moment(selected) : void 0;
+      this.datePickerState.selectedEndDate = selectedEnd ? moment(selectedEnd) : void 0;
     }
   }
 
@@ -138,6 +138,11 @@ export abstract class DatePickerBase implements OnInit {
 
       this.datePickerState.selectedEndDate = date;
     }
+  }
+
+  public resetSelection():void {
+    this.datePickerState.selectedDate = void 0;
+    this.datePickerState.selectedEndDate = void 0;
   }
 
   public prev(unitOfTime:'days'|'months'|'years', step:number = 1):void {

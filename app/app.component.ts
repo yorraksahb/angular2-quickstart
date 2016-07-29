@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
       showWeekNumbers: 1,
       showISOWeekNumbers: 0,
       showCurrentDate: 1,
-      alwaysShowCalendars: 1
+      alwaysShowCalendars: 0
     },
     ranges: {
       'Today': [moment(), moment()],
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     },
     customDates: [{
       date: moment().subtract(15, 'days'),
-      isDisabled: true
+      isDisabled: false
     }],
     date: {
       // min : moment().subtract(5, 'days')
