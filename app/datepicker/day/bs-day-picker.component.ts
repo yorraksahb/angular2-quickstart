@@ -25,17 +25,17 @@ export class DayPickerComponent extends DatePickerBase {
 
   private cOptions:CalendarOptionsClass;
 
-  public constructor(datePickerService:DatePickerState, options:DatePickerOptions, cOptions:CalendarOptionsClass) {
-    super(datePickerService, options);
+  public constructor(datePickerState:DatePickerState, options:DatePickerOptions, cOptions:CalendarOptionsClass) {
+    super(datePickerState, options);
     this.cOptions = cOptions;
-    this.refresh(datePickerService.viewDate);
-    datePickerService.activeDateChange.subscribe(() => {
+    this.refresh(datePickerState.viewDate);
+    datePickerState.activeDateChange.subscribe(() => {
       this.markActive();
     });
-    datePickerService.selectedDateChange.subscribe(() => {
+    datePickerState.selectedDateChange.subscribe(() => {
       this.markSelected();
     });
-    datePickerService.selectedEndDateChange.subscribe(() => {
+    datePickerState.selectedEndDateChange.subscribe(() => {
       this.markSelected();
       this.markActive();
     });

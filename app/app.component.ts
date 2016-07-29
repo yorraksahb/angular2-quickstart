@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 import * as moment from 'moment';
 import { DatePickerComponent } from './datepicker/bs-date-picker.component';
 import { NgModel } from '@angular/forms';

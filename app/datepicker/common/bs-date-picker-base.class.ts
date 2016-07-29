@@ -75,7 +75,7 @@ export abstract class DatePickerBase implements OnInit {
   }
 
   public activeDate(date:moment.Moment):void {
-    if (this.isDisabled(date)) {
+    if (date && this.isDisabled(date)) {
       return;
     }
 
@@ -241,6 +241,10 @@ export abstract class DatePickerBase implements OnInit {
 
   public isHighlighted(date:moment.Moment):boolean {
     if (this.isDisabledDateInRange(date)) {
+      return false;
+    }
+
+    if (!this.datePickerService.activeDate || !date) {
       return false;
     }
 
