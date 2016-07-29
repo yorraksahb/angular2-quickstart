@@ -52,6 +52,9 @@ export class CurrentDateComponent extends DatePickerBase {
       }
 
       if (this.cOptions.isRight) {
+        // if no selection start - show empty current date title
+        // if start date selected - show active date
+        // until range end is not selected - than show range end date
         this.title = selected ? this.getTitle(selectedEnd || active) : '';
       }
     }
