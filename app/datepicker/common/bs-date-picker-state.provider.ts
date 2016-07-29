@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { OnChange } from '../../utils/decorators';
 import * as moment from 'moment';
 
+// todo: should I add view end date?
 @Injectable()
 export class DatePickerState {
   @OnChange() public selectedDate:moment.Moment;
@@ -15,7 +16,6 @@ export class DatePickerState {
 
   @OnChange() public viewDate: moment.Moment;
   public viewDateChange:EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
-
 
   @OnChange() public showCalendars:boolean;
   public showCalendarsChange:EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
