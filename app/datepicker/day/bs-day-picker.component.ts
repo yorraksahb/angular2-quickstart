@@ -51,7 +51,7 @@ export class DayPickerComponent extends DatePickerBase {
     }
 
     let viewDate = _viewDate;
-    if (this.cOptions.isRight()) {
+    if (this.cOptions.isRight) {
       viewDate = _viewDate.clone().add(this.cOptions.offset, 'months');
     }
 

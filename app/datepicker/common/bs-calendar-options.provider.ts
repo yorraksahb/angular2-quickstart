@@ -14,7 +14,7 @@ export class CalendarOptionsClass implements CalendarOptions {
   public bsRole: string;
 
   public get offset():number {
-    return this.isLeft() ? 0 : this._offset;
+    return this.isLeft ? 0 : this._offset;
   }
   public set offset(value:number) {
     this._offset = value;
@@ -28,11 +28,11 @@ export class CalendarOptionsClass implements CalendarOptions {
     this.onUpdate.emit(this);
   }
 
-  public isLeft():boolean {
+  public get isLeft():boolean {
     return this.bsRole === left;
   }
 
-  public isRight(): boolean {
+  public get isRight(): boolean {
     return this.bsRole === right;
   }
 }
