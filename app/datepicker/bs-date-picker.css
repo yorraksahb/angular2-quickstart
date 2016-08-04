@@ -286,7 +286,7 @@
 }
 .bs-timepicker .switch-time-format{
   text-transform:uppercase;
-  width: 54px;
+  min-width: 54px;
   height: 25px;
   border-radius: 20px;
   border: 1px solid #e9edf0;
@@ -296,6 +296,7 @@
 }
 .bs-timepicker .switch-time-format img{
   vertical-align: initial;
+  margin-left: 4px;
 }
 .bs-datepicker-multiple{
   display: inline-block;
@@ -386,4 +387,5 @@
   background-color: #54708b;
 }
 
-.bs-datepicker .is-other-month { opacity: 0.25; }
+.bs-datepicker .is-other-month { color: rgba(0, 0, 0, 0.25); }
+
