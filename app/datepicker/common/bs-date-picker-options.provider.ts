@@ -86,10 +86,11 @@ export class DatePickerLocale {
 }
 
 export class TimePickerOptions {
+  public hoursInc:number = 1;
   /** increment of the minutes selection list for times (i.e. 30 to allow only selection of times ending in 0 or 30) */
   public minutesInc:number = 10;
   /** use 24-hour instead of 12-hour times, removing the AM/PM selection */
-  public timePicker24Hour:boolean = false;
+  public showAmPm:boolean = false;
 }
 
 @Injectable()
@@ -103,7 +104,7 @@ export class DatePickerOptions {
   public date:DatePickerDateOptions = {} as DatePickerDateOptions;
   public format:DatePickerFormatOptions = new DatePickerFormatOptions();
   public locale:string | DatePickerLocale = 'en';
-  public timepicker:boolean | TimePickerOptions = false;
+  public timepicker: TimePickerOptions = new TimePickerOptions();
 
   public customDates:DatePickerCustomDates[];
   /** predefined set of ranges {'today': [moment(), moment()]} */
