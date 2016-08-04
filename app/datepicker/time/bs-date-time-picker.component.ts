@@ -36,7 +36,6 @@ export class DateTimePickerComponent extends DatePickerBase {
     if (!this.datePickerState.viewDate || !this.dateChange) {
       return;
     }
-    // todo: change to selected/selected end if present
     this.date = this.datePickerState.viewDate;
 
     let mins = this.date.minutes();
@@ -67,5 +66,9 @@ export class DateTimePickerComponent extends DatePickerBase {
     if (granularity === 'hours') {
       this.date = this.date.clone().subtract(this.options.timepicker.hoursInc, granularity);
     }
+  }
+
+  public setTime(date:moment.Moment):moment.Moment {
+
   }
 }

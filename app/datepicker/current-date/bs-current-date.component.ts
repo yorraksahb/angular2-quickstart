@@ -61,6 +61,9 @@ export class CurrentDateComponent extends DatePickerBase {
   }
 
   public getTitle(date:moment.Moment):string {
+    if (!date) {
+      return '';
+    }
     return moment(date).format(this.options.format.currentDate);
   }
 }
