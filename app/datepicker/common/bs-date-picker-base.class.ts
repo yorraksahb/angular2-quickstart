@@ -434,10 +434,10 @@ export abstract class DatePickerBase implements OnInit {
     const startDay = this.getStartingDay(viewDate);
     const weeks = new Array(calendarH);
 
-    let startWeek_ = this.options.ui.showISOWeekNumbers ? startDay.format('ww') : startDay.format('WW');
-    let startWeek = parseInt(startWeek_, 10);
+    let currWeek = viewDate;
     for (let i = 0; i < calendarH; i++) {
-      weeks[i] = startWeek++;
+      weeks[i] = this.options.ui.showISOWeekNumbers ? startDay.format('ww') : startDay.format('WW');
+      currWeek = viewDate.clone().add(1, 'week');
     }
 
     return weeks;

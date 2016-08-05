@@ -90,7 +90,7 @@ export class TimePickerOptions {
   /** increment of the minutes selection list for times (i.e. 30 to allow only selection of times ending in 0 or 30) */
   public minutesInc:number = 10;
   /** use 24-hour instead of 12-hour times, removing the AM/PM selection */
-  public showAmPm:boolean = false;
+  public showAmPm:boolean = true;
 }
 
 @Injectable()

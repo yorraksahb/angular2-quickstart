@@ -50,25 +50,25 @@ export class DateTimePickerComponent extends DatePickerBase {
 
   public add(granularity:string):void {
     if (granularity === 'minutes') {
-      this.date = this.date.clone().add(this.options.timepicker.minutesInc, granularity);
+      this.date = this.date.clone().add(this.options.timepicker.minutesInc, granularity as moment.UnitOfTime);
       return;
     }
     if (granularity === 'hours') {
-      this.date = this.date.clone().add(this.options.timepicker.hoursInc, granularity);
+      this.date = this.date.clone().add(this.options.timepicker.hoursInc, granularity as moment.UnitOfTime);
     }
   }
 
   public subtract(granularity:string):void {
     if (granularity === 'minutes') {
-      this.date = this.date.clone().subtract(this.options.timepicker.minutesInc, granularity);
+      this.date = this.date.clone().subtract(this.options.timepicker.minutesInc, granularity as moment.UnitOfTime);
       return;
     }
     if (granularity === 'hours') {
-      this.date = this.date.clone().subtract(this.options.timepicker.hoursInc, granularity);
+      this.date = this.date.clone().subtract(this.options.timepicker.hoursInc, granularity as moment.UnitOfTime);
     }
   }
 
   public setTime(date:moment.Moment):moment.Moment {
-
+    return date;
   }
 }

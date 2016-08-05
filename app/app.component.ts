@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { DatePickerComponent } from './datepicker/bs-date-picker.component';
 import { NgModel } from '@angular/forms';
-moment.locale('ru');
+moment.locale('en');
 
 @Component({
   selector: 'my-app',
