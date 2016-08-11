@@ -56,7 +56,7 @@ export class DatePickerUiOptions {
   /** show ISO week numbers at the start of each week on the calendars */
   public showISOWeekNumbers:boolean = false;
   /** enables current date under calendar */
-  public showCurrentDate: boolean = true;
+  public showCurrentDate:boolean = true;
   /** if `true` label `Custom Ranges` will be shown if `ranges` are defined */
   public showCustomRangeLabel:boolean = true;
   /** if `false` and one of ranges is selected, calendar will be hidden */
@@ -104,7 +104,7 @@ export class DatePickerOptions {
   public date:DatePickerDateOptions = {} as DatePickerDateOptions;
   public format:DatePickerFormatOptions = new DatePickerFormatOptions();
   public locale:string | DatePickerLocale = 'en';
-  public timepicker: TimePickerOptions = new TimePickerOptions();
+  public timepicker:TimePickerOptions = new TimePickerOptions();
 
   public customDates:DatePickerCustomDates[];
   /** predefined set of ranges {'today': [moment(), moment()]} */
@@ -116,7 +116,7 @@ export class DatePickerOptions {
     Object.assign(defaults, options);
   }
 
-  public update(options: any):DatePickerOptions {
+  public update(options:any):DatePickerOptions {
     let {mode, viewMode, ui, date, format, locale, timepicker, customDates, ranges} = options;
     if (mode && (mode === 'date' || mode === 'daterange')) {
       this.mode = mode;
@@ -142,12 +142,12 @@ export class DatePickerOptions {
       }
 
       // if view mode is lesser than min -> fix view mode
-      if (DatePickerViewModes[this.ui.minMode] > DatePickerViewModes[this.viewMode] ) {
+      if (DatePickerViewModes[this.ui.minMode] > DatePickerViewModes[this.viewMode]) {
         this.viewMode = this.ui.minMode;
       }
 
       // if view mode is gt than max -> fix view mode
-      if (DatePickerViewModes[this.ui.maxMode] < DatePickerViewModes[this.viewMode] ) {
+      if (DatePickerViewModes[this.ui.maxMode] < DatePickerViewModes[this.viewMode]) {
         this.viewMode = this.ui.maxMode;
       }
 
@@ -173,7 +173,13 @@ export class DatePickerOptions {
     // Ranges options
     if (ranges) {
       this.ranges = ranges;
+    }
 
+    // Timepicker options
+    if (timepicker) {
+      if (typeof timepicker.showAmPm === 'boolean') {
+        this.timepicker.showAmPm = timepicker.showAmPm
+      }
     }
 
     // Object.assign(this, options);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DatePickerBase } from '../common/bs-date-picker-base.class';
 import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
+import * as moment from 'moment';
 
 @Component({
   selector: 'bs-year-picker',
@@ -16,7 +17,7 @@ export class YearPickerComponent extends DatePickerBase {
     return this.options ? (this.options.ui.yearRows * this.options.ui.yearColumns) : 5;
   }
 
-  public constructor(datePickerService:DatePickerState, options: DatePickerOptions) {
+  public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
     super(datePickerService, options);
     datePickerService.selectedDateChange.subscribe(() => {
       this.refresh(datePickerService.viewDate);
@@ -27,10 +28,14 @@ export class YearPickerComponent extends DatePickerBase {
     if (this.options.viewMode !== 'years') {
       return;
     }
-    // fixme: use formatting
+
     const yearsStep = this.options.ui.yearColumns * this.options.ui.yearRows;
-    let year = this.getStartingYear(viewDate.year());
-    this.title = [year, year + yearsStep].join(' - ');
+    let yearStart = this.getStartingYear(viewDate.year());
+    let yearEnd = yearStart + yearsStep;
+    this.title = [
+      moment().year(yearStart).format(this.options.format.yearTitle),
+      moment().year(yearEnd).format(this.options.format.yearTitle)
+    ].join(' - ');
     this.calendar = this.getYearsCalendarMatrix(viewDate);
   }
 }

@@ -12,9 +12,9 @@ import * as moment from 'moment';
 })
 export class MonthPickerComponent extends DatePickerBase {
   public calendar:any[][];
-  public title: string;
+  public title:string;
 
-  public constructor(datePickerService:DatePickerState, options: DatePickerOptions) {
+  public constructor(datePickerService:DatePickerState, options:DatePickerOptions) {
     super(datePickerService, options);
   }
 
@@ -22,7 +22,7 @@ export class MonthPickerComponent extends DatePickerBase {
     if (this.options.viewMode !== 'months') {
       return;
     }
-    this.title = viewDate.format(this.options.format.year);
+    this.title = viewDate.format(this.options.format.yearTitle);
     this.calendar = this.getMonthsCalendarMatrix(viewDate);
   }
 }
