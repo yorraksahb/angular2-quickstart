@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { DatePickerComponent } from './datepicker/bs-date-picker.component';
-import { NgModel } from '@angular/forms';
 moment.locale('en');
 
 @Component({
   selector: 'my-app',
-  directives: [DatePickerComponent, NgModel],
   template: `
 <input type="text" [(ngModel)]="opts.mode">
 <input type="text" [(ngModel)]="opts.viewMode">

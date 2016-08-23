@@ -10,6 +10,8 @@
     "noImplicitAny": false
   },
   "files": [
-    "./custom-typings.d.ts"
+    "./custom-typings.d.ts",
+    "./typings/index.d.ts",
+    "./app/main.ts"
   ]
 }

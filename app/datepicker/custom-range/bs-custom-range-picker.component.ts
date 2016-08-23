@@ -4,12 +4,10 @@ import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 
 import * as moment from 'moment';
-import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'bs-custom-range-picker',
   exportAs: 'bs-custom-range-picker',
-  directives: [NgIf, NgFor],
   moduleId: module.id,
   templateUrl: './bs-custom-range-picker.html'
 })

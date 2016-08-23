@@ -1,8 +1,7 @@
-import {bootstrap} from '@angular/platform-browser-dynamic';
-import {AppComponent} from './app.component'
-import {enableProdMode} from '@angular/core';
-import {provideForms, disableDeprecatedForms} from '@angular/forms';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app.module';
+import { enableProdMode } from '@angular/core';
 
 enableProdMode();
 
-bootstrap(AppComponent, [disableDeprecatedForms(), provideForms()]);
+platformBrowserDynamic().bootstrapModule(AppModule);

@@ -1,16 +1,11 @@
 import { Component, Inject, Input, EventEmitter } from '@angular/core';
 import { DatePickerOptions } from './common/bs-date-picker-options.provider';
-import { CustomRangePickerComponent } from './custom-range/bs-custom-range-picker.component';
-import { DatePickerState } from './common/bs-date-picker-state.provider';
-import { DatePickerViewComponent } from './bs-date-picker-view.component';
 import { OnChange } from '../utils/decorators';
 
 @Component({
   selector: 'bs-datepicker',
   exportAs: 'bs-datepicker',
   templateUrl: './bs-date-picker.html',
-  directives: [DatePickerViewComponent, CustomRangePickerComponent],
-  providers: [DatePickerState, DatePickerOptions],
   moduleId: module.id
 })
 export class DatePickerComponent {

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter } from '@angular/core';
 import { DatePickerBase } from '../common/bs-date-picker-base.class';
 import { DatePickerState } from '../common/bs-date-picker-state.provider';
 import { DatePickerOptions } from '../common/bs-date-picker-options.provider';
 
 import * as moment from 'moment';
 import { OnChange } from '../../utils/decorators';
-import { EventEmitter } from '@angular/compiler/src/facade/async';
 
 @Component({
   selector: 'bs-datetimepicker',
@@ -15,7 +14,7 @@ import { EventEmitter } from '@angular/compiler/src/facade/async';
 })
 export class DateTimePickerComponent extends DatePickerBase {
   @OnChange() public date:moment.Moment;
-  public dateChange:EventEmitter<moment.Moment> = new EventEmitter();
+  public dateChange:EventEmitter<moment.Moment> = new EventEmitter(true);
 
   public hours:string;
   public minutes:string;
