@@ -47,7 +47,7 @@ export class DayPickerComponent extends DatePickerBase {
     }
 
     this.calendar = this.getDaysCalendarMatrix(viewDate);
-    this.weeks = this.getWeeksNumbers(viewDate);
+    this.weeks = this.getWeeksNumbers();
     this.locale = this.getLocale();
     this.viewMonth = moment(viewDate).format(this.options.format.monthTitle);
     this.viewYear = moment(viewDate).format(this.options.format.yearTitle);

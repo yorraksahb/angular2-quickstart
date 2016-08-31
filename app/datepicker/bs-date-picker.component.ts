@@ -1,4 +1,4 @@
-import { Component, Inject, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter } from '@angular/core';
 import { DatePickerOptions } from './common/bs-date-picker-options.provider';
 import { OnChange } from '../utils/decorators';
 
@@ -13,9 +13,13 @@ export class DatePickerComponent {
   @Input() @OnChange() public options:DatePickerOptions;
   public optionsChange:EventEmitter<DatePickerOptions> = new EventEmitter();
 
-  public constructor(@Inject(DatePickerOptions) datePickerOptions:DatePickerOptions) {
+  public constructor(private datePickerOptions:DatePickerOptions) {
     this.optionsChange.subscribe((v:any)=> {
       datePickerOptions.update(v);
     });
+  }
+
+  public apply(){
+
   }
 }

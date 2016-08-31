@@ -71,8 +71,9 @@ export class DatePickerUiOptions {
   public yearRows:number = 4;
   /** number of rows displayed in year selection mode */
   public yearColumns:number = 5;
-  public dayColums:number = 6;
-  public dayRows:number = 7;
+
+  public dayColums:number = 7;
+  public dayRows:number = 6;
 }
 
 export class DatePickerLocale {

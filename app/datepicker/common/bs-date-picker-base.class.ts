@@ -346,10 +346,10 @@ export abstract class DatePickerBase implements OnInit {
     // initialize a 6 rows x 7 columns array for the calendar
     const calendarW = this.options.ui.dayColums;
     const calendarH = this.options.ui.dayRows;
-    const calendar = new Array(calendarW);
+    const calendar = new Array(calendarH);
 
-    for (let j = 0; j < calendarW; j++) {
-      calendar[j] = new Array(calendarH);
+    for (let j = 0; j < calendarH; j++) {
+      calendar[j] = new Array(calendarW);
     }
 
     const startDay = this.getStartingDay(viewDate).date();
@@ -376,7 +376,6 @@ export abstract class DatePickerBase implements OnInit {
       };
       curDate.hour(12);
     }
-
     return calendar;
   }
 
@@ -428,16 +427,10 @@ export abstract class DatePickerBase implements OnInit {
     return yearsMatrix;
   }
 
-  public getWeeksNumbers(viewDate:moment.Moment):number[] {
-    // initialize weeks row
-    const calendarH = this.options.ui.dayRows;
-    const startDay = this.getStartingDay(viewDate);
-    const weeks = new Array(calendarH);
-
-    let currWeek = viewDate;
-    for (let i = 0; i < calendarH; i++) {
-      weeks[i] = this.options.ui.showISOWeekNumbers ? startDay.format('ww') : startDay.format('WW');
-      currWeek = viewDate.clone().add(1, 'week');
+  public getWeeksNumbers():number[] {
+    const weeks = new Array(this.calendar.length);
+    for (let i = 0; i < this.calendar.length; i++) {
+      weeks[i] = this.options.ui.showISOWeekNumbers ? this.calendar[i][0].date.isoWeek() : this.calendar[i][0].date.week();
     }
 
     return weeks;

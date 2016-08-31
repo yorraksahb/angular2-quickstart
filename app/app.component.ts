@@ -5,17 +5,15 @@ moment.locale('en');
 @Component({
   selector: 'my-app',
   template: `
-<input type="text" [(ngModel)]="opts.mode">
-<input type="text" [(ngModel)]="opts.viewMode">
-<button class="btn btn-success btn-sm" (click)="refresh()">refresh</button>
-<!--<pre>{{opts | json}}</pre>-->
-<div class="row">
-    <bs-datepicker [options]="opts"></bs-datepicker>
-    <!--<bs-datepicker-inline [options]="opts"></bs-datepicker-inline>-->
-</div>
-
-`
-
+    <input type="text" [(ngModel)]="opts.mode">
+    <input type="text" [(ngModel)]="opts.viewMode">
+    <button class="btn btn-success btn-sm" (click)="refresh()">refresh</button>
+    <!--<pre>{{opts | json}}</pre>-->
+    <div class="row">
+        <bs-datepicker [options]="opts"></bs-datepicker>
+        <!--<bs-datepicker-inline [options]="opts"></bs-datepicker-inline>-->
+    </div>
+  `
 })
 export class AppComponent implements OnInit {
   public opts:any = {
