@@ -39,7 +39,7 @@ import { DatePickerState } from './common/bs-date-picker-state.provider';
     DatePickerViewComponent,
     DatePickerComponent
   ],
-  providers: [CalendarOptionsClass, DatePickerOptions, DatePickerState]
+  providers: [DatePickerOptions, DatePickerState]
 })
 export class DatepickerModule {
 }

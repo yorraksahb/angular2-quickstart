@@ -8,7 +8,8 @@ import { DatePickerState } from './common/bs-date-picker-state.provider';
   selector: 'bs-date-picker-view',
   exportAs: 'bs-date-picker-view',
   templateUrl: './bs-date-picker-view.html',
-  moduleId: module.id
+  moduleId: module.id,
+  providers: [CalendarOptionsClass]
 })
 export class DatePickerViewComponent implements OnInit {
   public isShown:boolean = true;
