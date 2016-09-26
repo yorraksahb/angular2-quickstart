@@ -72,7 +72,7 @@ export class DateTimePickerComponent extends DatePickerBase {
   }
 
   public toggleMeridiem():void {
-    if (moment.localeData().isPM(this.date.format('a'))) {
+    if ((moment.localeData() as any).isPM(this.date.format('a'))) {
       this.date = this.date.clone().add(12, 'hours');
       return;
     }
