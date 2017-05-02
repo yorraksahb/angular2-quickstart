@@ -1,5 +1,7 @@
 # angular2-quickstart
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/valor-software/angular2-quickstart.svg)](https://greenkeeper.io/)
+
 This tiny repo is done according to angular2 quickstart guide
 just to show how simple it is to use angular2 with 3rd party ng2-* modules
 like this one: https://github.com/valor-software/ng2-bootstrap
